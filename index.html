@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Габионы и стальные сети от производителя — Купить габионные конструкции с доставкой</title>
+    <meta name="description" content="Габионы и стальные сети от производителя. Производство, продажа и доставка габионных конструкций и металлических сетей по России. Опт и розница.">
+    <meta name="robots" content="index, follow">
     <style>
         :root {
             --primary: #dc2626;
@@ -251,7 +253,96 @@
         .order-section {
             background: var(--light);
         }
+.form-message {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding: 18px 20px;
+    border-radius: 12px;
+    background: #ffffff;
+    border: 1px solid #dfe5e8;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    animation: formMessageIn 0.35s ease forwards;
+}
 
+.form-message.success {
+    border-left: 4px solid #2e9d62;
+}
+
+.form-message.error {
+    border-left: 4px solid #d94b4b;
+}
+
+.form-message-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.form-message.success .form-message-icon {
+    background: #e7f7ee;
+    color: #2e9d62;
+}
+
+.form-message.error .form-message-icon {
+    background: #fdeaea;
+    color: #d94b4b;
+}
+
+.form-message-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.form-message-content strong {
+    font-size: 17px;
+}
+
+.form-message-content span {
+    font-size: 14px;
+    line-height: 1.5;
+    opacity: 0.75;
+}
+
+.form-message-close {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 26px;
+    line-height: 1;
+    opacity: 0.5;
+    padding: 5px;
+}
+
+.form-message-close:hover {
+    opacity: 1;
+}
+
+#contact-form button[type="submit"]:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+@keyframes formMessageIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
         .form-container {
             max-width: 500px;
             margin: 0 auto;
@@ -363,6 +454,72 @@
             .about-container { grid-template-columns: 1fr; gap: 30px; }
         }
 
+
+        .menu-toggle {
+            display: none;
+            background: transparent;
+            border: 0;
+            color: var(--dark);
+            font-size: 28px;
+            cursor: pointer;
+            padding: 6px 10px;
+            line-height: 1;
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: row;
+                gap: 10px;
+                text-align: left;
+                position: relative;
+            }
+
+            .logo {
+                margin-right: auto;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 20px;
+                right: 20px;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                gap: 0;
+                background: var(--white);
+                padding: 10px 0;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+                border-radius: 0 0 8px 8px;
+            }
+
+            .nav-menu.is-open {
+                display: flex;
+            }
+
+            .nav-menu li {
+                width: 100%;
+                text-align: center;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: 10px 15px;
+            }
+
+            .contacts {
+                display: none;
+            }
+
+            .hero {
+                padding-top: 150px;
+            }
+        }
+
         @media (max-width: 768px) {
             .hero h1 { font-size: 30px; }
             .header-container { flex-direction: column; gap: 15px; text-align: center; }
@@ -378,6 +535,7 @@
     <header>
         <div class="header-container">
             <div class="logo">ГАБИОН<span>ОПТ</span></div>
+            <button class="menu-toggle" id="menuToggle" type="button" aria-label="Открыть меню" aria-expanded="false">☰</button>
             <ul class="nav-menu">
                 <li><a href="#about">О компании</a></li>
                 <li><a href="#catalog">Продукция</a></li>
@@ -393,7 +551,7 @@
     <section class="hero">
         <div class="hero-container">
             <h1>Габионы и стальные сети от производителя с доставкой за 7 дней</h1>
-            <p>Оцинкованные сети и сети из металлических нержавеющих тросов по ГОСТу и DIN стандарту для заборов, укрепления склоно, ландшафтного дизайна и защиты сооружений от БПЛА. Опт и розница с отгрузкой в день оплаты.</p>
+            <p>Оцинкованные сети и сети из металлических нержавеющих тросов по ГОСТу и DIN стандарту для заборов, укрепления склонов, ландшафтного дизайна и защиты сооружений от БПЛА. Опт и розница с отгрузкой в день оплаты.</p>
             <a href="#order" class="btn">Быстрый расчет стоимости</a>
         </div>
     </section>
@@ -444,7 +602,7 @@
                         <h3>Габионы из сетки двойного кручения 80-2,2-Ц, 80-2,7-Ц от 230 до 285г/м2</h3>
                         <ul>
                             <li>Проволока: 2.0 мм / 8.0 мм</li>
-                            <li>Ячейки: 40х100, 60x100, 80x100 мм и на заказ</li>
+                            <li>Ячейки: 40×100, 60×100, 80×100 мм и другие размеры под заказ</li>
                             <li>Идеально для защиты сооружений от БПЛА</li>
                         </ul>
                     </div>
@@ -460,7 +618,7 @@
                         <h3>Сетка из нержавеющих тросов 304, 304L, 316, 316L</h3>
                         <ul>
                             <li>Нержавеющий трос: 6 мм и на заказ</li>
-                            <li>Ячейки: 20х20, 30x30, 40x40, 50x50 см и на заказ</li>
+                            <li>Ячейки: 20×20, 30×30, 40×40, 50×50 см и другие размеры под заказ</li>
                             <li>Улавливающие конструкции и заграждения</li>
                         </ul>
                     </div>
@@ -473,10 +631,10 @@
                 <div class="card-img img-3" onclick="openModal(this)"></div>
                 <div class="card-content">
                     <div>
-                        <h3>Сетка из оцинковковых тросов</h3>
+                        <h3>Сетка из оцинкованных тросов</h3>
                         <ul>
                             <li>Оцинкованный трос: 2 - 10 мм</li>
-                            <li>Ячейки: 20х20, 30x30, 50x50, 70x70 и на заказ см</li>
+                            <li>Ячейки: 20×20, 30×30, 50×50, 70×70 см и другие размеры под заказ</li>
                             <li>Улавливающие конструкции и заграждения</li>
                         </ul>
                     </div>
@@ -491,29 +649,54 @@
     <section id="order" class="order-section">
         <h2 class="section-title">Оставьте заявку на быстрый расчет</h2>
         <div class="form-container">
-            <form action="#" method="POST" onsubmit="alert('Спасибо за заявку! Менеджер свяжется с вами в течение 15 минут.'); return false;">
-                
-                <div class="form-group">
-                    <label for="type">Что вас интересует?</label>
-                    <select id="type" name="type" required>
-                        <option value="сварные">Габионы из сетки двойного кручения</option>
-                        <option value="коробчатые">Сетка из нержавеющих тросов</option>
-                        <option value="коробчатые">Сетка из оцинковковой стали</option>
-                    </select>
-                </div>
+            <form
+                id="contact-form"
+                action="https://formspree.io/f/mppajrdg"
+                method="POST"
+>
+    <div class="form-group">
+        <label for="type">Что вас интересует?</label>
+        <select id="type" name="product" required>
+            <option value="gabions">Габионы из сетки двойного кручения</option>
+            <option value="stainless">Сетка из нержавеющих тросов</option>
+            <option value="galvanized">Сетка из оцинкованных тросов</option>
+        </select>
+    </div>
 
-                <div class="form-group">
-                    <label for="name">Ваше имя</label>
-                    <input type="text" id="name" name="name" placeholder="Имя" required>
-                </div>
+    <div class="form-group">
+        <label for="name">Ваше имя</label>
+        <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Имя"
+            autocomplete="name"
+            required
+        >
+    </div>
 
-                <div class="form-group">
-                    <label for="phone">Номер телефона</label>
-                    <input type="tel" id="phone" name="phone" placeholder="+7 (999) 000-00-00" required>
-                </div>
+    <div class="form-group">
+        <label for="phone">Номер телефона</label>
+        <input
+            type="tel"
+            id="phone"
+            name="phone"
+            placeholder="+7 (999) 000-00-00"
+            autocomplete="tel"
+            required
+        >
+    </div>
 
-                <button type="submit" class="btn">Получить смету со скидкой</button>
-            </form>
+    <input
+        type="hidden"
+        name="_subject"
+        value="Новая заявка с сайта ГабионОпт"
+    >
+
+    <button type="submit" class="btn">
+        Получить смету со скидкой
+    </button>
+</form>
         </div>
     </section>
 
@@ -523,96 +706,178 @@
         <p style="margin-top: 10px; opacity: 0.6; font-size: 12px;">Информация на сайте не является публичной офертой.</p>
     </footer>
     <!-- Модальное окно для просмотра картинок -->
-    <div id="imageModal" class="modal" onclick="closeModal()">
-        <span class="modal-close">&times;</span>
-        <img class="modal-content" id="fullImage">
+    <div id="imageModal" class="modal" role="dialog" aria-modal="true" aria-label="Просмотр изображения" onclick="closeModal()">
+        <span class="modal-close" role="button" aria-label="Закрыть">&times;</span>
+        <img class="modal-content" id="fullImage" alt="">
     </div>
         <!-- Весь JavaScript код сайта -->
     <script>
-        // ==========================================
-        // 1. НАСТРОЙКИ TELEGRAM (Замените на свои данные)
-        // ==========================================
-        const TELEGRAM_TOKEN = '8772417834:AAHE5LQ5I-b5eAEsHkNm18n3j0npc-xTgC8';
-        const TELEGRAM_CHAT_ID = '122928928';
+    // ==========================================
+    // ОТПРАВКА ФОРМЫ — FORMSPREE
+    // ==========================================
 
-        // Логика отправки формы в Telegram
-        const orderForm = document.querySelector('.form-container form');
+    const contactForm = document.getElementById("contact-form");
 
-        if (orderForm) {
-            orderForm.addEventListener('submit', function(e) {
-                e.preventDefault(); // Отменяем перезагрузку страницы
+    if (contactForm) {
+        contactForm.addEventListener("submit", async function (event) {
+            event.preventDefault();
 
-                // Собираем данные из полей
-                const type = document.getElementById('type').value;
-                const name = document.getElementById('name').value;
-                const phone = document.getElementById('phone').value;
+            const submitButton = contactForm.querySelector('button[type="submit"]');
 
-                // Формируем текст сообщения
-                let message = `🔔 <b>Новая заявка с сайта!</b>\n\n`;
-                message += `👤 <b>Имя:</b> ${name}\n`;
-                message += `📞 <b>Телефон:</b> ${phone}\n`;
-                message += `🏗️ <b>Интересует:</b> ${type}`;
+            // Сохраняем исходный текст кнопки
+            const originalButtonText = submitButton.textContent;
 
-                const url = `https://telegram.org{TELEGRAM_TOKEN}/sendMessage`;
+            // Состояние отправки
+            submitButton.disabled = true;
+            submitButton.textContent = "Отправляем...";
 
-                // Отправляем запрос к Telegram API
-                fetch(url, {
-                    method: 'POST',
+            try {
+                const response = await fetch(contactForm.action, {
+                    method: "POST",
+                    body: new FormData(contactForm),
                     headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        chat_id: TELEGRAM_CHAT_ID,
-                        text: message,
-                        parse_mode: 'HTML'
-                    })
-                })
-                .then(response => {
-                    if (response.ok) {
-                        alert('Спасибо! Заявка успешно отправлена. Менеджер свяжется с вами в течение 15 минут.');
-                        orderForm.reset(); // Очищаем форму
-                    } else {
-                        alert('Произошла ошибка при отправке. Пожалуйста, свяжитесь с нами по телефону.');
+                        "Accept": "application/json"
                     }
-                })
-                .catch(error => {
-                    console.error('Ошибка:', error);
-                    alert('Проблема с интернет-соединением. Попробуйте позже.');
                 });
-            });
-        }
 
-        // ==========================================
-        // 2. ЛОГИКА ОТКРЫВАЮЩИХСЯ КАРТИНОК (ГАЛЕРЕЯ)
-        // ==========================================
-        function openModal(element) {
-            const modal = document.getElementById("imageModal");
-            const modalImg = document.getElementById("fullImage");
-            
-            // Получаем ссылку на картинку из стилей карточки
-            const computedStyle = window.getComputedStyle(element);
-            const bgImage = computedStyle.backgroundImage;
-            
-            // Очищаем ссылку от лишних символов url("...")
-            const imageUrl = bgImage.replace(/^url\(["']?/, '').replace(/["']?\)$/, '');
-            
-            modal.style.display = "block";
-            modalImg.src = imageUrl;
-            document.body.style.overflow = "hidden"; // Блокируем прокрутку сайта
-        }
+                if (response.ok) {
+                    showFormMessage(
+                        "success",
+                        "Заявка отправлена!",
+                        "Спасибо! Мы получили вашу заявку и свяжемся с вами в ближайшее время."
+                    );
 
-        // Функция закрытия окна
-        function closeModal() {
-            document.getElementById("imageModal").style.display = "none";
-            document.body.style.overflow = "auto"; // Возвращаем прокрутку сайта
-        }
-        // Закрытие модального окна по нажатию клавиши Escape (Esc)
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                closeModal();
+                    contactForm.reset();
+                } else {
+                    showFormMessage(
+                        "error",
+                        "Не удалось отправить заявку",
+                        "Пожалуйста, попробуйте ещё раз или свяжитесь с нами другим способом."
+                    );
+                }
+
+            } catch (error) {
+                console.error("Ошибка отправки формы:", error);
+
+                showFormMessage(
+                    "error",
+                    "Ошибка соединения",
+                    "Проверьте подключение к интернету и попробуйте ещё раз."
+                );
+
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = originalButtonText;
             }
         });
-    </script>
+    }
+
+
+    // ==========================================
+    // СООБЩЕНИЕ ПОСЛЕ ОТПРАВКИ
+    // ==========================================
+
+    function showFormMessage(type, title, text) {
+
+        // Удаляем предыдущее сообщение
+        const oldMessage = document.getElementById("form-message");
+
+        if (oldMessage) {
+            oldMessage.remove();
+        }
+
+        const message = document.createElement("div");
+
+        message.id = "form-message";
+        message.className = `form-message ${type}`;
+
+        message.innerHTML = `
+            <div class="form-message-icon">
+                ${type === "success" ? "✓" : "!"}
+            </div>
+
+            <div class="form-message-content">
+                <strong>${title}</strong>
+                <span>${text}</span>
+            </div>
+
+            <button
+                type="button"
+                class="form-message-close"
+                aria-label="Закрыть сообщение"
+            >
+                ×
+            </button>
+        `;
+
+        contactForm.insertAdjacentElement("beforebegin", message);
+
+        // Закрытие сообщения
+        message
+            .querySelector(".form-message-close")
+            .addEventListener("click", function () {
+                message.remove();
+            });
+
+        // Автоматическое закрытие через 8 секунд
+        setTimeout(() => {
+            if (message && message.parentNode) {
+                message.remove();
+            }
+        }, 8000);
+
+        // Плавная прокрутка к сообщению
+        message.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+    }
+
+
+    // ==========================================
+    // МОДАЛЬНОЕ ОКНО ГАЛЕРЕИ
+    // ==========================================
+
+    function openModal(element) {
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("fullImage");
+
+        const computedStyle = window.getComputedStyle(element);
+        const bgImage = computedStyle.backgroundImage;
+
+        const imageUrl = bgImage
+            .replace(/^url\(["']?/, '')
+            .replace(/["']?\)$/, '');
+
+        modal.style.display = "block";
+        modalImg.src = imageUrl;
+        modalImg.alt =
+            element.getAttribute("aria-label") || "Изображение товара";
+
+        document.body.style.overflow = "hidden";
+    }
+
+
+    function closeModal() {
+        document.getElementById("imageModal").style.display = "none";
+        document.body.style.overflow = "auto";
+    }
+
+
+    document.getElementById("fullImage").addEventListener(
+        "click",
+        function (event) {
+            event.stopPropagation();
+        }
+    );
+
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+            closeModal();
+        }
+    });
+</script>
 
 </body>
 </html>
