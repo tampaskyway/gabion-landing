@@ -40,19 +40,43 @@
             padding: 15px 20px;
         }
 
-        .logo {
-             font-size: 24px;
-             font-weight: bold;
-              color: var(--dark);
-        }
-
-        .logo span {
-    color: var(--primary);
-        }
-
- .nav-menu {
+       .logo-image img {
+    width: 50px;
     display: flex;
     align-items: center;
+    flex-shrink: 0;
+    text-decoration: none;
+}
+
+.logo-image img {
+    display: block;
+    width: 70px;
+    height: auto;
+}
+
+.logo-name {
+    display: flex;
+    align-items: center;
+    margin-left: 4px;
+    color: var(--dark);
+    font-size: 24px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.logo-name span {
+    color: var(--primary);
+}
+
+.logo-name:hover {
+    text-decoration: none;
+}
+.nav-menu {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 35px;
 }
 
 .nav-menu ul {
@@ -466,7 +490,7 @@
 
        
 
- @media (max-width: 768px) {
+@media (max-width: 768px) {
 
     header {
         z-index: 10000;
@@ -474,27 +498,31 @@
 
     .header-container {
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
-        gap: 8px;
-        padding: 12px 15px;
+        gap: 0;
+        padding: 10px 15px;
         position: relative;
     }
 
-    .logo {
-        font-size: 21px;
+    /* Логотип */
+    .logo-image {
+        flex-shrink: 0;
+    }
+
+    .logo-image img {
+        width: 48px;
+        height: auto;
+    }
+
+    /* Название */
+    .logo-name {
+        margin-left: 4px;
+        font-size: 19px;
         white-space: nowrap;
     }
 
-    .menu-toggle {
-        display: block;
-        flex-shrink: 0;
-        order: 3;
-        font-size: 28px;
-        padding: 5px 8px;
-        z-index: 10002;
-    }
-
+    /* Телефон */
     .contacts {
         display: block;
         order: 2;
@@ -504,10 +532,26 @@
     }
 
     .contacts a {
-        font-size: 15px;
+        font-size: 14px;
         white-space: nowrap;
     }
 
+    /* Кнопка меню */
+    .menu-toggle {
+        display: block;
+        order: 3;
+        flex-shrink: 0;
+        background: transparent;
+        border: 0;
+        color: var(--dark);
+        font-size: 28px;
+        cursor: pointer;
+        padding: 5px 8px;
+        line-height: 1;
+        z-index: 10002;
+    }
+
+    /* Выпадающее меню */
     .nav-menu {
         display: none;
         position: absolute;
@@ -519,6 +563,8 @@
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
         z-index: 10001;
         padding: 10px 15px;
+        margin-left: 0;
+        
     }
 
     .nav-menu.active {
@@ -546,6 +592,7 @@
         font-size: 16px;
     }
 
+    /* Главный экран */
     .hero h1 {
         font-size: 30px;
     }
