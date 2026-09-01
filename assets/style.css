@@ -587,6 +587,10 @@ footer.site { padding: 44px 0 22px; margin-top: 40px; background: var(--ink); co
 .footer-contacts a { text-decoration: none; color: #fff; font-weight: 600; }
 .footer-contacts a:hover { color: var(--oxide); }
 .footer-contacts .loc { color: rgba(238,240,240,.45); }
+.footer-chat-btns { display: flex; gap: 8px; margin-top: 14px; }
+.footer-chat-btns .chat-btn { border-color: rgba(238,240,240,.18); color: rgba(238,240,240,.65); }
+.footer-chat-btns .chat-btn-tg:hover { border-color: #29A9EB; color: #6cc4f0; background: rgba(41,169,235,.1); }
+.footer-chat-btns .chat-btn-max:hover { border-color: #7C4DFF; color: #a68cff; background: rgba(124,77,255,.1); }
 .footer-bottom { display: flex; justify-content: space-between; align-items: flex-start; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.1); font-size: 11px; color: rgba(238,240,240,.35); flex-wrap: wrap; gap: 12px; }
 .footer-bottom .legal { max-width: 60ch; }
 .footer-bottom .legal a { color: rgba(238,240,240,.5); }
