@@ -32,13 +32,13 @@ body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  font-family: "Golos Text", ui-sans-serif, system-ui, sans-serif;
   font-size: 16px;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
 }
 h1, h2, h3, h4 {
-  font-family: "IBM Plex Sans Condensed", "IBM Plex Sans", sans-serif;
+  font-family: "Golos Text", sans-serif;
   font-weight: 700;
   letter-spacing: -0.01em;
   text-wrap: balance;
@@ -64,7 +64,7 @@ img { max-width: 100%; display: block; }
 .eyebrow::before { content: ""; width: 18px; height: 1px; background: var(--oxide); }
 
 button, .btn {
-  font-family: "IBM Plex Sans Condensed", sans-serif;
+  font-family: "Golos Text", sans-serif;
   font-weight: 600;
   font-size: 14.5px;
   letter-spacing: 0.01em;
@@ -91,27 +91,27 @@ button, .btn { border-radius: var(--radius-sm); }
 /* ── Логотип ── */
 .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
 .brand img { height: 30px; width: auto; }
-.brand-word { font-family: "IBM Plex Sans Condensed", sans-serif; font-weight: 700; font-size: 19px; letter-spacing: -0.01em; white-space: nowrap; }
+.brand-word { font-family: "Golos Text", sans-serif; font-weight: 700; font-size: 19px; letter-spacing: -0.01em; white-space: nowrap; }
 .brand-word b { color: var(--oxide); font-weight: 700; }
 
 /* ── Шапка ── */
 header.site { position: sticky; top: 0; z-index: 40; background: var(--header-bg); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
-.topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; gap: 24px; }
-nav.primary { display: flex; gap: 2px; flex: 1; justify-content: center; flex-wrap: wrap; }
+.topbar { display: flex; align-items: center; padding: 18px 0; gap: 8px; }
+nav.primary { display: flex; gap: 2px; margin-left: 28px; flex-wrap: wrap; }
 nav.primary a, nav.primary button {
-  font-family: "IBM Plex Sans Condensed", sans-serif; font-weight: 600; font-size: 14px;
-  text-decoration: none; color: var(--muted); padding: 9px 13px; border: 1px solid transparent;
+  font-family: "Golos Text", sans-serif; font-weight: 600; font-size: 14.5px;
+  text-decoration: none; color: var(--muted); padding: 9px 15px; border: 1px solid transparent;
   background: none; box-shadow: none; display: inline-flex; cursor: pointer;
   border-radius: var(--radius-sm);
 }
 nav.primary a:hover, nav.primary a.active,
-nav.primary button:hover { color: var(--ink); border-color: var(--line); }
-.topbar-actions { display: flex; align-items: center; gap: 14px; }
+nav.primary button:hover { color: var(--ink); border-color: var(--line); background: var(--surface); }
+.topbar-actions { display: flex; align-items: center; gap: 16px; margin-left: auto; padding-left: 20px; border-left: 1px solid var(--line); }
 .tel { font-family: "IBM Plex Mono", monospace; font-size: 14.5px; font-weight: 500; white-space: nowrap; text-decoration: none; }
 .menu-toggle { display: none; border: 1px solid var(--line-strong); background: var(--surface); font-size: 18px; line-height: 1; padding: 8px 12px; cursor: pointer; border-radius: var(--radius-sm); }
 @media (max-width: 980px) {
   nav.primary {
-    display: none;
+    display: none; margin-left: 0;
     position: absolute; top: 100%; left: 0; right: 0;
     flex-direction: column; justify-content: flex-start;
     background: var(--surface); border-bottom: 1px solid var(--line);
@@ -122,6 +122,7 @@ nav.primary button:hover { color: var(--ink); border-color: var(--line); }
   nav.primary.open { display: flex; }
   nav.primary a, nav.primary button { padding: 13px 28px; width: 100%; justify-content: flex-start; }
   .menu-toggle { display: inline-flex; }
+  .topbar-actions { margin-left: auto; padding-left: 0; border-left: none; }
 }
 
 /* ── Hero ── */
@@ -235,14 +236,14 @@ nav.primary button:hover { color: var(--ink); border-color: var(--line); }
 .pcard:hover { border-color: var(--line-strong); box-shadow: 0 4px 12px rgba(10,12,13,.09); transform: translateY(-2px); }
 .pcard .thumb { aspect-ratio: 4/3; background: var(--surface-2); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--faint); font-size: 12px; text-align: center; padding: 8px; }
 .pcard .sku { font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: var(--faint); }
-.pcard h4 { font-size: 15px; font-weight: 600; font-family: "IBM Plex Sans", sans-serif; line-height: 1.35; }
+.pcard h4 { font-size: 15px; font-weight: 600; font-family: "Golos Text", sans-serif; line-height: 1.35; }
 .pcard .specs { list-style: none; margin: 0; padding: 0; font-size: 12.5px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
 .pcard .specs li { display: flex; justify-content: space-between; gap: 8px; border-bottom: 1px dotted var(--line); padding-bottom: 4px; }
 .pcard .specs li span:last-child { font-family: "IBM Plex Mono", monospace; color: var(--ink); text-align: right; }
 .pcard .foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .pcard .price { font-family: "IBM Plex Mono", monospace; font-size: 16px; font-weight: 500; }
 .pcard .price small { font-size: 11px; color: var(--muted); font-weight: 400; display: block; }
-.pcard .price.na { color: var(--faint); font-size: 13px; font-family: "IBM Plex Sans", sans-serif; }
+.pcard .price.na { color: var(--faint); font-size: 13px; font-family: "Golos Text", sans-serif; }
 
 .empty-state { padding: 60px 20px; text-align: center; color: var(--muted); border: 1px solid var(--line); background: var(--surface); border-radius: var(--radius); }
 
@@ -324,7 +325,7 @@ table.spectable td:last-child { font-family: "IBM Plex Mono", monospace; text-al
 @media (max-width: 860px) { .process { grid-template-columns: repeat(2, 1fr); } }
 .step { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; }
 .step .n { font-family: "IBM Plex Mono", monospace; color: var(--oxide); font-size: 13px; margin-bottom: 12px; }
-.step h4 { font-size: 15px; margin-bottom: 8px; font-family: "IBM Plex Sans", sans-serif; font-weight: 600; }
+.step h4 { font-size: 15px; margin-bottom: 8px; font-family: "Golos Text", sans-serif; font-weight: 600; }
 .step p { font-size: 13px; color: var(--muted); margin: 0; }
 
 /* ── Форма заявки (тёмное стекло внутри модалки) ── */
@@ -343,7 +344,7 @@ table.spectable td:last-child { font-family: "IBM Plex Mono", monospace; text-al
 .form-group { display: flex; flex-direction: column; gap: 6px; }
 .form-group label { font-size: 11.5px; font-weight: 700; color: rgba(242,241,236,.5); text-transform: uppercase; letter-spacing: .08em; }
 .form-group input, .form-group select, .form-group textarea {
-  font-family: "IBM Plex Sans", sans-serif; font-size: 14.5px; padding: 11px 13px;
+  font-family: "Golos Text", sans-serif; font-size: 14.5px; padding: 11px 13px;
   border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.05); color: #F2F1EC;
   border-radius: var(--radius-sm); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
 }
@@ -355,7 +356,7 @@ table.spectable td:last-child { font-family: "IBM Plex Mono", monospace; text-al
 .custom-select { position: relative; }
 .select-trigger {
   width: 100%; display: flex; align-items: center; justify-content: space-between;
-  font-family: "IBM Plex Sans", sans-serif; font-size: 14.5px; font-weight: 400; letter-spacing: normal;
+  font-family: "Golos Text", sans-serif; font-size: 14.5px; font-weight: 400; letter-spacing: normal;
   padding: 11px 13px; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.05); color: #F2F1EC;
   border-radius: var(--radius-sm); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
   cursor: pointer; text-align: left;
@@ -417,7 +418,7 @@ table.spectable td:last-child { font-family: "IBM Plex Mono", monospace; text-al
 .adv-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
 @media (max-width: 560px) { .adv-grid { grid-template-columns: 1fr; } }
 .adv-item { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
-.adv-item h4 { font-size: 14.5px; font-family: "IBM Plex Sans", sans-serif; font-weight: 600; margin-bottom: 6px; }
+.adv-item h4 { font-size: 14.5px; font-family: "Golos Text", sans-serif; font-weight: 600; margin-bottom: 6px; }
 .adv-item p { font-size: 13px; color: var(--muted); margin: 0; }
 
 /* ── Подвал ── */
@@ -431,7 +432,7 @@ footer.site { padding: 60px 0 32px; }
 .sitemap-col a:hover { color: var(--ink); }
 .link-btn {
   border: none; background: none; box-shadow: none; padding: 0; margin: 0;
-  font-family: "IBM Plex Sans", sans-serif; font-weight: 400;
+  font-family: "Golos Text", sans-serif; font-weight: 400;
   text-align: left; text-decoration: none; font-size: 13.5px; color: var(--muted); cursor: pointer;
 }
 .link-btn:hover { color: var(--ink); }
