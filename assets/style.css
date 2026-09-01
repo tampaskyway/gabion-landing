@@ -337,29 +337,49 @@ table.spectable td:last-child { font-family: "IBM Plex Mono", monospace; text-al
 .buybox .price { font-family: "IBM Plex Mono", monospace; font-size: 24px; font-weight: 500; }
 .buybox .price-note { font-size: 12px; color: var(--muted); }
 
-/* ── Процесс ── */
-.process { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-@media (max-width: 860px) { .process { grid-template-columns: repeat(2, 1fr); } }
-.step { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; }
-.step .n { font-family: "IBM Plex Mono", monospace; color: var(--oxide); font-size: 13px; margin-bottom: 12px; }
-.step h4 { font-size: 15px; margin-bottom: 8px; font-family: "Golos Text", sans-serif; font-weight: 600; }
-.step p { font-size: 13px; color: var(--muted); margin: 0; }
-
-/* ── Форма заявки (тёмное стекло внутри модалки) ── */
+/* ── Заказ: шаги слева + форма справа ── */
 .order-section { padding: 64px 0; }
-.order-cta { max-width: 480px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 16px; }
-.order-cta p { color: var(--muted); font-size: 14.5px; margin: 0; }
+.order-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+@media (max-width: 860px) { .order-layout { grid-template-columns: 1fr; gap: 40px; } }
+.order-steps h2 { font-size: 26px; margin: 10px 0 28px; }
+.steps-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 22px; }
+.steps-list li { display: flex; gap: 16px; align-items: flex-start; }
+.steps-list .n { font-family: "IBM Plex Mono", monospace; color: var(--oxide); font-size: 13px; flex-shrink: 0; width: 26px; padding-top: 2px; }
+.steps-list h4 { font-size: 15px; margin-bottom: 4px; font-family: "Golos Text", sans-serif; font-weight: 600; }
+.steps-list p { font-size: 13.5px; color: var(--muted); margin: 0; }
 
-@media (max-width: 560px) { .order-modal-panel { padding: 22px; } }
-.order-inline-panel {
-  margin: 0 auto; max-width: 480px;
-  background:
-    linear-gradient(155deg, rgba(255,255,255,.06) 0%, rgba(255,255,255,.01) 40%, transparent 60%),
-    radial-gradient(circle at 15% -10%, rgba(203,80,36,.28), transparent 55%),
-    linear-gradient(160deg, #241f1b 0%, #17140f 100%);
-  box-shadow: 0 24px 64px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.08);
+/* ── Светлая «парящая» карточка формы ── */
+.order-form-card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg);
+  padding: 32px; box-shadow: 0 24px 60px rgba(20,24,26,.10), 0 2px 8px rgba(20,24,26,.05);
+  color: var(--ink);
 }
-.order-inline-panel .modal-subtitle { margin-bottom: 0; }
+.order-form-card h2 { font-size: 22px; margin: 8px 0 0; }
+.order-form-card .modal-subtitle { color: var(--muted); }
+.order-form-card .form-group label { color: var(--faint); }
+.order-form-card .form-group input,
+.order-form-card .form-group select,
+.order-form-card .form-group textarea,
+.order-form-card .select-trigger {
+  background: var(--paper); border-color: var(--line-strong); color: var(--ink); backdrop-filter: none;
+}
+.order-form-card .form-group input::placeholder,
+.order-form-card .form-group textarea::placeholder { color: var(--faint); }
+.order-form-card .form-group input:focus,
+.order-form-card .form-group select:focus,
+.order-form-card .form-group textarea:focus { border-color: var(--oxide); background: var(--surface); }
+.order-form-card .select-options {
+  background: var(--surface); border-color: var(--line-strong); box-shadow: 0 16px 40px rgba(20,24,26,.14);
+}
+.order-form-card .select-options li { color: var(--muted); }
+.order-form-card .select-options li:hover { background: var(--oxide-soft); color: var(--ink); }
+.order-form-card .select-options li[aria-selected="true"] { color: var(--oxide); }
+.order-form-card .contact-way label { color: var(--muted); border-color: var(--line); }
+.order-form-card .contact-way label.active, .order-form-card .contact-way label:hover { background: var(--oxide-soft); }
+.order-form-card .consent-check { color: var(--muted); }
+.order-form-card .consent-check a { color: var(--ink); }
+
+@media (max-width: 560px) { .order-modal-panel { padding: 22px; } .order-form-card { padding: 24px; } }
 
 .order-modal-panel .eyebrow { color: rgba(242,241,236,.5); }
 .order-modal-panel .eyebrow::before { background: #CB5024; }

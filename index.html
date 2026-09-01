@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=10">
+<link rel="stylesheet" href="assets/style.css?v=11">
 
 <script type="application/ld+json">
 {
@@ -177,26 +177,22 @@
   </div>
 </section>
 
-<section class="section" id="process">
-  <div class="wrap">
-    <div class="section-head"><div><div class="eyebrow">Как заказать</div><h2>Четыре шага до отгрузки</h2></div></div>
-    <div class="process">
-      <div class="step"><div class="n num">01</div><h4>Подбор позиций</h4><p>По каталогу или чертежу — если нет готового решения, соберём под задачу.</p></div>
-      <div class="step"><div class="n num">02</div><h4>Расчёт КП</h4><p>Стоимость, сроки и доставка — в течение рабочего дня.</p></div>
-      <div class="step"><div class="n num">03</div><h4>Оплата и производство</h4><p>Со склада — сразу, под заказ — по производственному циклу.</p></div>
-      <div class="step"><div class="n num">04</div><h4>Отгрузка</h4><p>Самовывоз или доставка транспортной компанией по РФ.</p></div>
-    </div>
-  </div>
-</section>
-
 <section id="order" class="order-section">
-  <div class="wrap">
-    <div class="section-head" style="justify-content:center;text-align:center;flex-direction:column;align-items:center;">
-      <div class="eyebrow">Заявка</div>
-      <h2 style="font-size:26px;margin-top:10px;">Рассчитать стоимость габионов и сеток</h2>
+  <div class="wrap order-layout">
+    <div class="order-steps">
+      <div class="eyebrow">Как заказать</div>
+      <h2>Четыре шага до отгрузки</h2>
+      <ol class="steps-list">
+        <li><span class="n num">01</span><div><h4>Подбор позиций</h4><p>По каталогу или чертежу — если нет готового решения, соберём под задачу.</p></div></li>
+        <li><span class="n num">02</span><div><h4>Расчёт КП</h4><p>Стоимость, сроки и доставка — в течение рабочего дня.</p></div></li>
+        <li><span class="n num">03</span><div><h4>Оплата и производство</h4><p>Со склада — сразу, под заказ — по производственному циклу.</p></div></li>
+        <li><span class="n num">04</span><div><h4>Отгрузка</h4><p>Самовывоз или доставка транспортной компанией по РФ.</p></div></li>
+      </ol>
     </div>
-    <div class="order-modal-panel order-inline-panel">
-      <p class="modal-subtitle" style="text-align:center;">Ответим в рабочее время и пришлём расчёт по актуальным ценам.</p>
+    <div class="order-form-card">
+      <div class="eyebrow">Заявка</div>
+      <h2>Рассчитать стоимость</h2>
+      <p class="modal-subtitle">Ответим в рабочее время и пришлём расчёт по актуальным ценам.</p>
       <template id="orderFormTpl">
         <form class="form-wrap contact-form" style="margin-top:12px;" action="https://formspree.io/f/mdenlzpe" method="POST">
         <div class="form-fields">
@@ -299,7 +295,7 @@
   <button type="button" class="btn btn-primary btn-sm" id="cookieAccept">Понятно</button>
 </div>
 
-<script src="assets/nav.js?v=10"></script>
+<script src="assets/nav.js?v=11"></script>
 <script>
   var allSelectOptions = [];
 
