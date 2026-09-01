@@ -185,6 +185,18 @@ nav.primary button:hover { color: var(--ink); border-color: var(--line); backgro
 .cat-card .sub { color: var(--muted); font-size: 13.5px; }
 .cat-card .go { font-size: 13px; color: var(--oxide); font-weight: 600; }
 
+/* ── Хиты продаж ── */
+.best-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+@media (max-width: 860px) { .best-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; } }
+.best-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease; }
+.best-card:hover { border-color: var(--line-strong); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(10,12,13,.08); }
+.best-card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; background: var(--surface-2); }
+.best-card-body { padding: 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.best-card h3 { font-size: 16px; line-height: 1.3; }
+.best-card ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5px; flex: 1; }
+.best-card li { font-size: 13px; color: var(--muted); padding-left: 14px; position: relative; }
+.best-card li::before { content: "—"; position: absolute; left: 0; color: var(--faint); }
+
 /* ── Хлебные крошки ── */
 .crumbs { font-size: 13px; color: var(--muted); display: flex; gap: 8px; align-items: center; margin-bottom: 22px; flex-wrap: wrap; }
 .crumbs .sep { color: var(--faint); }
