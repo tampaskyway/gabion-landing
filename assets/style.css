@@ -336,7 +336,7 @@ nav.primary a.active::after {
 /* ── Liquid-glass модалки ── */
 .pdp-overlay, .order-modal-overlay {
   position: fixed; inset: 0; z-index: 90;
-  background: radial-gradient(circle at 30% -10%, rgba(184,67,30,.08), transparent 55%), rgba(255,255,255,.8);
+  background: radial-gradient(circle at 30% -10%, rgba(184,67,30,.08), transparent 55%), rgba(255,255,255,.55);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
   display: flex; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 40px 20px;
