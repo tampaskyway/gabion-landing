@@ -117,10 +117,15 @@ nav.primary a, nav.primary button {
   font-family: "Golos Text", sans-serif; font-weight: 600; font-size: 14.5px;
   text-decoration: none; color: var(--muted); padding: 9px 13px; border: 1px solid transparent;
   background: none; box-shadow: none; display: inline-flex; cursor: pointer; white-space: nowrap;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-sm); position: relative;
 }
-nav.primary a:hover, nav.primary a.active,
-nav.primary button:hover { color: var(--ink); border-color: var(--line); background: var(--surface); }
+nav.primary a:hover,
+nav.primary button:hover { color: var(--oxide); border-color: transparent; background: var(--oxide-soft); }
+nav.primary a.active { color: var(--oxide); border-color: transparent; background: var(--oxide-soft); font-weight: 700; }
+nav.primary a.active::after {
+  content: ""; position: absolute; left: 13px; right: 13px; bottom: 3px;
+  height: 2px; border-radius: 2px; background: var(--oxide);
+}
 .topbar-actions { display: flex; align-items: center; gap: 14px; margin-left: auto; flex-shrink: 0; }
 
 /* ── Кластер контактов: выровненная сетка 3×2 ── */
