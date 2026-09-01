@@ -393,6 +393,17 @@
     });
   }
 
+  var ROPE_DIAGRAMS = {
+    "odinarnaya-svivka": { src: "images/rope-odinarnaya.png", alt: "Схема сечения троса одинарной свивки 1×19" },
+    "dvoynaya-svivka": { src: "images/rope-dvoynaya.png", alt: "Схема сечения троса двойной свивки 6×19" },
+    "shestipryadnaya-svivka": { src: "images/rope-shestipryadnaya.png", alt: "Схема сечения троса шестипрядной свивки 6×7" }
+  };
+  function ropeThumbHtml(p) {
+    var d = p.group === "trosy" ? ROPE_DIAGRAMS[p.subcat] : null;
+    if (!d) return '<div class="thumb">фото уточняется</div>';
+    return '<div class="thumb thumb-rope"><img src="' + d.src + '" alt="' + d.alt + '" loading="lazy"></div>';
+  }
+
   function renderCard(p) {
     var card = el("article", "pcard");
     var specsEntries = Object.entries(p.specs || {}).slice(0, 3);
@@ -400,7 +411,7 @@
       return "<li><span>" + kv[0] + "</span><span>" + kv[1] + "</span></li>";
     }).join("");
     card.innerHTML =
-      '<div class="thumb">фото уточняется</div>' +
+      ropeThumbHtml(p) +
       '<div class="sku">Арт. ' + p.sku + "</div>" +
       "<h4>" + p.name + "</h4>" +
       '<ul class="specs">' + specsHtml + "</ul>" +
@@ -420,7 +431,7 @@
     }).join("");
     qs("#pdpBody").innerHTML =
       '<div class="pdp">' +
-        '<div class="pdp-gallery">фото изделия<br>уточняется у менеджера</div>' +
+        '<div class="pdp-gallery">' + (ROPE_DIAGRAMS[p.subcat] && p.group === "trosy" ? '<img src="' + ROPE_DIAGRAMS[p.subcat].src + '" alt="' + ROPE_DIAGRAMS[p.subcat].alt + '" style="max-width:100%;max-height:100%;object-fit:contain;">' : "фото изделия<br>уточняется у менеджера") + "</div>" +
         '<div class="pdp-info">' +
           '<div class="sku">Артикул ' + p.sku + " · " + (p.subcat_label || "") + "</div>" +
           "<h2>" + p.name + "</h2>" +
