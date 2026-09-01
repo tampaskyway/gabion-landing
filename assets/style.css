@@ -64,9 +64,13 @@ img { max-width: 100%; display: block; }
 .eyebrow::before { content: ""; width: 18px; height: 1px; background: var(--oxide); }
 
 button, .btn {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
   font-family: "Golos Text", sans-serif;
   font-weight: 600;
   font-size: 14.5px;
+  line-height: 1.2;
   letter-spacing: 0.01em;
   border: 1px solid var(--line-strong);
   background: var(--surface);
@@ -78,6 +82,9 @@ button, .btn {
   justify-content: center;
   gap: 8px;
   text-decoration: none;
+  box-sizing: border-box;
+  vertical-align: middle;
+  white-space: nowrap;
   transition: background .15s ease, border-color .15s ease, color .15s ease;
 }
 button:hover, .btn:hover { border-color: var(--ink); }
@@ -102,28 +109,26 @@ header.site { position: sticky; top: 0; z-index: 40; background: var(--header-bg
 .topline-info a:hover { color: var(--oxide); }
 @media (max-width: 640px) { .topline-info { gap: 12px; font-size: 11.5px; } }
 .topbar { display: flex; align-items: center; padding: 18px 0; gap: 8px; }
-nav.primary { display: flex; gap: 2px; margin-left: 28px; flex-wrap: wrap; }
+nav.primary { display: flex; gap: 2px; margin-left: 28px; flex-wrap: nowrap; flex-shrink: 0; }
 nav.primary a, nav.primary button {
   font-family: "Golos Text", sans-serif; font-weight: 600; font-size: 14.5px;
-  text-decoration: none; color: var(--muted); padding: 9px 15px; border: 1px solid transparent;
-  background: none; box-shadow: none; display: inline-flex; cursor: pointer;
+  text-decoration: none; color: var(--muted); padding: 9px 13px; border: 1px solid transparent;
+  background: none; box-shadow: none; display: inline-flex; cursor: pointer; white-space: nowrap;
   border-radius: var(--radius-sm);
 }
 nav.primary a:hover, nav.primary a.active,
 nav.primary button:hover { color: var(--ink); border-color: var(--line); background: var(--surface); }
-.topbar-actions { display: flex; align-items: center; gap: 16px; margin-left: auto; padding-left: 20px; border-left: 1px solid var(--line); }
+.topbar-actions { display: flex; align-items: center; gap: 16px; margin-left: auto; padding-left: 20px; border-left: 1px solid var(--line); flex-shrink: 0; }
 .topbar-info { display: flex; flex-direction: column; gap: 1px; font-size: 12px; line-height: 1.35; }
 .topbar-info a { text-decoration: none; color: var(--ink); font-weight: 600; }
 .topbar-info a:hover { color: var(--oxide); }
 .topbar-info .loc { color: var(--faint); }
-.contact-icons { display: flex; align-items: center; gap: 8px; }
-.contact-icons:empty { display: none; }
-.contact-icons a {
-  display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px;
-  border-radius: 50%; color: #fff; text-decoration: none; transition: filter .15s, transform .15s;
-}
-.contact-icons a:hover { filter: brightness(1.1); transform: translateY(-1px); }
-@media (max-width: 1180px) { .topbar-info { display: none; } }
+.topbar-contact { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
+.chat-links { display: flex; gap: 10px; font-size: 11px; }
+.chat-links a { text-decoration: none; color: var(--faint); white-space: nowrap; }
+.chat-links a:hover { color: var(--oxide); }
+@media (max-width: 1300px) { .topbar-info { display: none; } }
+@media (max-width: 900px) { .chat-links { display: none; } }
 .tel { font-family: "IBM Plex Mono", monospace; font-size: 14.5px; font-weight: 500; white-space: nowrap; text-decoration: none; }
 .menu-toggle { display: none; border: 1px solid var(--line-strong); background: var(--surface); font-size: 18px; line-height: 1; padding: 8px 12px; cursor: pointer; border-radius: var(--radius-sm); }
 @media (max-width: 980px) {
