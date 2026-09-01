@@ -77,7 +77,7 @@
     ldScript.textContent = JSON.stringify(breadcrumbLd);
   }
 
-  var state = { data: null, group: null, subcat: null, coating: [] };
+  var state = { data: null, group: null, subcat: null, coating: [], diameter: [] };
 
   var COATING_LABELS = { zinc: "Оцинкованное", pvc: "С ПВХ-покрытием", steel: "Нержавеющее" };
   function coatingBucket(specs) {
@@ -88,6 +88,17 @@
     if (s.indexOf("пвх") !== -1) return "pvc";
     if (s.indexOf("цинк") !== -1 || s.trim() === "ц") return "zinc";
     return null;
+  }
+
+  function diameterBucket(specs) {
+    var v = specs && specs["Диаметр проволоки сетки, мм"];
+    if (!v) return null;
+    var s = String(v).replace(",", ".");
+    var m = s.match(/(\d+(\.\d+)?)/);
+    if (!m) return null;
+    var n = parseFloat(m[1]);
+    if (isNaN(n)) return null;
+    return Math.round(n * 2) / 2;
   }
 
   function qs(sel, ctx) { return (ctx || document).querySelector(sel); }
@@ -102,6 +113,7 @@
     state.group = params.get("group") || null;
     state.subcat = params.get("subcat") || null;
     state.coating = [];
+    state.diameter = [];
   }
 
   function setParams(group, subcat) {
@@ -113,31 +125,62 @@
     state.group = group;
     state.subcat = subcat;
     state.coating = [];
+    state.diameter = [];
     render();
   }
 
+  function matchesFacets(p, opts) {
+    opts = opts || {};
+    if (opts.group && p.group !== opts.group) return false;
+    if (opts.subcat && p.subcat !== opts.subcat) return false;
+    if (opts.coating && opts.coating.length && opts.coating.indexOf(coatingBucket(p.specs)) === -1) return false;
+    if (opts.diameter && opts.diameter.length && opts.diameter.indexOf(diameterBucket(p.specs)) === -1) return false;
+    return true;
+  }
+
+  function countProducts(opts) {
+    var n = 0;
+    for (var i = 0; i < state.data.products.length; i++) {
+      if (matchesFacets(state.data.products[i], opts)) n++;
+    }
+    return n;
+  }
+
   function groupSubcats(group) {
-    return state.data.subcats.filter(function (s) { return s.group === group; });
+    var subs = state.data.subcats.filter(function (s) { return s.group === group; });
+    return subs.map(function (s) {
+      return { group: s.group, slug: s.slug, name: s.name, count: countProducts({ group: group, subcat: s.slug, coating: state.coating, diameter: state.diameter }) };
+    });
   }
 
   function filteredProducts() {
     return state.data.products.filter(function (p) {
-      if (state.group && p.group !== state.group) return false;
-      if (state.subcat && p.subcat !== state.subcat) return false;
-      if (state.coating.length && state.coating.indexOf(coatingBucket(p.specs)) === -1) return false;
-      return true;
+      return matchesFacets(p, { group: state.group, subcat: state.subcat, coating: state.coating, diameter: state.diameter });
     });
   }
 
   function groupCoatings(group) {
     var buckets = {};
     state.data.products.forEach(function (p) {
-      if (p.group !== group) return;
+      if (!matchesFacets(p, { group: group, subcat: state.subcat, diameter: state.diameter })) return;
       var b = coatingBucket(p.specs);
       if (!b) return;
       buckets[b] = (buckets[b] || 0) + 1;
     });
     return Object.keys(buckets).map(function (b) { return { slug: b, name: COATING_LABELS[b], count: buckets[b] }; });
+  }
+
+  function groupDiameters(group) {
+    var buckets = {};
+    state.data.products.forEach(function (p) {
+      if (!matchesFacets(p, { group: group, subcat: state.subcat, coating: state.coating })) return;
+      var b = diameterBucket(p.specs);
+      if (b === null) return;
+      buckets[b] = (buckets[b] || 0) + 1;
+    });
+    return Object.keys(buckets).map(Number).sort(function (a, b) { return a - b; }).map(function (b) {
+      return { slug: b, name: (b % 1 === 0 ? b : b) + " мм", count: buckets[b] };
+    });
   }
 
   function render() {
@@ -187,7 +230,7 @@
       '<div class="filters-group">' +
         '<div class="filters-group-title">Раздел</div>' +
         '<ul class="filters-list">' +
-          '<li><a class="filters-opt' + (!state.subcat ? " active" : "") + '" href="?group=' + state.group + '" data-nav-all="' + state.group + '">Все</a></li>' +
+          '<li><a class="filters-opt' + (!state.subcat ? " active" : "") + '" href="?group=' + state.group + '" data-nav-all="' + state.group + '">Все<span class="n">' + countProducts({ group: state.group, coating: state.coating, diameter: state.diameter }) + '</span></a></li>' +
           subs.map(function (s) {
             return '<li><a class="filters-opt' + (state.subcat === s.slug ? " active" : "") + '" href="?group=' + state.group + "&subcat=" + s.slug + '" data-nav-sub="' + s.group + "|" + s.slug + '">' +
               s.name + '<span class="n">' + s.count + "</span></a></li>";
@@ -213,12 +256,30 @@
         "</div>";
     }
 
-    body.innerHTML = subsHtml + coatingHtml;
+    var diameters = groupDiameters(state.group);
+    var diameterHtml = "";
+    if (diameters.length > 1) {
+      diameterHtml =
+        '<div class="filters-group">' +
+          '<div class="filters-group-title">Диаметр проволоки</div>' +
+          '<ul class="filters-list">' +
+            diameters.map(function (d) {
+              var checked = state.diameter.indexOf(d.slug) !== -1;
+              return '<li><label class="filters-check">' +
+                '<input type="checkbox" data-diameter="' + d.slug + '"' + (checked ? " checked" : "") + '>' +
+                d.name + '<span class="n">' + d.count + "</span>" +
+              "</label></li>";
+            }).join("") +
+          "</ul>" +
+        "</div>";
+    }
+
+    body.innerHTML = subsHtml + coatingHtml + diameterHtml;
 
     var total = filteredProducts().length;
     if (resultCount) resultCount.textContent = total + " позиций";
     if (filtersCount) {
-      var activeCount = (state.subcat ? 1 : 0) + state.coating.length;
+      var activeCount = (state.subcat ? 1 : 0) + state.coating.length + state.diameter.length;
       filtersCount.textContent = activeCount || "";
       filtersCount.hidden = !activeCount;
     }
@@ -375,6 +436,13 @@
         var idx = state.coating.indexOf(slug);
         if (e.target.checked && idx === -1) state.coating.push(slug);
         if (!e.target.checked && idx !== -1) state.coating.splice(idx, 1);
+        renderFilterbar();
+        renderGrid();
+      } else if (e.target.matches("[data-diameter]")) {
+        var dval = parseFloat(e.target.getAttribute("data-diameter"));
+        var didx = state.diameter.indexOf(dval);
+        if (e.target.checked && didx === -1) state.diameter.push(dval);
+        if (!e.target.checked && didx !== -1) state.diameter.splice(didx, 1);
         renderFilterbar();
         renderGrid();
       }
