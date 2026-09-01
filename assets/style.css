@@ -225,7 +225,7 @@ nav.primary a.active::after {
 @media (max-width: 860px) { .cat-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .cat-grid { grid-template-columns: 1fr; } }
 .cat-card { position: relative; isolation: isolate; overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px 24px; text-decoration: none; color: var(--ink); display: flex; flex-direction: column; gap: 14px; min-height: 168px; transition: background .15s ease, border-color .15s ease, transform .15s ease, box-shadow .15s ease; }
-.cat-card:hover { background: var(--surface-2); border-color: var(--line-strong); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(10,12,13,.1); }
+.cat-card:hover { border-color: var(--line-strong); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(10,12,13,.1); }
 .cat-card::before {
   content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 0; z-index: -1;
   transition: height .5s cubic-bezier(.4,0,.2,1);
@@ -525,6 +525,9 @@ table.spectable td:last-child { font-family: "JetBrains Mono", monospace; text-a
   transition: all .15s; white-space: nowrap;
 }
 .contact-way label.active, .contact-way label:hover { border-color: #CB5024; color: #F2A98C; background: rgba(203,80,36,.1); }
+.contact-way label.way-email.active, .contact-way label.way-email:hover { border-color: #E8833A; color: #F5B87E; background: rgba(232,131,58,.1); }
+.contact-way label.way-tg.active, .contact-way label.way-tg:hover { border-color: #29A9EB; color: #8FD3F7; background: rgba(41,169,235,.12); }
+.contact-way label.way-max.active, .contact-way label.way-max:hover { border-color: #7C4DFF; color: #C2B0FF; background: rgba(124,77,255,.12); }
 .contact-way input { position: absolute; opacity: 0; pointer-events: none; }
 .contact-way .way-icon { flex-shrink: 0; width: 13px; height: 13px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
 
