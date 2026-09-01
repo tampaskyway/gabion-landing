@@ -382,7 +382,7 @@ nav.primary a.active::after {
   background: linear-gradient(120deg, rgba(255,255,255,.55) 0%, transparent 30%, transparent 70%, rgba(184,67,30,.06) 100%);
 }
 .pdp-close {
-  position: absolute; top: 18px; right: 18px; width: 36px; height: 36px; padding: 0; border-radius: 999px;
+  position: absolute; top: 14px; right: 14px; width: 44px; height: 44px; padding: 0; border-radius: 999px;
   background: rgba(255,255,255,.5); backdrop-filter: blur(6px); border-color: rgba(255,255,255,.7);
 }
 
@@ -402,7 +402,7 @@ nav.primary a.active::after {
 }
 .order-modal-panel > * { position: relative; z-index: 1; }
 .order-modal-close {
-  position: absolute; top: 16px; right: 16px; width: 34px; height: 34px; padding: 0; border-radius: 999px;
+  position: absolute; top: 12px; right: 12px; width: 44px; height: 44px; padding: 0; border-radius: 999px;
   background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.16); color: #F2F1EC;
   backdrop-filter: blur(6px);
 }
@@ -517,10 +517,10 @@ table.spectable td:last-child { font-family: "JetBrains Mono", monospace; text-a
 .select-options li[aria-selected="true"] { color: #F2A98C; font-weight: 600; }
 .select-options li[aria-selected="true"]::after { content: "✓"; float: right; }
 
-.contact-way { display: flex; gap: 6px; flex-wrap: wrap; }
+.contact-way { display: flex; gap: 4px; flex-wrap: nowrap; }
 .contact-way label {
-  display: flex; align-items: center; justify-content: center; gap: 5px; flex: 1 1 auto;
-  padding: 6px 8px; border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center; gap: 4px; flex: 1 1 0; min-width: 0;
+  padding: 6px 4px; border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius-sm);
   font-size: 10px; font-weight: 600; margin: 0; cursor: pointer; color: rgba(242,241,236,.55);
   transition: all .15s; white-space: nowrap;
 }
