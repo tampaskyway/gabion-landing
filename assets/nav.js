@@ -7,7 +7,7 @@
     toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
     toggle.textContent = isOpen ? "✕" : "☰";
   });
-  nav.querySelectorAll("a").forEach(function (a) {
+  nav.querySelectorAll("a, button").forEach(function (a) {
     a.addEventListener("click", function () {
       nav.classList.remove("open");
       toggle.setAttribute("aria-expanded", "false");
