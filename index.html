@@ -71,11 +71,11 @@
       <a href="catalog.html?group=setka">Сетка и полотна</a>
       <a href="catalog.html?group=trosy">Тросы</a>
       <a href="#about">О компании</a>
-      <a href="#order">Расчёт стоимости</a>
+      <a href="#order" data-open-order>Расчёт стоимости</a>
     </nav>
     <div class="topbar-actions">
       <a class="tel" href="tel:+79099997897">+7 (909) 999-78-97</a>
-      <a class="btn btn-primary btn-sm" href="#order">Запросить КП</a>
+      <a class="btn btn-primary btn-sm" href="#order" data-open-order>Запросить КП</a>
     </div>
   </div>
 </header>
@@ -97,7 +97,7 @@
       <p class="lede">Коробчатые и матрацные габионы, сетка двойного кручения и сварная — прямые поставки для подрядчиков, проектировщиков и снабжения.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="catalog.html">Смотреть каталог</a>
-        <a class="btn" href="#order">Рассчитать стоимость</a>
+        <a class="btn" href="#order" data-open-order>Рассчитать стоимость</a>
       </div>
     </div>
     <div class="hero-stats">
@@ -114,7 +114,7 @@
       <div>
         <div class="eyebrow">Каталог</div>
         <h2>Три товарных направления</h2>
-        <p>Из каждого раздела — сразу к карточке с характеристиками, ГОСТом и ценой.</p>
+        <p>Из каждого раздела — сразу к карточке с характеристиками и соответствием ГОСТу.</p>
       </div>
     </div>
     <div class="cat-grid">
@@ -176,6 +176,20 @@
       <div class="eyebrow">Заявка</div>
       <h2 style="font-size:26px;margin-top:10px;">Рассчитать стоимость габионов и сеток</h2>
     </div>
+    <div class="order-cta">
+      <p>Оставьте номер — пришлём расчёт стоимости и сроки поставки в течение рабочего дня.</p>
+      <button type="button" class="btn btn-primary btn-full" data-open-order>Получить смету со скидкой</button>
+    </div>
+  </div>
+</section>
+
+<div id="orderModal" class="order-modal-overlay" hidden role="dialog" aria-modal="true" aria-label="Форма заявки">
+  <div class="order-modal-panel">
+    <button class="btn order-modal-close" data-order-close type="button" aria-label="Закрыть">✕</button>
+    <div class="section-head" style="flex-direction:column;align-items:flex-start;margin-bottom:20px;">
+      <div class="eyebrow">Заявка</div>
+      <h2 style="font-size:22px;margin-top:8px;">Рассчитать стоимость габионов и сеток</h2>
+    </div>
     <form id="contact-form" class="form-wrap" action="https://formspree.io/f/mdenlzpe" method="POST">
       <div class="form-group">
         <label for="type">Что вас интересует?</label>
@@ -200,7 +214,7 @@
       <button type="submit" class="btn btn-primary btn-full">Получить смету со скидкой</button>
     </form>
   </div>
-</section>
+</div>
 
 <footer class="site">
   <div class="wrap">
@@ -235,10 +249,13 @@
         <h5>Компания</h5>
         <ul>
           <li><a href="#about">О компании</a></li>
-          <li><a href="#order">Рассчитать стоимость</a></li>
+          <li><a href="#order" data-open-order>Рассчитать стоимость</a></li>
           <li><a href="tel:+79099997897">+7 (909) 999-78-97</a></li>
         </ul>
       </div>
+    </div>
+    <div class="price-disclaimer">
+      <strong>Почему на сайте нет цен?</strong> Стоимость зависит от партии, диаметра, типа покрытия и текущего курса металла — фиксированный прайс на сайте устареет быстрее, чем вы успеете сделать заказ, и мы не хотим вводить вас в заблуждение. Присылаем точный расчёт по актуальным ценам в течение рабочего дня.
     </div>
     <div class="footer-bottom">
       <span class="legal">© 2026 ГабионОпт. Производство габионных конструкций. Все права защищены. Информация на сайте не является публичной офертой.</span>
@@ -293,6 +310,38 @@
     setTimeout(function () { if (message && message.parentNode) message.remove(); }, 8000);
     message.scrollIntoView({ behavior: "smooth", block: "center" });
   }
+
+  var orderModal = document.getElementById("orderModal");
+
+  function openOrderModal() {
+    orderModal.hidden = false;
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeOrderModal() {
+    orderModal.hidden = true;
+    document.body.style.overflow = "";
+    if (location.hash === "#order") {
+      history.replaceState(null, "", location.pathname + location.search);
+    }
+  }
+
+  document.addEventListener("click", function (e) {
+    var openTrigger = e.target.closest("[data-open-order]");
+    var closeTrigger = e.target.closest("[data-order-close]");
+    if (openTrigger) {
+      e.preventDefault();
+      openOrderModal();
+    } else if (closeTrigger || e.target.id === "orderModal") {
+      closeOrderModal();
+    }
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !orderModal.hidden) closeOrderModal();
+  });
+
+  if (location.hash === "#order") openOrderModal();
 </script>
 </body>
 </html>

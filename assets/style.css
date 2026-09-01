@@ -218,6 +218,18 @@ table.spectable td:last-child { font-family: "IBM Plex Mono", monospace; text-al
 
 /* ── Форма заявки ── */
 .order-section { padding: 64px 0; }
+.order-cta { max-width: 480px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.order-cta p { color: var(--muted); font-size: 14.5px; margin: 0; }
+
+.order-modal-overlay {
+  position: fixed; inset: 0; background: rgba(10,12,13,.55); z-index: 95;
+  display: flex; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 40px 20px;
+}
+.order-modal-overlay[hidden] { display: none; }
+.order-modal-panel { background: var(--surface); border: 1px solid var(--line); max-width: 480px; width: 100%; padding: 34px; position: relative; }
+.order-modal-close { position: absolute; top: 18px; right: 18px; padding: 8px 12px; }
+@media (max-width: 560px) { .order-modal-panel { padding: 24px; } }
+
 .form-wrap { max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
 .form-group { display: flex; flex-direction: column; gap: 6px; }
 .form-group label { font-size: 13px; color: var(--muted); }
@@ -252,5 +264,7 @@ footer.site { padding: 60px 0 32px; }
 .sitemap-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
 .sitemap-col a { text-decoration: none; font-size: 13.5px; color: var(--muted); }
 .sitemap-col a:hover { color: var(--ink); }
+.price-disclaimer { font-size: 13px; line-height: 1.6; color: var(--muted); background: var(--paper); border: 1px solid var(--line); padding: 16px 20px; margin-bottom: 24px; max-width: 78ch; }
+.price-disclaimer strong { color: var(--ink); font-weight: 600; }
 .footer-bottom { display: flex; justify-content: space-between; align-items: flex-start; padding-top: 28px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--faint); flex-wrap: wrap; gap: 12px; }
 .footer-bottom .legal { max-width: 60ch; }

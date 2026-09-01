@@ -23,13 +23,6 @@
     if (html !== undefined) e.innerHTML = html;
     return e;
   }
-  function fmtPrice(p, currency) {
-    if (!p) return null;
-    var n = parseFloat(p);
-    if (isNaN(n)) return null;
-    return n.toLocaleString("ru-RU", { maximumFractionDigits: 0 }) + " ₽";
-  }
-
   function readParams() {
     var params = new URLSearchParams(location.search);
     state.group = params.get("group") || null;
@@ -145,7 +138,6 @@
 
   function renderCard(p) {
     var card = el("article", "pcard");
-    var priceStr = fmtPrice(p.price, p.currency);
     var specsEntries = Object.entries(p.specs || {}).slice(0, 3);
     var specsHtml = specsEntries.map(function (kv) {
       return "<li><span>" + kv[0] + "</span><span>" + kv[1] + "</span></li>";
@@ -156,7 +148,7 @@
       "<h4>" + p.name + "</h4>" +
       '<ul class="specs">' + specsHtml + "</ul>" +
       '<div class="foot">' +
-        (priceStr ? '<div class="price">' + priceStr + "<small>" + (p.price_unit_label || "за изделие") + "</small></div>" : '<div class="price na">цена по запросу</div>') +
+        '<div class="price na">цена по расчёту</div>' +
         '<button class="btn btn-sm" data-open-sku="' + p.sku + '">Подробнее</button>' +
       "</div>";
     return card;
@@ -166,7 +158,6 @@
     var p = state.data.products.find(function (x) { return String(x.sku) === String(sku); });
     if (!p) return;
     var overlay = qs("#pdpOverlay");
-    var priceStr = fmtPrice(p.price, p.currency);
     var specRows = Object.entries(p.specs || {}).map(function (kv) {
       return "<tr><td>" + kv[0] + "</td><td>" + kv[1] + "</td></tr>";
     }).join("");
@@ -180,7 +171,7 @@
           '<p class="desc">' + p.description + "</p>" +
           (specRows ? '<table class="spectable">' + specRows + "</table>" : "") +
           '<div class="buybox">' +
-            '<div class="price-row"><div><div class="price">' + (priceStr || "по запросу") + (priceStr && p.price_unit_label ? '<small> ' + p.price_unit_label + '</small>' : "") + '</div><div class="price-note">' + (priceStr ? "ориентировочно, уточняйте у менеджера" : "рассчитаем после уточнения задачи") + "</div></div></div>" +
+            '<div class="price-row"><div><div class="price">По расчёту</div><div class="price-note">актуальная цена зависит от партии и курса металла — пришлём точный расчёт быстро</div></div></div>' +
             '<a class="btn btn-primary btn-full" href="./#order">Заказать расчёт</a>' +
           "</div>" +
         "</div>" +
