@@ -259,6 +259,8 @@ nav.primary a.active::after {
 .best-card ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5px; flex: 1; }
 .best-card li { font-size: 13px; color: var(--muted); padding-left: 14px; position: relative; }
 .best-card li::before { content: "—"; position: absolute; left: 0; color: var(--faint); }
+.best-card-actions { display: flex; gap: 8px; }
+.best-card-actions .btn { flex: 1; }
 
 /* ── Хлебные крошки ── */
 .crumbs { font-size: 13px; color: var(--muted); display: flex; gap: 8px; align-items: center; margin-bottom: 22px; flex-wrap: wrap; }
