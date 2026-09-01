@@ -429,7 +429,7 @@
           (specRows ? '<table class="spectable">' + specRows + "</table>" : "") +
           '<div class="buybox">' +
             '<div class="price-row"><div><div class="price">По расчёту</div><div class="price-note">актуальная цена зависит от партии и курса металла — пришлём точный расчёт быстро</div></div></div>' +
-            '<a class="btn btn-primary btn-full" href="./?openOrder=1">Заказать расчёт</a>' +
+            '<button type="button" class="btn btn-primary btn-full" data-open-order data-sku="' + p.sku + '" data-name="' + p.name.replace(/"/g, "&quot;") + '" data-group="' + p.group + '">Заказать расчёт</button>' +
           "</div>" +
         "</div>" +
       "</div>";
