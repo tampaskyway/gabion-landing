@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/style.css?v=2">
 </head>
 <body>
 
@@ -36,8 +36,24 @@
 <section class="section" style="padding-top:40px;">
   <div class="wrap">
     <div class="crumbs" id="crumbs"></div>
-    <div class="filterbar" id="filterbar"></div>
-    <div id="plist"></div>
+    <div class="catalog-toolbar" id="catalogToolbar" style="display:none;">
+      <button type="button" class="btn" id="filtersToggle">
+        Фильтры<span class="filters-badge" id="filtersCount" hidden></span>
+      </button>
+      <span class="count-total num" id="resultCount"></span>
+    </div>
+    <div class="catalog-layout">
+      <aside class="filters-sidebar" id="filtersSidebar" style="display:none;">
+        <div class="filters-sidebar-head">
+          <span>Фильтры</span>
+          <button type="button" class="filters-close-btn" id="filtersClose" aria-label="Закрыть">✕</button>
+        </div>
+        <div id="filtersBody"></div>
+        <button type="button" class="btn btn-primary btn-full filters-apply-btn" id="filtersApply">Показать</button>
+      </aside>
+      <div class="filters-backdrop" id="filtersBackdrop"></div>
+      <div id="plist"></div>
+    </div>
   </div>
 </section>
 
@@ -109,7 +125,7 @@
   </div>
 </div>
 
-<script src="assets/nav.js"></script>
-<script src="assets/catalog.js"></script>
+<script src="assets/nav.js?v=2"></script>
+<script src="assets/catalog.js?v=2"></script>
 </body>
 </html>

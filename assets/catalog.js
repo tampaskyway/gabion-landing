@@ -14,7 +14,18 @@
     trosy: "Тросы",
   };
 
-  var state = { data: null, group: null, subcat: null };
+  var state = { data: null, group: null, subcat: null, coating: [] };
+
+  var COATING_LABELS = { zinc: "Оцинкованное", pvc: "С ПВХ-покрытием", steel: "Нержавеющее" };
+  function coatingBucket(specs) {
+    var v = specs && (specs["Антикоррозионное покрытие"] || specs["Антикоррозионное покрытие соединительных элементов"]);
+    if (!v) return null;
+    var s = String(v).toLowerCase();
+    if (s.indexOf("нерж") !== -1) return "steel";
+    if (s.indexOf("пвх") !== -1) return "pvc";
+    if (s.indexOf("цинк") !== -1 || s.trim() === "ц") return "zinc";
+    return null;
+  }
 
   function qs(sel, ctx) { return (ctx || document).querySelector(sel); }
   function el(tag, cls, html) {
@@ -27,6 +38,7 @@
     var params = new URLSearchParams(location.search);
     state.group = params.get("group") || null;
     state.subcat = params.get("subcat") || null;
+    state.coating = [];
   }
 
   function setParams(group, subcat) {
@@ -37,6 +49,7 @@
     history.pushState({ group: group, subcat: subcat }, "", url);
     state.group = group;
     state.subcat = subcat;
+    state.coating = [];
     render();
   }
 
@@ -48,8 +61,20 @@
     return state.data.products.filter(function (p) {
       if (state.group && p.group !== state.group) return false;
       if (state.subcat && p.subcat !== state.subcat) return false;
+      if (state.coating.length && state.coating.indexOf(coatingBucket(p.specs)) === -1) return false;
       return true;
     });
+  }
+
+  function groupCoatings(group) {
+    var buckets = {};
+    state.data.products.forEach(function (p) {
+      if (p.group !== group) return;
+      var b = coatingBucket(p.specs);
+      if (!b) return;
+      buckets[b] = (buckets[b] || 0) + 1;
+    });
+    return Object.keys(buckets).map(function (b) { return { slug: b, name: COATING_LABELS[b], count: buckets[b] }; });
   }
 
   function render() {
@@ -78,20 +103,72 @@
   }
 
   function renderFilterbar() {
-    var bar = qs("#filterbar");
-    if (!bar) return;
-    if (!state.group) { bar.innerHTML = ""; bar.style.display = "none"; return; }
-    bar.style.display = "";
+    var toolbar = qs("#catalogToolbar");
+    var sidebar = qs("#filtersSidebar");
+    var body = qs("#filtersBody");
+    var resultCount = qs("#resultCount");
+    var filtersCount = qs("#filtersCount");
+    if (!toolbar || !sidebar || !body) return;
+
+    if (!state.group) {
+      toolbar.style.display = "none";
+      sidebar.style.display = "none";
+      return;
+    }
+    toolbar.style.display = "";
+    sidebar.style.display = "";
+
     var subs = groupSubcats(state.group);
-    var chips = ['<a class="chip' + (!state.subcat ? " active" : "") + '" href="?group=' + state.group + '" data-nav-all="' + state.group + '">Все</a>'];
-    subs.forEach(function (s) {
-      chips.push(
-        '<a class="chip' + (state.subcat === s.slug ? " active" : "") + '" href="?group=' + state.group + "&subcat=" + s.slug + '" data-nav-sub="' + s.group + "|" + s.slug + '">' +
-          s.name + " (" + s.count + ")</a>"
-      );
-    });
+    var subsHtml =
+      '<div class="filters-group">' +
+        '<div class="filters-group-title">Раздел</div>' +
+        '<ul class="filters-list">' +
+          '<li><a class="filters-opt' + (!state.subcat ? " active" : "") + '" href="?group=' + state.group + '" data-nav-all="' + state.group + '">Все</a></li>' +
+          subs.map(function (s) {
+            return '<li><a class="filters-opt' + (state.subcat === s.slug ? " active" : "") + '" href="?group=' + state.group + "&subcat=" + s.slug + '" data-nav-sub="' + s.group + "|" + s.slug + '">' +
+              s.name + '<span class="n">' + s.count + "</span></a></li>";
+          }).join("") +
+        "</ul>" +
+      "</div>";
+
+    var coatings = groupCoatings(state.group);
+    var coatingHtml = "";
+    if (coatings.length) {
+      coatingHtml =
+        '<div class="filters-group">' +
+          '<div class="filters-group-title">Покрытие</div>' +
+          '<ul class="filters-list">' +
+            coatings.map(function (c) {
+              var checked = state.coating.indexOf(c.slug) !== -1;
+              return '<li><label class="filters-check">' +
+                '<input type="checkbox" data-coating="' + c.slug + '"' + (checked ? " checked" : "") + '>' +
+                c.name + '<span class="n">' + c.count + "</span>" +
+              "</label></li>";
+            }).join("") +
+          "</ul>" +
+        "</div>";
+    }
+
+    body.innerHTML = subsHtml + coatingHtml;
+
     var total = filteredProducts().length;
-    bar.innerHTML = '<div class="chips-row">' + chips.join("") + '</div><span class="count-total num">' + total + " позиций</span>";
+    if (resultCount) resultCount.textContent = total + " позиций";
+    if (filtersCount) {
+      var activeCount = (state.subcat ? 1 : 0) + state.coating.length;
+      filtersCount.textContent = activeCount || "";
+      filtersCount.hidden = !activeCount;
+    }
+  }
+
+  function closeFilters() {
+    qs("#filtersSidebar").classList.remove("open");
+    qs("#filtersBackdrop").classList.remove("open");
+    document.body.style.overflow = "";
+  }
+  function openFilters() {
+    qs("#filtersSidebar").classList.add("open");
+    qs("#filtersBackdrop").classList.add("open");
+    document.body.style.overflow = "hidden";
   }
 
   function renderGrid() {
@@ -200,14 +277,18 @@
       var nav = e.target.closest("[data-nav]");
       var openBtn = e.target.closest("[data-open-sku]");
       var closeBtn = e.target.closest("[data-pdp-close]");
+      var filtersToggle = e.target.closest("#filtersToggle");
+      var filtersClose = e.target.closest("#filtersClose, #filtersApply");
 
       if (navSub) {
         e.preventDefault();
         var parts = navSub.getAttribute("data-nav-sub").split("|");
         setParams(parts[0], parts[1]);
+        closeFilters();
       } else if (navAll) {
         e.preventDefault();
         setParams(navAll.getAttribute("data-nav-all"), null);
+        closeFilters();
       } else if (nav) {
         e.preventDefault();
         setParams(nav.getAttribute("data-nav"), null);
@@ -215,11 +296,26 @@
         openProduct(openBtn.getAttribute("data-open-sku"));
       } else if (closeBtn || e.target.id === "pdpOverlay") {
         closeProduct();
+      } else if (filtersToggle) {
+        openFilters();
+      } else if (filtersClose || e.target.id === "filtersBackdrop") {
+        closeFilters();
+      }
+    });
+
+    document.addEventListener("change", function (e) {
+      if (e.target.matches("[data-coating]")) {
+        var slug = e.target.getAttribute("data-coating");
+        var idx = state.coating.indexOf(slug);
+        if (e.target.checked && idx === -1) state.coating.push(slug);
+        if (!e.target.checked && idx !== -1) state.coating.splice(idx, 1);
+        renderFilterbar();
+        renderGrid();
       }
     });
 
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") closeProduct();
+      if (e.key === "Escape") { closeProduct(); closeFilters(); }
     });
 
     window.addEventListener("popstate", function () {
