@@ -15,3 +15,19 @@
     });
   });
 })();
+
+(function () {
+  var banner = document.getElementById("cookieBanner");
+  var accept = document.getElementById("cookieAccept");
+  if (!banner || !accept) return;
+  var KEY = "cookieConsent";
+  try {
+    if (!localStorage.getItem(KEY)) banner.hidden = false;
+  } catch (e) {
+    banner.hidden = false;
+  }
+  accept.addEventListener("click", function () {
+    banner.hidden = true;
+    try { localStorage.setItem(KEY, "1"); } catch (e) {}
+  });
+})();

@@ -437,5 +437,33 @@ footer.site { padding: 60px 0 32px; }
 .link-btn:hover { color: var(--ink); }
 .price-disclaimer { font-size: 13px; line-height: 1.6; color: var(--muted); background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 24px; max-width: 78ch; }
 .price-disclaimer strong { color: var(--ink); font-weight: 600; }
+.footer-contacts { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-bottom: 24px; font-size: 14px; }
+.footer-contacts a { text-decoration: none; color: var(--ink); font-weight: 600; }
+.footer-contacts a:hover { color: var(--oxide); }
+.footer-contacts .loc { color: var(--muted); }
 .footer-bottom { display: flex; justify-content: space-between; align-items: flex-start; padding-top: 28px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--faint); flex-wrap: wrap; gap: 12px; }
 .footer-bottom .legal { max-width: 60ch; }
+.footer-bottom .legal a { color: var(--faint); }
+.footer-bottom .legal a:hover { color: var(--ink); }
+
+/* ── Юридический текст (политика/реквизиты) ── */
+.legal-text { font-size: 14.5px; color: var(--muted); line-height: 1.7; padding-bottom: 60px; }
+.legal-text h2 { font-size: 17px; color: var(--ink); margin: 32px 0 10px; }
+.legal-text h2:first-child { margin-top: 0; }
+.legal-text p { margin: 0 0 14px; }
+.legal-text a { color: var(--oxide); }
+.legal-text table { width: 100%; border-collapse: collapse; margin: 8px 0 20px; font-size: 14px; }
+.legal-text table td { padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.legal-text table td:first-child { color: var(--faint); width: 42%; }
+
+/* ── Cookie-плашка ── */
+.cookie-banner {
+  position: fixed; left: 20px; right: 20px; bottom: 20px; z-index: 80; max-width: 640px; margin: 0 auto;
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 16px 20px; box-shadow: 0 12px 32px rgba(10,12,13,.12);
+}
+.cookie-banner[hidden] { display: none; }
+.cookie-banner p { margin: 0; font-size: 13px; color: var(--muted); flex: 1; min-width: 200px; }
+.cookie-banner a { color: var(--ink); }
+@media (max-width: 560px) { .cookie-banner { left: 12px; right: 12px; bottom: 12px; padding: 14px 16px; } }
