@@ -14,6 +14,69 @@
     trosy: "Тросы",
   };
 
+  var GROUP_SEO = {
+    gabiony: {
+      h1: "Габионы — купить оптом и в розницу",
+      title: "Габионы купить — коробчатые, матрацно-тюфячные, цилиндрические | ГабионОпт",
+      description: "Габионы от производителя: коробчатые сварные и двойного кручения, матрацно-тюфячные, цилиндрические, ландшафтные. Соответствие ГОСТ, доставка по России.",
+    },
+    setka: {
+      h1: "Сетка и полотна для габионов и ограждений",
+      title: "Сетка для габионов купить — двойного кручения, сварная, защитная | ГабионОпт",
+      description: "Металлическая сетка для габионных конструкций: двойного кручения, сварная в картах, защитная от БПЛА, противокамнепадная. Оцинкованная и с ПВХ-покрытием.",
+    },
+    trosy: {
+      h1: "Стальные тросы (канаты) — все диаметры и типы свивки",
+      title: "Стальные тросы (канаты) купить — одинарной, двойной, шестипрядной свивки | ГабионОпт",
+      description: "Стальной трос (канат) от 1 до 28 мм: одинарной, двойной и шестипрядной свивки, по ГОСТ. Расчёт стоимости и доставка по России.",
+    },
+  };
+  var DEFAULT_TITLE = "Каталог габионов, сетки и тросов — ГабионОпт";
+  var DEFAULT_DESC = "Каталог габионов, заборных конструкций, сетки двойного кручения, сварной сетки и тросов. Характеристики, ГОСТ. Расчёт стоимости бесплатно.";
+
+  function updateSeo() {
+    var h1 = qs("#catalogH1");
+    var canonical = qs('link[rel="canonical"]');
+    var descTag = qs('meta[name="description"]');
+    var seo = state.group && GROUP_SEO[state.group];
+    var subLabel = null;
+    if (state.group && state.subcat) {
+      var sc = state.data.subcats.find(function (s) { return s.group === state.group && s.slug === state.subcat; });
+      subLabel = sc ? sc.name : null;
+    }
+
+    if (h1) h1.textContent = seo ? (subLabel ? seo.h1.split(" — ")[0] + " — " + subLabel : seo.h1) : "Каталог габионов, сетки и тросов";
+    document.title = seo ? (subLabel ? subLabel + " — " + GROUP_LABELS[state.group] + " | ГабионОпт" : seo.title) : DEFAULT_TITLE;
+    if (descTag) descTag.setAttribute("content", seo ? seo.description : DEFAULT_DESC);
+    if (canonical) {
+      canonical.setAttribute("href", state.group ? "https://gabionopt.ru/catalog.html?group=" + state.group : "https://gabionopt.ru/catalog.html");
+    }
+
+    var items = [{ "@type": "ListItem", position: 1, name: "Главная", item: "https://gabionopt.ru/" }];
+    items.push({ "@type": "ListItem", position: 2, name: "Каталог", item: "https://gabionopt.ru/catalog.html" });
+    if (state.group) {
+      items.push({
+        "@type": "ListItem", position: 3, name: GROUP_LABELS[state.group],
+        item: "https://gabionopt.ru/catalog.html?group=" + state.group,
+      });
+    }
+    if (subLabel) {
+      items.push({
+        "@type": "ListItem", position: 4, name: subLabel,
+        item: "https://gabionopt.ru/catalog.html?group=" + state.group + "&subcat=" + state.subcat,
+      });
+    }
+    var breadcrumbLd = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: items };
+    var ldScript = qs("#breadcrumbLd");
+    if (!ldScript) {
+      ldScript = document.createElement("script");
+      ldScript.type = "application/ld+json";
+      ldScript.id = "breadcrumbLd";
+      document.head.appendChild(ldScript);
+    }
+    ldScript.textContent = JSON.stringify(breadcrumbLd);
+  }
+
   var state = { data: null, group: null, subcat: null, coating: [] };
 
   var COATING_LABELS = { zinc: "Оцинкованное", pvc: "С ПВХ-покрытием", steel: "Нержавеющее" };
@@ -81,6 +144,7 @@
     renderCrumbs();
     renderFilterbar();
     renderGrid();
+    updateSeo();
   }
 
   function renderCrumbs() {
