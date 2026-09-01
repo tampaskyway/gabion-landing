@@ -128,10 +128,19 @@
         <button type="button" class="btn" data-open-order>Рассчитать стоимость</button>
       </div>
     </div>
-    <div class="hero-stats">
-      <div><div class="n num">730+</div><div class="l">позиций в 3 товарных группах</div></div>
-      <div><div class="n num">ГОСТ</div><div class="l">производство по ГОСТ и DIN</div></div>
-      <div><div class="n num">РФ</div><div class="l">доставка по всей России</div></div>
+    <div class="hero-side">
+      <div class="hero-carousel" id="heroCarousel">
+        <img src="images/production-floor.jpg" alt="Производство и склад ГабионОпт" class="active">
+        <img src="images/gabion-riverbank.jpg" alt="Укрепление берега габионами">
+        <img src="images/rope-mesh-applications.jpg" alt="Тросовая сетка на объектах">
+        <img src="images/mesh-detail.jpg" alt="Сетка двойного кручения, крупный план">
+        <div class="hero-carousel-dots" id="heroCarouselDots"></div>
+      </div>
+      <div class="hero-stats">
+        <div><div class="n num">730+</div><div class="l">позиций в 3 товарных группах</div></div>
+        <div><div class="n num">ГОСТ</div><div class="l">производство по ГОСТ и DIN</div></div>
+        <div><div class="n num">РФ</div><div class="l">доставка по всей России</div></div>
+      </div>
     </div>
   </div>
 </section>
@@ -609,6 +618,30 @@
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
     window.scrollTo(0, 0);
     openOrderModal();
+  }
+
+  var heroCarousel = document.getElementById("heroCarousel");
+  if (heroCarousel) {
+    var slides = Array.prototype.slice.call(heroCarousel.querySelectorAll("img"));
+    var dotsWrap = document.getElementById("heroCarouselDots");
+    var current = 0;
+    var dots = slides.map(function (_, i) {
+      var dot = document.createElement("span");
+      if (i === 0) dot.classList.add("active");
+      dot.addEventListener("click", function () { goTo(i); });
+      dotsWrap.appendChild(dot);
+      return dot;
+    });
+    function goTo(i) {
+      slides[current].classList.remove("active");
+      dots[current].classList.remove("active");
+      current = i;
+      slides[current].classList.add("active");
+      dots[current].classList.add("active");
+    }
+    var timer = setInterval(function () { goTo((current + 1) % slides.length); }, 4500);
+    heroCarousel.addEventListener("mouseenter", function () { clearInterval(timer); });
+    heroCarousel.addEventListener("mouseleave", function () { timer = setInterval(function () { goTo((current + 1) % slides.length); }, 4500); });
   }
 </script>
 </body>
