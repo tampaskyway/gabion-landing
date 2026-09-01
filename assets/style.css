@@ -75,6 +75,7 @@ button, .btn {
   cursor: pointer;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   text-decoration: none;
   transition: background .15s ease, border-color .15s ease, color .15s ease;
@@ -176,9 +177,11 @@ nav.primary button:hover { color: var(--ink); border-color: var(--line); }
 .filters-badge[hidden] { display: none; }
 
 .catalog-layout { display: grid; grid-template-columns: 240px 1fr; gap: 24px; align-items: start; }
+.catalog-layout.no-sidebar { grid-template-columns: 1fr; }
 .filters-sidebar {
   border: 1px solid var(--line); background: var(--surface); border-radius: var(--radius);
   padding: 18px; position: sticky; top: 88px;
+  max-height: calc(100vh - 108px); overflow-y: auto;
 }
 .filters-sidebar-head { display: none; }
 .filters-group + .filters-group { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line); }

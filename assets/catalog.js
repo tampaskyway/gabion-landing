@@ -173,13 +173,16 @@
 
   function renderGrid() {
     var grid = qs("#plist");
+    var layout = qs("#catalogLayout");
     if (!grid) return;
     grid.innerHTML = "";
     var items = filteredProducts();
     if (!state.group) {
+      if (layout) layout.classList.add("no-sidebar");
       renderGroupTiles(grid);
       return;
     }
+    if (layout) layout.classList.remove("no-sidebar");
     if (!items.length) {
       grid.className = "";
       grid.appendChild(el("div", "empty-state", "В этом разделе пока нет карточек — уточните у менеджера."));
@@ -199,13 +202,12 @@
     container.className = "cat-grid";
     var groups = state.data.groups;
     groups.forEach(function (g, i) {
-      var count = state.data.products.filter(function (p) { return p.group === g.slug; }).length;
       var subs = groupSubcats(g.slug).slice(0, 3).map(function (s) { return s.name; }).join(", ");
       var a = el("a", "cat-card");
       a.href = "?group=" + g.slug;
       a.setAttribute("data-nav", g.slug);
       a.innerHTML =
-        '<div class="top"><span class="idx">' + String(i + 1).padStart(2, "0") + '</span><span class="count num">' + count + "</span></div>" +
+        '<div class="top"><span class="idx">' + String(i + 1).padStart(2, "0") + '</span></div>' +
         "<h3>" + g.name + "</h3>" +
         '<div class="sub">' + subs + "</div>" +
         '<div class="go">Перейти в раздел →</div>';
@@ -249,7 +251,7 @@
           (specRows ? '<table class="spectable">' + specRows + "</table>" : "") +
           '<div class="buybox">' +
             '<div class="price-row"><div><div class="price">По расчёту</div><div class="price-note">актуальная цена зависит от партии и курса металла — пришлём точный расчёт быстро</div></div></div>' +
-            '<a class="btn btn-primary btn-full" href="./#order">Заказать расчёт</a>' +
+            '<a class="btn btn-primary btn-full" href="./?openOrder=1">Заказать расчёт</a>' +
           "</div>" +
         "</div>" +
       "</div>";
