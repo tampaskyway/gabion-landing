@@ -11,7 +11,7 @@
   var GROUP_LABELS = {
     gabiony: "Габионы",
     setka: "Сетка и полотна",
-    instrument: "Инструмент и монтаж",
+    trosy: "Тросы",
   };
 
   var state = { data: null, group: null, subcat: null };
@@ -156,7 +156,7 @@
       "<h4>" + p.name + "</h4>" +
       '<ul class="specs">' + specsHtml + "</ul>" +
       '<div class="foot">' +
-        (priceStr ? '<div class="price">' + priceStr + "<small>за изделие</small></div>" : '<div class="price na">цена по запросу</div>') +
+        (priceStr ? '<div class="price">' + priceStr + "<small>" + (p.price_unit_label || "за изделие") + "</small></div>" : '<div class="price na">цена по запросу</div>') +
         '<button class="btn btn-sm" data-open-sku="' + p.sku + '">Подробнее</button>' +
       "</div>";
     return card;
@@ -180,7 +180,7 @@
           '<p class="desc">' + p.description + "</p>" +
           (specRows ? '<table class="spectable">' + specRows + "</table>" : "") +
           '<div class="buybox">' +
-            '<div class="price-row"><div><div class="price">' + (priceStr || "по запросу") + '</div><div class="price-note">' + (priceStr ? "ориентировочно, уточняйте у менеджера" : "рассчитаем после уточнения задачи") + "</div></div></div>" +
+            '<div class="price-row"><div><div class="price">' + (priceStr || "по запросу") + (priceStr && p.price_unit_label ? '<small> ' + p.price_unit_label + '</small>' : "") + '</div><div class="price-note">' + (priceStr ? "ориентировочно, уточняйте у менеджера" : "рассчитаем после уточнения задачи") + "</div></div></div>" +
             '<a class="btn btn-primary btn-full" href="./#order">Заказать расчёт</a>' +
           "</div>" +
         "</div>" +
