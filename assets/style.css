@@ -558,6 +558,12 @@ table.spectable td:last-child { font-family: "JetBrains Mono", monospace; text-a
 @media (max-width: 560px) { .adv-grid { grid-template-columns: 1fr; } }
 .adv-item { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
 .adv-item h4 { font-size: 14.5px; font-family: "Golos Text", sans-serif; font-weight: 600; margin-bottom: 6px; }
+
+.production-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+@media (max-width: 860px) { .production-gallery { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .production-gallery { grid-template-columns: 1fr; } }
+.production-ph { aspect-ratio: 4/3; background: var(--surface-2); border: 1px dashed var(--line-strong); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; color: var(--faint); font-size: 13px; text-align: center; line-height: 1.4; }
+.production-gallery img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--line); }
 .adv-item p { font-size: 13px; color: var(--muted); margin: 0; }
 
 /* ── Подвал (визуально отделён — тёмный фон) ── */
