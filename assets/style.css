@@ -210,6 +210,17 @@ nav.primary a.active::after {
 .hero-carousel-dots { position: absolute; left: 0; right: 0; bottom: 14px; display: flex; justify-content: center; gap: 7px; z-index: 2; }
 .hero-carousel-dots span { width: 7px; height: 7px; border-radius: 999px; background: rgba(255,255,255,.5); cursor: pointer; transition: background .2s ease, transform .2s ease; }
 .hero-carousel-dots span.active { background: #fff; transform: scale(1.25); }
+.hero-carousel-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;
+  width: 38px; height: 38px; border-radius: 999px; border: none;
+  background: rgba(15,17,18,.4); color: #fff; font-size: 22px; line-height: 1;
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+  opacity: 0; transition: opacity .2s ease, background .2s ease;
+}
+.hero-carousel:hover .hero-carousel-arrow { opacity: 1; }
+.hero-carousel-arrow:hover { background: rgba(15,17,18,.65); }
+.hero-carousel-prev { left: 12px; }
+.hero-carousel-next { right: 12px; }
 .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); border-radius: var(--radius); background: linear-gradient(165deg, rgba(255,255,255,.9), rgba(255,255,255,.5)); backdrop-filter: blur(6px); overflow: hidden; }
 .hero-stats div { padding: 18px 16px; border-left: 1px solid var(--line); }
 .hero-stats div:first-child { border-left: none; }

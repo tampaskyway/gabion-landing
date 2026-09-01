@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=20">
+<link rel="stylesheet" href="assets/style.css?v=21">
 
 <script type="application/ld+json">
 {
@@ -134,12 +134,13 @@
         <img src="images/rockfall-mesh.jpg" alt="Противокамнепадная сетка на горном склоне">
         <img src="images/riverbank-mattress.jpg" alt="Укрепление берега габионными матрасами">
         <img src="images/mountain-road-wall.jpg" alt="Подпорная стена на горной дороге">
+        <img src="images/garden-fence.jpg" alt="Габионный забор с деревянными вставками">
+        <img src="images/antidrone-net.jpg" alt="Антидроновая сетка над промышленным объектом">
+        <img src="images/construction-fence.jpg" alt="Временное строительное ограждение">
+        <img src="images/staircase-mesh.jpg" alt="Декоративная тросовая сетка на лестнице">
+        <button type="button" class="hero-carousel-arrow hero-carousel-prev" id="heroCarouselPrev" aria-label="Предыдущее фото">‹</button>
+        <button type="button" class="hero-carousel-arrow hero-carousel-next" id="heroCarouselNext" aria-label="Следующее фото">›</button>
         <div class="hero-carousel-dots" id="heroCarouselDots"></div>
-      </div>
-      <div class="hero-stats">
-        <div><div class="n num">730+</div><div class="l">позиций в 3 товарных группах</div></div>
-        <div><div class="n num">ГОСТ</div><div class="l">производство по ГОСТ и DIN</div></div>
-        <div><div class="n num">РФ</div><div class="l">доставка по всей России</div></div>
       </div>
     </div>
   </div>
@@ -423,7 +424,7 @@
   <button type="button" class="btn btn-primary btn-sm" id="cookieAccept">Понятно</button>
 </div>
 
-<script src="assets/nav.js?v=20"></script>
+<script src="assets/nav.js?v=21"></script>
 <script>
   var allSelectOptions = [];
 
@@ -639,9 +640,15 @@
       slides[current].classList.add("active");
       dots[current].classList.add("active");
     }
-    var timer = setInterval(function () { goTo((current + 1) % slides.length); }, 4500);
+    function next() { goTo((current + 1) % slides.length); }
+    function prev() { goTo((current - 1 + slides.length) % slides.length); }
+    var timer = setInterval(next, 4500);
     heroCarousel.addEventListener("mouseenter", function () { clearInterval(timer); });
-    heroCarousel.addEventListener("mouseleave", function () { timer = setInterval(function () { goTo((current + 1) % slides.length); }, 4500); });
+    heroCarousel.addEventListener("mouseleave", function () { timer = setInterval(next, 4500); });
+    var prevBtn = document.getElementById("heroCarouselPrev");
+    var nextBtn = document.getElementById("heroCarouselNext");
+    if (prevBtn) prevBtn.addEventListener("click", prev);
+    if (nextBtn) nextBtn.addEventListener("click", next);
   }
 </script>
 </body>
