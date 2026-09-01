@@ -91,41 +91,16 @@ button:hover, .btn:hover { border-color: var(--ink); }
 button:focus-visible, .btn:focus-visible, a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 button, .btn { border-radius: var(--radius-sm); }
 .btn-primary {
-  position: relative; isolation: isolate; overflow: hidden;
   background: linear-gradient(160deg, #CB5024 0%, var(--oxide) 55%, #9C3714 100%);
   border-color: var(--oxide); color: var(--oxide-ink); box-shadow: 0 1px 2px rgba(80,25,8,.3);
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
 }
-.btn-primary::before {
-  content: ""; position: absolute; inset: 0; z-index: -1;
-  background: linear-gradient(160deg, #E06736 0%, #C4451A 55%, #8A2E0E 100%);
-  transform: scaleX(0); transform-origin: left center;
-  transition: transform .45s cubic-bezier(.4,0,.2,1);
+.btn-primary:hover {
+  transform: translateY(-2px); box-shadow: 0 6px 16px rgba(140,45,10,.35);
+  background: linear-gradient(160deg, #D65C2C 0%, #C24D24 55%, #A63F18 100%); border-color: #C24D24;
 }
-.btn-primary:hover { border-color: #C4451A; box-shadow: 0 2px 6px rgba(140,45,10,.4); }
-.btn-primary:hover::before { transform: scaleX(1); }
 .btn-full { width: 100%; justify-content: center; }
 .btn-sm { padding: 9px 14px; font-size: 13px; }
-
-/* ── ВРЕМЕННО: 5 вариантов ховера для сравнения (убрать после выбора) ── */
-.hov-v1::before { display: none; }
-.hov-v1 { transition: transform .18s ease, box-shadow .18s ease, background .18s ease; }
-.hov-v1:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(140,45,10,.35); background: linear-gradient(160deg, #D65C2C 0%, #C24D24 55%, #A63F18 100%); border-color: #C24D24; }
-
-.hov-v2::before { left: -60%; width: 40%; top:0; height:100%; inset:auto; background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.45) 50%, transparent 100%); transform: skewX(-20deg); transition: left .55s ease; }
-.hov-v2:hover::before { left: 130%; transform: skewX(-20deg); }
-.hov-v2:hover { border-color: var(--oxide); box-shadow: 0 1px 2px rgba(80,25,8,.3); }
-
-.hov-v3::before { display: none; }
-.hov-v3 { background: #B8431E; transition: background .15s ease; }
-.hov-v3:hover { background: #9C3714; border-color: #9C3714; }
-
-.hov-v4::before { display: none; }
-.hov-v4 { transition: transform .15s ease; transform-origin: center; }
-.hov-v4:hover { transform: scale(1.035); border-color: var(--oxide); box-shadow: 0 1px 2px rgba(80,25,8,.3); }
-
-.hov-v5::before { display: none; }
-.hov-v5 { transition: box-shadow .2s ease; }
-.hov-v5:hover { box-shadow: 0 0 0 4px rgba(184,67,30,.22), 0 4px 10px rgba(140,45,10,.3); border-color: var(--oxide); }
 
 /* ── Логотип ── */
 .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
