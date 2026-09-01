@@ -101,7 +101,7 @@
     return Math.round(n * 2) / 2;
   }
 
-  var TROSY_SIZES = [1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 14, 15, 16, 18, 20, 25, 28];
+  var TROSY_SIZES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 25, 28, 46, 48, 55, 65, 75];
   function trosySizeRange(specs) {
     var v = specs && specs["Диапазон диаметров"];
     if (!v) return null;
@@ -116,7 +116,8 @@
   function matchesTrosySize(specs, size) {
     var range = trosySizeRange(specs);
     if (!range) return false;
-    return size >= range[0] && size <= range[1];
+    var lower = size - 0.5, upper = size + 0.5;
+    return range[1] >= lower && range[0] < upper;
   }
 
   function qs(sel, ctx) { return (ctx || document).querySelector(sel); }
