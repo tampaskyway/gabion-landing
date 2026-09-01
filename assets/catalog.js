@@ -77,7 +77,7 @@
     ldScript.textContent = JSON.stringify(breadcrumbLd);
   }
 
-  var state = { data: null, group: null, subcat: null, coating: [], diameter: [] };
+  var state = { data: null, group: null, subcat: null, coating: [], diameter: [], size: [] };
 
   var COATING_LABELS = { zinc: "Оцинкованное", pvc: "С ПВХ-покрытием", steel: "Нержавеющее" };
   function coatingBucket(specs) {
@@ -101,6 +101,24 @@
     return Math.round(n * 2) / 2;
   }
 
+  var TROSY_SIZES = [1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 14, 15, 16, 18, 20, 25, 28];
+  function trosySizeRange(specs) {
+    var v = specs && specs["Диапазон диаметров"];
+    if (!v) return null;
+    var s = String(v).replace(",", ".");
+    var range = s.match(/(\d+(\.\d+)?)\s*[–-]\s*(\d+(\.\d+)?)/);
+    if (range) return [parseFloat(range[1]), parseFloat(range[3])];
+    var single = s.match(/(\d+(\.\d+)?)/);
+    if (!single) return null;
+    var n = parseFloat(single[1]);
+    return [n, n];
+  }
+  function matchesTrosySize(specs, size) {
+    var range = trosySizeRange(specs);
+    if (!range) return false;
+    return size >= range[0] && size <= range[1];
+  }
+
   function qs(sel, ctx) { return (ctx || document).querySelector(sel); }
   function el(tag, cls, html) {
     var e = document.createElement(tag);
@@ -114,6 +132,7 @@
     state.subcat = params.get("subcat") || null;
     state.coating = [];
     state.diameter = [];
+    state.size = [];
   }
 
   function setParams(group, subcat) {
@@ -126,6 +145,7 @@
     state.subcat = subcat;
     state.coating = [];
     state.diameter = [];
+    state.size = [];
     render();
   }
 
@@ -135,6 +155,7 @@
     if (opts.subcat && p.subcat !== opts.subcat) return false;
     if (opts.coating && opts.coating.length && opts.coating.indexOf(coatingBucket(p.specs)) === -1) return false;
     if (opts.diameter && opts.diameter.length && opts.diameter.indexOf(diameterBucket(p.specs)) === -1) return false;
+    if (opts.size && opts.size.length && !opts.size.some(function (sz) { return matchesTrosySize(p.specs, sz); })) return false;
     return true;
   }
 
@@ -149,13 +170,13 @@
   function groupSubcats(group) {
     var subs = state.data.subcats.filter(function (s) { return s.group === group; });
     return subs.map(function (s) {
-      return { group: s.group, slug: s.slug, name: s.name, count: countProducts({ group: group, subcat: s.slug, coating: state.coating, diameter: state.diameter }) };
+      return { group: s.group, slug: s.slug, name: s.name, count: countProducts({ group: group, subcat: s.slug, coating: state.coating, diameter: state.diameter, size: state.size }) };
     });
   }
 
   function filteredProducts() {
     return state.data.products.filter(function (p) {
-      return matchesFacets(p, { group: state.group, subcat: state.subcat, coating: state.coating, diameter: state.diameter });
+      return matchesFacets(p, { group: state.group, subcat: state.subcat, coating: state.coating, diameter: state.diameter, size: state.size });
     });
   }
 
@@ -180,6 +201,20 @@
     });
     return Object.keys(buckets).map(Number).sort(function (a, b) { return a - b; }).map(function (b) {
       return { slug: b, name: (b % 1 === 0 ? b : b) + " мм", count: buckets[b] };
+    });
+  }
+
+  function groupTrosySizes(group) {
+    if (group !== "trosy") return [];
+    var buckets = {};
+    state.data.products.forEach(function (p) {
+      if (!matchesFacets(p, { group: group, subcat: state.subcat })) return;
+      TROSY_SIZES.forEach(function (sz) {
+        if (matchesTrosySize(p.specs, sz)) buckets[sz] = (buckets[sz] || 0) + 1;
+      });
+    });
+    return TROSY_SIZES.filter(function (sz) { return buckets[sz]; }).map(function (sz) {
+      return { slug: sz, name: sz + " мм", count: buckets[sz] };
     });
   }
 
@@ -230,7 +265,7 @@
       '<div class="filters-group">' +
         '<div class="filters-group-title">Раздел</div>' +
         '<ul class="filters-list">' +
-          '<li><a class="filters-opt' + (!state.subcat ? " active" : "") + '" href="?group=' + state.group + '" data-nav-all="' + state.group + '">Все<span class="n">' + countProducts({ group: state.group, coating: state.coating, diameter: state.diameter }) + '</span></a></li>' +
+          '<li><a class="filters-opt' + (!state.subcat ? " active" : "") + '" href="?group=' + state.group + '" data-nav-all="' + state.group + '">Все<span class="n">' + countProducts({ group: state.group, coating: state.coating, diameter: state.diameter, size: state.size }) + '</span></a></li>' +
           subs.map(function (s) {
             return '<li><a class="filters-opt' + (state.subcat === s.slug ? " active" : "") + '" href="?group=' + state.group + "&subcat=" + s.slug + '" data-nav-sub="' + s.group + "|" + s.slug + '">' +
               s.name + '<span class="n">' + s.count + "</span></a></li>";
@@ -274,12 +309,30 @@
         "</div>";
     }
 
-    body.innerHTML = subsHtml + coatingHtml + diameterHtml;
+    var trosySizes = groupTrosySizes(state.group);
+    var trosySizeHtml = "";
+    if (trosySizes.length > 1) {
+      trosySizeHtml =
+        '<div class="filters-group">' +
+          '<div class="filters-group-title">Диаметр, мм</div>' +
+          '<ul class="filters-list">' +
+            trosySizes.map(function (d) {
+              var checked = state.size.indexOf(d.slug) !== -1;
+              return '<li><label class="filters-check">' +
+                '<input type="checkbox" data-size="' + d.slug + '"' + (checked ? " checked" : "") + '>' +
+                d.name + '<span class="n">' + d.count + "</span>" +
+              "</label></li>";
+            }).join("") +
+          "</ul>" +
+        "</div>";
+    }
+
+    body.innerHTML = subsHtml + coatingHtml + diameterHtml + trosySizeHtml;
 
     var total = filteredProducts().length;
     if (resultCount) resultCount.textContent = total + " позиций";
     if (filtersCount) {
-      var activeCount = (state.subcat ? 1 : 0) + state.coating.length + state.diameter.length;
+      var activeCount = (state.subcat ? 1 : 0) + state.coating.length + state.diameter.length + state.size.length;
       filtersCount.textContent = activeCount || "";
       filtersCount.hidden = !activeCount;
     }
@@ -443,6 +496,13 @@
         var didx = state.diameter.indexOf(dval);
         if (e.target.checked && didx === -1) state.diameter.push(dval);
         if (!e.target.checked && didx !== -1) state.diameter.splice(didx, 1);
+        renderFilterbar();
+        renderGrid();
+      } else if (e.target.matches("[data-size]")) {
+        var szval = parseFloat(e.target.getAttribute("data-size"));
+        var szidx = state.size.indexOf(szval);
+        if (e.target.checked && szidx === -1) state.size.push(szval);
+        if (!e.target.checked && szidx !== -1) state.size.splice(szidx, 1);
         renderFilterbar();
         renderGrid();
       }
