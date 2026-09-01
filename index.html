@@ -191,15 +191,22 @@
     <p class="modal-subtitle">Ответим в рабочее время и пришлём расчёт по актуальным ценам.</p>
     <form id="contact-form" class="form-wrap" style="margin-top:20px;" action="https://formspree.io/f/mdenlzpe" method="POST">
       <div class="form-group">
-        <label for="type">Что вас интересует</label>
-        <select id="type" name="product" required>
-          <option value="gabiony">Габионы</option>
-          <option value="setka-dvojnogo-krucheniya">Сетка двойного кручения</option>
-          <option value="setka-svarnaya">Сварная сетка</option>
-          <option value="setka-trosovaya">Сетка из оцинкованных тросов</option>
-          <option value="trosy">Тросы</option>
-          <option value="other">Другое / не знаю точно</option>
-        </select>
+        <label id="typeLabel" for="typeTrigger">Что вас интересует</label>
+        <div class="custom-select" id="typeSelect">
+          <button type="button" class="select-trigger" id="typeTrigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="typeLabel">
+            <span class="select-value">Габионы</span>
+            <span class="chevron">▾</span>
+          </button>
+          <ul class="select-options" role="listbox" tabindex="-1" hidden>
+            <li role="option" data-value="gabiony" aria-selected="true">Габионы</li>
+            <li role="option" data-value="setka-dvojnogo-krucheniya">Сетка двойного кручения</li>
+            <li role="option" data-value="setka-svarnaya">Сварная сетка</li>
+            <li role="option" data-value="setka-trosovaya">Сетка из оцинкованных тросов</li>
+            <li role="option" data-value="trosy">Тросы</li>
+            <li role="option" data-value="other">Другое / не знаю точно</li>
+          </ul>
+          <input type="hidden" name="product" id="typeValue" value="gabiony" required>
+        </div>
       </div>
       <div class="form-group">
         <label for="name">Имя</label>
@@ -354,6 +361,44 @@
     });
   }
 
+  var typeTrigger = document.getElementById("typeTrigger");
+  var typeOptions = document.querySelector("#typeSelect .select-options");
+  var typeValue = document.getElementById("typeValue");
+  if (typeTrigger && typeOptions) {
+    var typeValueLabel = typeTrigger.querySelector(".select-value");
+
+    function closeTypeSelect() {
+      typeOptions.hidden = true;
+      typeTrigger.setAttribute("aria-expanded", "false");
+    }
+    function openTypeSelect() {
+      typeOptions.hidden = false;
+      typeTrigger.setAttribute("aria-expanded", "true");
+    }
+
+    typeTrigger.addEventListener("click", function (e) {
+      e.stopPropagation();
+      if (typeOptions.hidden) openTypeSelect(); else closeTypeSelect();
+    });
+
+    typeOptions.querySelectorAll("li").forEach(function (li) {
+      li.addEventListener("click", function () {
+        typeOptions.querySelectorAll("li").forEach(function (o) { o.removeAttribute("aria-selected"); });
+        li.setAttribute("aria-selected", "true");
+        typeValue.value = li.getAttribute("data-value");
+        typeValueLabel.textContent = li.textContent;
+        closeTypeSelect();
+      });
+    });
+
+    document.addEventListener("click", function (e) {
+      if (!typeOptions.hidden && !e.target.closest("#typeSelect")) closeTypeSelect();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !typeOptions.hidden) closeTypeSelect();
+    });
+  }
+
   var orderModal = document.getElementById("orderModal");
 
   function openOrderModal() {
@@ -381,7 +426,7 @@
   });
 
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && !orderModal.hidden) closeOrderModal();
+    if (e.key === "Escape" && !orderModal.hidden && typeOptions.hidden) closeOrderModal();
   });
 
   if (location.hash === "#order") openOrderModal();

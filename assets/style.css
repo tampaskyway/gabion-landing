@@ -239,7 +239,7 @@ nav.primary button:hover { color: var(--ink); border-color: var(--line); }
   border: 1px solid rgba(255,255,255,.14);
   border-radius: var(--radius-lg);
   box-shadow: 0 24px 64px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.08);
-  max-width: 480px; width: 100%; padding: 30px; overflow: hidden;
+  max-width: 480px; width: 100%; padding: 30px;
 }
 .order-modal-panel > * { position: relative; z-index: 1; }
 .order-modal-close {
@@ -298,6 +298,35 @@ table.spectable td:last-child { font-family: "IBM Plex Mono", monospace; text-al
 .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(242,241,236,.35); }
 .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #CB5024; background: rgba(255,255,255,.08); }
 .form-group select option { background: #201E1B; color: #F2F1EC; }
+
+.custom-select { position: relative; }
+.select-trigger {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  font-family: "IBM Plex Sans", sans-serif; font-size: 14.5px; font-weight: 400; letter-spacing: normal;
+  padding: 11px 13px; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.05); color: #F2F1EC;
+  border-radius: var(--radius-sm); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  cursor: pointer; text-align: left;
+}
+.select-trigger:hover { border-color: rgba(255,255,255,.26); }
+.select-trigger[aria-expanded="true"] { border-color: #CB5024; background: rgba(255,255,255,.08); }
+.select-trigger .chevron { color: rgba(242,241,236,.45); font-size: 11px; transition: transform .15s; margin-left: 8px; }
+.select-trigger[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+.select-options {
+  position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 20;
+  list-style: none; margin: 0; padding: 6px;
+  background: linear-gradient(155deg, rgba(40,36,32,.96) 0%, rgba(24,22,19,.98) 100%);
+  backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255,255,255,.14); border-radius: var(--radius-sm);
+  box-shadow: 0 16px 40px rgba(0,0,0,.5);
+  max-height: 260px; overflow-y: auto;
+}
+.select-options[hidden] { display: none; }
+.select-options li {
+  padding: 10px 12px; font-size: 14px; color: rgba(242,241,236,.8); border-radius: 6px; cursor: pointer;
+}
+.select-options li:hover, .select-options li.focused { background: rgba(203,80,36,.16); color: #F2F1EC; }
+.select-options li[aria-selected="true"] { color: #F2A98C; font-weight: 600; }
+.select-options li[aria-selected="true"]::after { content: "✓"; float: right; }
 
 .contact-way { display: flex; gap: 6px; flex-wrap: wrap; }
 .contact-way label {
