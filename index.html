@@ -186,13 +186,12 @@
 <div id="orderModal" class="order-modal-overlay" hidden role="dialog" aria-modal="true" aria-label="Форма заявки">
   <div class="order-modal-panel">
     <button class="btn order-modal-close" data-order-close type="button" aria-label="Закрыть">✕</button>
-    <div class="section-head" style="flex-direction:column;align-items:flex-start;margin-bottom:20px;">
-      <div class="eyebrow">Заявка</div>
-      <h2 style="font-size:22px;margin-top:8px;">Рассчитать стоимость габионов и сеток</h2>
-    </div>
-    <form id="contact-form" class="form-wrap" action="https://formspree.io/f/mdenlzpe" method="POST">
+    <div class="eyebrow">Заявка</div>
+    <h2 style="font-size:22px;margin-top:8px;">Рассчитать стоимость</h2>
+    <p class="modal-subtitle">Ответим в рабочее время и пришлём расчёт по актуальным ценам.</p>
+    <form id="contact-form" class="form-wrap" style="margin-top:20px;" action="https://formspree.io/f/mdenlzpe" method="POST">
       <div class="form-group">
-        <label for="type">Что вас интересует?</label>
+        <label for="type">Что вас интересует</label>
         <select id="type" name="product" required>
           <option value="gabiony">Габионы</option>
           <option value="setka-dvojnogo-krucheniya">Сетка двойного кручения</option>
@@ -203,15 +202,50 @@
         </select>
       </div>
       <div class="form-group">
-        <label for="name">Ваше имя</label>
-        <input type="text" id="name" name="name" placeholder="Имя" autocomplete="name" required>
+        <label for="name">Имя</label>
+        <input type="text" id="name" name="name" placeholder="Как к вам обращаться" autocomplete="name" required>
       </div>
       <div class="form-group">
-        <label for="phone">Номер телефона</label>
+        <label for="phone">Телефон</label>
         <input type="tel" id="phone" name="phone" placeholder="+7 (999) 000-00-00" autocomplete="tel" required>
       </div>
+      <div class="form-group">
+        <label for="email">Email (необязательно)</label>
+        <input type="email" id="email" name="email" placeholder="you@company.ru" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label>Способ связи</label>
+        <div class="contact-way" id="contactWay">
+          <label class="active">
+            <input type="radio" name="contact_way" value="Телефон" checked>
+            <span class="way-icon" style="background:#CB5024"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+            Телефон
+          </label>
+          <label>
+            <input type="radio" name="contact_way" value="WhatsApp">
+            <span class="way-icon" style="background:#25D366"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff" stroke="none"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.35 5.07L2 22l5.06-1.33A9.93 9.93 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.18-1.77 1.24-.45.06-1 .08-1.63-.1-.37-.11-.86-.28-1.48-.55-2.6-1.12-4.3-3.75-4.43-3.93-.13-.18-1.06-1.41-1.06-2.68 0-1.28.67-1.9.9-2.16.23-.26.5-.32.67-.32.17 0 .33 0 .48.01.15.01.36-.06.56.43.22.53.74 1.83.8 1.96.06.13.1.28.02.46-.08.18-.13.29-.25.44-.13.16-.27.35-.38.47-.13.13-.26.28-.11.54.15.26.68 1.12 1.46 1.81 1 .89 1.85 1.17 2.11 1.3.26.13.42.11.57-.07.16-.18.65-.76.83-1.02.18-.26.35-.21.6-.13.24.09 1.55.73 1.81.87.26.13.44.2.5.31.06.11.06.65-.16 1.27z"/></svg></span>
+            WhatsApp
+          </label>
+          <label>
+            <input type="radio" name="contact_way" value="Telegram">
+            <span class="way-icon" style="background:#29A9EB"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></span>
+            Telegram
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="comment">Комментарий</label>
+        <textarea id="comment" name="comment" placeholder="Количество, сроки, особые условия"></textarea>
+      </div>
+      <label class="consent-check">
+        <input type="checkbox" name="consent" required>
+        <span>Согласен с политикой конфиденциальности и обработкой персональных данных</span>
+      </label>
       <input type="hidden" name="_subject" value="Новая заявка с сайта ГабионОпт">
-      <button type="submit" class="btn btn-primary btn-full">Получить смету со скидкой</button>
+      <div class="form-actions">
+        <button type="button" class="btn btn-ghost" data-order-close>Отмена</button>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+      </div>
     </form>
   </div>
 </div>
@@ -309,6 +343,15 @@
     message.querySelector(".form-message-close").addEventListener("click", function () { message.remove(); });
     setTimeout(function () { if (message && message.parentNode) message.remove(); }, 8000);
     message.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  var contactWay = document.getElementById("contactWay");
+  if (contactWay) {
+    contactWay.addEventListener("change", function (e) {
+      if (e.target.name !== "contact_way") return;
+      contactWay.querySelectorAll("label").forEach(function (l) { l.classList.remove("active"); });
+      e.target.closest("label").classList.add("active");
+    });
   }
 
   var orderModal = document.getElementById("orderModal");
