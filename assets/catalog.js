@@ -91,7 +91,7 @@
       );
     });
     var total = filteredProducts().length;
-    bar.innerHTML = chips.join("") + '<span class="count-total num">' + total + " позиций</span>";
+    bar.innerHTML = '<div class="chips-row">' + chips.join("") + '</div><span class="count-total num">' + total + " позиций</span>";
   }
 
   function renderGrid() {

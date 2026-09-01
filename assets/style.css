@@ -165,14 +165,27 @@ nav.primary button:hover { color: var(--ink); border-color: var(--line); }
 .crumbs .cur { color: var(--ink); }
 
 /* ── Фильтр-панель каталога ── */
-.filterbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; padding: 14px 18px; border: 1px solid var(--line); background: var(--surface); margin-bottom: 16px; border-radius: var(--radius); }
+.filterbar { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border: 1px solid var(--line); background: var(--surface); margin-bottom: 16px; border-radius: var(--radius); }
+.filterbar .chips-row { display: flex; gap: 10px; flex-wrap: wrap; flex: 1; min-width: 0; }
 .chip {
   font-family: "IBM Plex Mono", monospace; font-size: 12.5px; padding: 6px 11px;
   border: 1px solid var(--line); color: var(--muted); background: var(--paper); cursor: pointer; text-decoration: none;
-  border-radius: 999px;
+  border-radius: 999px; white-space: nowrap; flex: none;
 }
 .chip.active { border-color: var(--oxide); color: var(--oxide); background: var(--oxide-soft); }
-.filterbar .count-total { margin-left: auto; font-size: 13px; color: var(--muted); }
+.filterbar .count-total { margin-left: auto; font-size: 13px; color: var(--muted); white-space: nowrap; }
+
+@media (max-width: 760px) {
+  .filterbar { flex-direction: column; align-items: stretch; gap: 10px; padding: 12px 0 12px 14px; }
+  .filterbar .chips-row {
+    flex-wrap: nowrap; overflow-x: auto; padding-right: 28px;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(to right, black calc(100% - 30px), transparent 100%);
+    mask-image: linear-gradient(to right, black calc(100% - 30px), transparent 100%);
+  }
+  .filterbar .chips-row::-webkit-scrollbar { display: none; }
+  .filterbar .count-total { margin-left: 0; padding-right: 14px; }
+}
 
 /* ── Список товаров ── */
 .plist { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
