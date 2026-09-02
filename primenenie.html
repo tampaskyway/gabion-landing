@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=56">
+<link rel="stylesheet" href="assets/style.css?v=57">
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
     (function(m,e,t,r,i,k,a){
@@ -335,6 +335,14 @@
       <span>Согласен с <a href="/privacy-policy/" target="_blank" rel="noopener">политикой конфиденциальности</a> и обработкой персональных данных</span>
     </label>
     <input type="hidden" name="_subject" value="Новая заявка с сайта ГабионОпт">
+    <input type="hidden" name="utm_source">
+    <input type="hidden" name="utm_medium">
+    <input type="hidden" name="utm_campaign">
+    <input type="hidden" name="utm_content">
+    <input type="hidden" name="utm_term">
+    <input type="hidden" name="yclid">
+    <input type="hidden" name="client_id">
+    <input type="hidden" name="page_url">
   </div>
     <div class="form-actions">
       <button type="submit" class="btn btn-primary btn-full">Отправить</button>
@@ -357,7 +365,7 @@
   <button type="button" class="btn btn-primary btn-sm" id="cookieAccept">Понятно</button>
 </div>
 
-<script src="assets/nav.js?v=56"></script>
+<script src="assets/nav.js?v=57"></script>
 <script>
 (function () {
   "use strict";
@@ -376,6 +384,7 @@
   }
 
   function initContactForm(form) {
+    if (window.gabionoptFillAttribution) window.gabionoptFillAttribution(form);
     form.addEventListener("submit", async function (event) {
       event.preventDefault();
       var submitButton = form.querySelector('button[type="submit"]');
@@ -389,6 +398,7 @@
           headers: { "Accept": "application/json" }
         });
         if (response.ok) {
+          if (window.gabionoptGoal) window.gabionoptGoal("form_submit");
           showFormMessage(form, "success", "Заявка отправлена!", "Спасибо! Мы получили вашу заявку и свяжемся с вами в ближайшее время.");
           form.reset();
           var opts = form.querySelector(".select-options");

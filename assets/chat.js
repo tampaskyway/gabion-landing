@@ -107,9 +107,14 @@
     if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
   }
 
+  var chatStartFired = false;
   function openPanel() {
     panel.hidden = false;
     isOpen = true;
+    if (!chatStartFired) {
+      chatStartFired = true;
+      if (window.gabionoptGoal) window.gabionoptGoal("chat_start");
+    }
     loadMessages();
     lastSeenId = lastMsgId;
     localStorage.setItem("chatLastSeenId", String(lastSeenId));
