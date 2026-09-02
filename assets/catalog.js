@@ -466,9 +466,14 @@
     "klumby": { src: "images/gabion-klumby.webp", alt: "Габион-клумба с цветами" },
     "matrasno-tyufyachnye": { src: "images/gabion-matrasno-tyufyachnye.webp", alt: "Матрацно-тюфячный габион — пустой каркас" }
   };
+  var SETKA_REF_PHOTOS = {
+    "ot-bpla": { src: "images/antidrone-net.jpg", alt: "Защитная сетка от БПЛА над габионной конструкцией" },
+    "protivokamnepadnye": { src: "images/rockfall-mesh.jpg", alt: "Противокамнепадный барьер из стального троса и сетки на склоне" }
+  };
   function refPhoto(p) {
     if (p.group === "trosy") return ROPE_DIAGRAMS[p.subcat] || null;
     if (p.group === "gabiony") return GABION_REF_PHOTOS[p.subcat] || null;
+    if (p.group === "setka") return SETKA_REF_PHOTOS[p.subcat] || null;
     return null;
   }
   function ropeThumbHtml(p) {
