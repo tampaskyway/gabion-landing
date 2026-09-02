@@ -455,10 +455,27 @@
     "dvoynaya-svivka": { src: "images/rope-dvoynaya.png", alt: "Схема сечения троса двойной свивки 6×19" },
     "shestipryadnaya-svivka": { src: "images/rope-shestipryadnaya.png", alt: "Схема сечения троса шестипрядной свивки 6×7" }
   };
+  var GABION_REF_PHOTOS = {
+    "nasypnogo-tipa": { src: "images/gabion-nasypnogo-tipa.jpg", alt: "Габион насыпного типа — пустой каркас" },
+    "korobchatye-dvojnogo-krucheniya": { src: "images/gabion-korobchatye-dvojnogo-krucheniya.jpg", alt: "Коробчатый габион двойного кручения с камнем" },
+    "cilindricheskie": { src: "images/gabion-cilindricheskie.jpg", alt: "Цилиндрический габион — пустой каркас" },
+    "korobchatye-svarnye": { src: "images/gabion-korobchatye-svarnye.jpg", alt: "Коробчатые сварные габионы" },
+    "s-armirujushchej-panelju": { src: "images/gabion-s-armirujushchej-panelju.jpg", alt: "Габионы с армирующей панелью на объекте" },
+    "shary": { src: "images/gabion-shary.jpg", alt: "Габион-шар" },
+    "kashpo": { src: "images/gabion-kashpo.jpg", alt: "Габион-кашпо с растениями" },
+    "klumby": { src: "images/gabion-klumby.jpg", alt: "Габион-клумба с цветами" }
+  };
+  function refPhoto(p) {
+    if (p.group === "trosy") return ROPE_DIAGRAMS[p.subcat] || null;
+    if (p.group === "gabiony") return GABION_REF_PHOTOS[p.subcat] || null;
+    return null;
+  }
   function ropeThumbHtml(p) {
-    var d = p.group === "trosy" ? ROPE_DIAGRAMS[p.subcat] : null;
+    var d = refPhoto(p);
     if (!d) return '<div class="thumb">фото уточняется</div>';
-    return '<div class="thumb thumb-rope"><img src="' + d.src + '" alt="' + d.alt + '" loading="lazy"></div>';
+    if (p.group === "trosy") return '<div class="thumb thumb-rope"><img src="' + d.src + '" alt="' + d.alt + '" loading="lazy"></div>';
+    return '<div class="thumb thumb-photo"><img src="' + d.src + '" alt="' + d.alt + '" loading="lazy">' +
+      '<div class="photo-badge">Фото может отличаться от реального</div></div>';
   }
 
   function renderCard(p) {
@@ -491,9 +508,16 @@
       ? '<details class="gost-spoiler"><summary>Нормативный документ: ' + gost[2] + '</summary>' +
         '<a class="btn btn-sm" style="margin-top:10px;" href="' + gost[1] + '" target="_blank" rel="noopener">Скачать PDF</a></details>'
       : "";
+    var pdpRef = refPhoto(p);
+    var pdpGalleryHtml = pdpRef
+      ? (p.group === "trosy"
+          ? '<img src="' + pdpRef.src + '" alt="' + pdpRef.alt + '" style="max-width:100%;max-height:100%;object-fit:contain;">'
+          : '<img src="' + pdpRef.src + '" alt="' + pdpRef.alt + '" style="width:100%;height:100%;object-fit:cover;">' +
+            '<div class="photo-badge">Фото может отличаться от реального — типовое изображение категории</div>')
+      : "фото изделия<br>уточняется у менеджера";
     qs("#pdpBody").innerHTML =
       '<div class="pdp">' +
-        '<div class="pdp-gallery">' + (ROPE_DIAGRAMS[p.subcat] && p.group === "trosy" ? '<img src="' + ROPE_DIAGRAMS[p.subcat].src + '" alt="' + ROPE_DIAGRAMS[p.subcat].alt + '" style="max-width:100%;max-height:100%;object-fit:contain;">' : "фото изделия<br>уточняется у менеджера") + "</div>" +
+        '<div class="pdp-gallery">' + pdpGalleryHtml + "</div>" +
         '<div class="pdp-info">' +
           '<div class="sku">Артикул ' + p.sku + " · " + (p.subcat_label || "") + "</div>" +
           "<h2>" + p.name + "</h2>" +
