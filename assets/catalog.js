@@ -563,6 +563,7 @@
 
   function renderCard(p) {
     var card = el("article", "pcard");
+    card.setAttribute("data-open-sku", p.sku);
     var specsEntries = Object.entries(p.specs || {}).slice(0, 3);
     var specsHtml = specsEntries.map(function (kv) {
       return "<li><span>" + kv[0] + "</span><span>" + kv[1] + "</span></li>";
