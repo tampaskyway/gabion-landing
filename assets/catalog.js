@@ -562,7 +562,8 @@
   }
 
   function renderCard(p) {
-    var card = el("article", "pcard");
+    var card = el("a", "pcard");
+    card.href = catalogPath(p.group, p.subcat) + String(p.sku).toLowerCase() + "/";
     card.setAttribute("data-open-sku", p.sku);
     var specsEntries = Object.entries(p.specs || {}).slice(0, 3);
     var specsHtml = specsEntries.map(function (kv) {
@@ -575,7 +576,7 @@
       '<ul class="specs">' + specsHtml + "</ul>" +
       '<div class="foot">' +
         '<div class="price na">цена по расчёту</div>' +
-        '<button class="btn btn-sm" data-open-sku="' + p.sku + '">Подробнее</button>' +
+        '<span class="btn btn-sm" data-open-sku="' + p.sku + '">Подробнее</span>' +
       "</div>";
     return card;
   }
@@ -699,7 +700,10 @@
         e.preventDefault();
         setParams(nav.getAttribute("data-nav"), null);
       } else if (openBtn) {
-        openProduct(openBtn.getAttribute("data-open-sku"));
+        if (!(e.button === 1 || e.metaKey || e.ctrlKey || e.shiftKey)) {
+          e.preventDefault();
+          openProduct(openBtn.getAttribute("data-open-sku"));
+        }
       } else if (closeBtn || e.target.id === "pdpOverlay") {
         closeProduct();
       } else if (filtersToggle) {
