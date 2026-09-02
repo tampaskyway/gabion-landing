@@ -432,7 +432,7 @@ nav.primary a.active::after {
 /* ── Order modal: dark glass, oxide accent (по образцу stock-modal с parts-catalog) ── */
 .order-modal-panel {
   position: relative;
-  background: rgba(20,18,16,.82);
+  background: rgba(52,48,44,.78);
   backdrop-filter: blur(26px) saturate(160%);
   -webkit-backdrop-filter: blur(26px) saturate(160%);
   border: none;
@@ -449,7 +449,12 @@ nav.primary a.active::after {
 .order-modal-close:hover { opacity: .65; }
 .pdp { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; min-width: 0; }
 @media (max-width: 760px) { .pdp { grid-template-columns: 1fr; } .pdp-panel { padding: 24px; } }
-.pdp-gallery { min-width: 0; aspect-ratio: 1; background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; color: var(--faint); font-size: 13px; text-align: center; padding: 16px; position: relative; overflow: hidden; }
+.pdp-gallery {
+  min-width: 0; aspect-ratio: 1; background: var(--surface); border: none; border-radius: var(--radius-lg);
+  box-shadow: 0 20px 50px rgba(10,12,13,.12), 0 2px 8px rgba(10,12,13,.06);
+  display: flex; align-items: center; justify-content: center; color: var(--faint); font-size: 13px; text-align: center;
+  padding: 20px; position: relative; overflow: hidden;
+}
 .photo-badge { position: absolute; left: 8px; bottom: 8px; width: 18px; height: 18px; border-radius: 50%; background: rgba(10,12,13,.6); color: #fff; font-size: 11px; font-weight: 700; font-family: "Golos Text", sans-serif; display: flex; align-items: center; justify-content: center; cursor: help; }
 .photo-badge::after {
   content: attr(data-tip);
@@ -509,9 +514,11 @@ table.spectable td:last-child { font-family: "JetBrains Mono", monospace; text-a
 /* ── Светлая «парящая» карточка формы ── */
 .order-form-card {
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg);
-  padding: 28px; box-shadow: 0 24px 60px rgba(20,24,26,.10), 0 2px 8px rgba(20,24,26,.05);
-  color: var(--ink); max-width: 420px; margin-left: auto;
+  padding: 24px 28px; box-shadow: 0 24px 60px rgba(20,24,26,.10), 0 2px 8px rgba(20,24,26,.05);
+  color: var(--ink); max-width: 480px; margin-left: auto;
 }
+.order-form-card h2 { margin-top: 4px; }
+.order-form-card .modal-subtitle { margin: 4px 0 0; }
 @media (max-width: 860px) { .order-form-card { max-width: none; margin-left: 0; } }
 .order-form-card h2 { font-size: 22px; margin: 8px 0 0; }
 .order-form-card .modal-subtitle { color: var(--muted); }
@@ -552,12 +559,12 @@ table.spectable td:last-child { font-family: "JetBrains Mono", monospace; text-a
 .order-modal-panel h2 { color: #F2F1EC; }
 .order-modal-panel .modal-subtitle { font-size: 13px; color: rgba(242,241,236,.55); margin: 8px 0 0; }
 
-.form-wrap { max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; gap: 8px; }
-.form-fields { display: flex; flex-direction: column; gap: 8px; }
-.form-group { display: flex; flex-direction: column; gap: 3px; }
+.form-wrap { max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; gap: 5px; }
+.form-fields { display: flex; flex-direction: column; gap: 5px; }
+.form-group { display: flex; flex-direction: column; gap: 2px; }
 .form-group label { font-size: 10.5px; font-weight: 700; color: rgba(242,241,236,.5); text-transform: uppercase; letter-spacing: .07em; }
 .form-group input, .form-group select, .form-group textarea {
-  font-family: "Golos Text", sans-serif; font-size: 16px; padding: 8px 11px;
+  font-family: "Golos Text", sans-serif; font-size: 16px; padding: 7px 11px;
   border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.05); color: #F2F1EC;
   border-radius: var(--radius-sm); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
 }
