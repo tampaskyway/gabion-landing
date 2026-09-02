@@ -423,7 +423,7 @@ nav.primary a.active::after {
   background: linear-gradient(120deg, rgba(255,255,255,.55) 0%, transparent 30%, transparent 70%, rgba(184,67,30,.06) 100%);
 }
 .pdp-close {
-  position: absolute; top: 14px; right: 14px; width: 44px; height: 44px; padding: 0;
+  position: absolute; top: 14px; right: 14px; width: 44px; height: 44px; padding: 0; z-index: 5;
   background: none; border: none; color: var(--ink); cursor: pointer;
   display: flex; align-items: center; justify-content: center; font-size: 16px;
 }
@@ -432,20 +432,17 @@ nav.primary a.active::after {
 /* ── Order modal: dark glass, oxide accent (по образцу stock-modal с parts-catalog) ── */
 .order-modal-panel {
   position: relative;
-  background:
-    linear-gradient(155deg, rgba(255,255,255,.08) 0%, rgba(255,255,255,.02) 35%, rgba(255,255,255,0) 60%),
-    radial-gradient(circle at 15% -10%, rgba(203,80,36,.22), transparent 55%),
-    rgba(20,18,16,.68);
+  background: rgba(20,18,16,.82);
   backdrop-filter: blur(26px) saturate(160%);
   -webkit-backdrop-filter: blur(26px) saturate(160%);
-  border: 1px solid rgba(255,255,255,.14);
+  border: none;
   border-radius: var(--radius-lg);
-  box-shadow: 0 24px 64px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.08);
+  box-shadow: 0 24px 64px rgba(0,0,0,.5);
   max-width: 440px; width: 100%; padding: 22px 24px;
 }
 .order-modal-panel > * { position: relative; z-index: 1; }
 .order-modal-close {
-  position: absolute; top: 12px; right: 12px; width: 44px; height: 44px; padding: 0;
+  position: absolute; top: 12px; right: 12px; width: 44px; height: 44px; padding: 0; z-index: 5;
   background: none; border: none; color: #F2F1EC; cursor: pointer;
   display: flex; align-items: center; justify-content: center; font-size: 16px;
 }
@@ -500,7 +497,7 @@ table.spectable td:last-child { font-family: "JetBrains Mono", monospace; text-a
 
 /* ── Заказ: шаги слева + форма справа ── */
 .order-section { padding: 64px 0; }
-.order-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+.order-layout { display: grid; grid-template-columns: 1.3fr .85fr; gap: 56px; align-items: start; }
 @media (max-width: 860px) { .order-layout { grid-template-columns: 1fr; gap: 40px; } }
 .order-steps h2 { font-size: 26px; margin: 10px 0 28px; }
 .steps-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 22px; }
@@ -512,9 +509,10 @@ table.spectable td:last-child { font-family: "JetBrains Mono", monospace; text-a
 /* ── Светлая «парящая» карточка формы ── */
 .order-form-card {
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg);
-  padding: 32px; box-shadow: 0 24px 60px rgba(20,24,26,.10), 0 2px 8px rgba(20,24,26,.05);
-  color: var(--ink);
+  padding: 28px; box-shadow: 0 24px 60px rgba(20,24,26,.10), 0 2px 8px rgba(20,24,26,.05);
+  color: var(--ink); max-width: 420px; margin-left: auto;
 }
+@media (max-width: 860px) { .order-form-card { max-width: none; margin-left: 0; } }
 .order-form-card h2 { font-size: 22px; margin: 8px 0 0; }
 .order-form-card .modal-subtitle { color: var(--muted); }
 .order-form-card .form-group label { color: var(--faint); }
@@ -600,9 +598,9 @@ table.spectable td:last-child { font-family: "JetBrains Mono", monospace; text-a
 .contact-way { display: flex; gap: 4px; flex-wrap: nowrap; }
 .contact-way label {
   display: flex; align-items: center; justify-content: center; gap: 4px; flex: 1 1 0; min-width: 0;
-  padding: 8px 4px; border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius-sm);
-  font-size: 11px; font-weight: 600; margin: 0; cursor: pointer; color: rgba(242,241,236,.55);
-  transition: all .15s; white-space: nowrap;
+  padding: 7px 4px; border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius-sm);
+  font-size: 10px; font-weight: 600; margin: 0; cursor: pointer; color: rgba(242,241,236,.55);
+  transition: all .15s; white-space: nowrap; text-transform: none;
 }
 .contact-way label.active, .contact-way label:hover { border-color: #CB5024; color: #F2A98C; background: rgba(203,80,36,.1); }
 .contact-way label.way-email.active, .contact-way label.way-email:hover { border-color: #E8833A; color: #F5B87E; background: rgba(232,131,58,.1); }
