@@ -464,20 +464,22 @@
     "shestipryadnaya-svivka": { src: "images/rope-shestipryadnaya.png", alt: "Схема сечения троса шестипрядной свивки 6×7" }
   };
   var GABION_REF_PHOTOS = {
-    "nasypnogo-tipa": { src: "images/gabion-nasypnogo-tipa.webp?v=2", alt: "Габион насыпного типа — пустой каркас" },
-    "korobchatye-dvojnogo-krucheniya": { src: "images/gabion-korobchatye-dvojnogo-krucheniya.webp?v=2", alt: "Коробчатый габион двойного кручения с камнем" },
-    "cilindricheskie": { src: "images/gabion-cilindricheskie.webp?v=2", alt: "Цилиндрический габион — пустой каркас" },
-    "korobchatye-svarnye": { src: "images/gabion-korobchatye-svarnye.webp?v=2", alt: "Коробчатые сварные габионы" },
-    "s-armirujushchej-panelju": { src: "images/gabion-s-armirujushchej-panelju.webp?v=2", alt: "Габионы с армирующей панелью на объекте" },
-    "shary": { src: "images/gabion-shary.webp?v=2", alt: "Габион-шар" },
-    "kashpo": { src: "images/gabion-kashpo.webp?v=2", alt: "Габион-кашпо с растениями" },
-    "klumby": { src: "images/gabion-klumby.webp?v=2", alt: "Габион-клумба с цветами" },
-    "matrasno-tyufyachnye": { src: "images/gabion-matrasno-tyufyachnye.webp?v=2", alt: "Матрацно-тюфячный габион — пустой каркас" }
+    "nasypnogo-tipa": { src: "images/gabion-nasypnogo-tipa.webp?v=3", alt: "Габион насыпного типа — пустой каркас" },
+    "korobchatye-dvojnogo-krucheniya": { src: "images/gabion-korobchatye-dvojnogo-krucheniya.webp?v=3", alt: "Коробчатый габион двойного кручения с камнем" },
+    "cilindricheskie": { src: "images/gabion-cilindricheskie.webp?v=3", alt: "Цилиндрический габион — пустой каркас" },
+    "korobchatye-svarnye": { src: "images/gabion-korobchatye-svarnye.webp?v=3", alt: "Коробчатые сварные габионы" },
+    "s-armirujushchej-panelju": { src: "images/gabion-s-armirujushchej-panelju.webp?v=3", alt: "Габионы с армирующей панелью на объекте" },
+    "shary": { src: "images/gabion-shary.webp?v=3", alt: "Габион-шар" },
+    "kashpo": { src: "images/gabion-kashpo.webp?v=3", alt: "Габион-кашпо с растениями" },
+    "klumby": { src: "images/gabion-klumby.webp?v=3", alt: "Габион-клумба с цветами" },
+    "matrasno-tyufyachnye": { src: "images/gabion-matrasno-tyufyachnye.webp?v=3", alt: "Матрацно-тюфячный габион — пустой каркас" }
   };
   var SETKA_REF_PHOTOS = {
-    "ot-bpla": { src: "images/setka-ot-bpla-wm.webp?v=2", alt: "Защитная сетка от БПЛА над габионной конструкцией" },
-    "protivokamnepadnye": { src: "images/setka-protivokamnepadnye-wm.webp?v=2", alt: "Противокамнепадный барьер из стального троса и сетки на склоне" },
-    "dvojnogo-krucheniya": { src: "images/setka-dvojnogo-krucheniya-wm.webp?v=2", alt: "Сетка двойного кручения, крупный план плетения" }
+    "ot-bpla": { src: "images/setka-ot-bpla-wm.webp?v=3", alt: "Защитная сетка от БПЛА над габионной конструкцией" },
+    "protivokamnepadnye": { src: "images/setka-protivokamnepadnye-wm.webp?v=3", alt: "Противокамнепадный барьер из стального троса и сетки на склоне" },
+    "dvojnogo-krucheniya": { src: "images/setka-dvojnogo-krucheniya-wm.webp?v=4", alt: "Рулоны сетки двойного кручения" },
+    "setka-mane": { src: "images/setka-setka-mane-wm.webp?v=4", alt: "Рулоны сетки Манье" },
+    "svarnaya-v-kartah": { src: "images/setka-svarnaya-v-kartah-wm.webp?v=4", alt: "Сварная сетка в картах, стопка" }
   };
   function refPhoto(p) {
     if (p.group === "trosy") return ROPE_DIAGRAMS[p.subcat] || null;
