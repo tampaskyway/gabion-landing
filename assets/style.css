@@ -288,6 +288,7 @@ nav.primary a.active::after {
 .crumbs a:hover { color: var(--ink); }
 .crumbs .cur { color: var(--ink); }
 .catalog-h1 { font-size: 26px; margin: 0 0 20px; }
+.catalog-intro { color: var(--muted); font-size: 14.5px; line-height: 1.6; max-width: 90ch; margin: -8px 0 20px; }
 
 /* ── Каталог: тулбар + сайдбар-фильтр ── */
 .catalog-toolbar { display: none; align-items: center; justify-content: space-between; margin-bottom: 16px; }

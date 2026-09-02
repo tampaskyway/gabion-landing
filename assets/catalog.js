@@ -38,16 +38,23 @@
     var h1 = qs("#catalogH1");
     var canonical = qs('link[rel="canonical"]');
     var descTag = qs('meta[name="description"]');
+    var introEl = qs("#catalogIntro");
     var seo = state.group && GROUP_SEO[state.group];
     var subLabel = null;
+    var sc = null;
     if (state.group && state.subcat) {
-      var sc = state.data.subcats.find(function (s) { return s.group === state.group && s.slug === state.subcat; });
+      sc = state.data.subcats.find(function (s) { return s.group === state.group && s.slug === state.subcat; });
       subLabel = sc ? sc.name : null;
     }
 
     if (h1) h1.textContent = seo ? (subLabel ? seo.h1.split(" — ")[0] + " — " + subLabel : seo.h1) : "Каталог габионов, сетки и тросов";
     document.title = seo ? (subLabel ? subLabel + " — " + GROUP_LABELS[state.group] + " | ГабионОпт" : seo.title) : DEFAULT_TITLE;
-    if (descTag) descTag.setAttribute("content", seo ? seo.description : DEFAULT_DESC);
+    if (descTag) descTag.setAttribute("content", (sc && sc.seo_intro) ? sc.seo_intro.slice(0, 300) : (seo ? seo.description : DEFAULT_DESC));
+    if (introEl) {
+      var introText = (sc && sc.seo_intro) || (seo && seo.description) || "";
+      if (introText) { introEl.textContent = introText; introEl.hidden = false; }
+      else { introEl.hidden = true; introEl.textContent = ""; }
+    }
     if (canonical) {
       canonical.setAttribute("href", state.group ? "https://gabionopt.ru/catalog.html?group=" + state.group : "https://gabionopt.ru/catalog.html");
     }
