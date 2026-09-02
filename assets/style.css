@@ -630,6 +630,20 @@ table.spectable td:last-child { font-family: "JetBrains Mono", monospace; text-a
 .production-gallery img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--line); }
 .adv-item p { font-size: 13px; color: var(--muted); margin: 0; }
 
+.steps-track { position: relative; }
+.steps-track::before { content: ""; position: absolute; left: 17px; top: 17px; bottom: 17px; width: 2px; background: var(--line-strong); z-index: 0; }
+.step-item { position: relative; z-index: 1; display: flex; gap: 16px; padding-bottom: 26px; }
+.step-item:last-child { padding-bottom: 0; }
+.step-num {
+  flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%;
+  background: var(--oxide); color: #fff; font-family: "JetBrains Mono", monospace;
+  font-weight: 700; font-size: 14.5px; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 0 4px var(--paper);
+}
+.step-body { padding-top: 5px; }
+.step-body h4 { font-size: 14.5px; font-family: "Golos Text", sans-serif; font-weight: 600; margin-bottom: 6px; }
+.step-body p { font-size: 13px; color: var(--muted); margin: 0; }
+
 /* ── Подвал (визуально отделён — тёмный фон) ── */
 footer.site { padding: 44px 0 22px; margin-top: 40px; background: var(--ink); color: rgba(238,240,240,.5); }
 .sitemap-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; margin-bottom: 30px; }
