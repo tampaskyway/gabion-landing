@@ -109,6 +109,12 @@
       "slug": "shestipryadnaya-svivka",
       "name": "Шестипрядной свивки",
       "count": 6
+    },
+    {
+      "group": "setka",
+      "slug": "setka-mane",
+      "name": "Сетка Манье",
+      "count": 8
     }
   ],
   "products": [
