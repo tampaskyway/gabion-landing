@@ -14,6 +14,8 @@
   var input = document.getElementById("chatInput");
   var sendBtn = document.getElementById("chatSendBtn");
   var closeBtn = document.getElementById("chatPanelClose");
+  var pinBtn = document.getElementById("chatPinBtn");
+  var resizeHandle = document.getElementById("chatResizeHandle");
   if (!launcher || !panel) return;
 
   var token = localStorage.getItem("chatToken") || "";
@@ -22,6 +24,8 @@
   var renderedIds = {};
   var pollTimer = null;
   var isOpen = false;
+  var pinned = localStorage.getItem("chatPinned") === "1";
+  if (pinBtn) pinBtn.classList.toggle("pinned", pinned);
 
   function qs(sel, ctx) { return (ctx || document).querySelector(sel); }
 
@@ -103,6 +107,63 @@
     if (panel.hidden) openPanel(); else closePanel();
   });
   if (closeBtn) closeBtn.addEventListener("click", closePanel);
+
+  if (pinBtn) {
+    pinBtn.addEventListener("click", function () {
+      pinned = !pinned;
+      localStorage.setItem("chatPinned", pinned ? "1" : "0");
+      pinBtn.classList.toggle("pinned", pinned);
+    });
+  }
+
+  document.addEventListener("mousedown", function (e) {
+    if (!isOpen || pinned) return;
+    if (panel.contains(e.target) || launcher.contains(e.target)) return;
+    closePanel();
+  });
+
+  // ── Растягивание окна чата (тянем за левый верхний угол — панель
+  // "приколота" к правому нижнему, так что рост идёт в сторону экрана) ──
+  (function () {
+    if (!resizeHandle) return;
+    var saved = null;
+    try { saved = JSON.parse(localStorage.getItem("chatSize") || "null"); } catch (e) {}
+    if (saved && saved.w && saved.h) {
+      panel.style.width = saved.w + "px";
+      panel.style.height = saved.h + "px";
+    }
+    var startX, startY, startW, startH;
+    function onMove(e) {
+      var p = e.touches ? e.touches[0] : e;
+      var dx = startX - p.clientX;
+      var dy = startY - p.clientY;
+      var maxW = Math.min(window.innerWidth - 32, 720);
+      var maxH = window.innerHeight - 40;
+      var w = Math.max(300, Math.min(maxW, startW + dx));
+      var h = Math.max(340, Math.min(maxH, startH + dy));
+      panel.style.width = w + "px";
+      panel.style.height = h + "px";
+    }
+    function onUp() {
+      document.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseup", onUp);
+      document.removeEventListener("touchmove", onMove);
+      document.removeEventListener("touchend", onUp);
+      localStorage.setItem("chatSize", JSON.stringify({ w: panel.offsetWidth, h: panel.offsetHeight }));
+    }
+    function onDown(e) {
+      e.preventDefault();
+      var p = e.touches ? e.touches[0] : e;
+      startX = p.clientX; startY = p.clientY;
+      startW = panel.offsetWidth; startH = panel.offsetHeight;
+      document.addEventListener("mousemove", onMove);
+      document.addEventListener("mouseup", onUp);
+      document.addEventListener("touchmove", onMove, { passive: false });
+      document.addEventListener("touchend", onUp);
+    }
+    resizeHandle.addEventListener("mousedown", onDown);
+    resizeHandle.addEventListener("touchstart", onDown, { passive: false });
+  })();
 
   function appendOptimistic(text) {
     var tempId = "tmp-" + Date.now();
