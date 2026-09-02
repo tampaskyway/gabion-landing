@@ -182,9 +182,21 @@ nav.primary a.active::after {
   }
   nav.primary.open { display: flex; }
   nav.primary a, nav.primary button { padding: 13px 28px; width: 100%; justify-content: flex-start; }
-  .menu-toggle { display: inline-flex; }
-  .topbar-actions { margin-left: auto; padding-left: 0; border-left: none; }
+  .menu-toggle { display: inline-flex; order: 3; }
+  .topbar-actions { margin-left: 0; padding-left: 0; border-left: none; }
+  header.site:has(.menu-toggle) .topbar-actions { order: 1; }
+  header.site:has(.menu-toggle) .brand { order: 2; margin: 0 auto; }
+  header.site:has(.menu-toggle) .contact-cluster { display: none; }
+  .nav-mobile-contacts {
+    display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
+    margin-top: 6px; padding: 14px 28px 4px; border-top: 1px solid var(--line);
+  }
+  .nmc-phone { font-family: "JetBrains Mono", monospace; font-size: 16px; font-weight: 600; color: var(--ink); text-decoration: none; }
+  .nmc-email { font-size: 13.5px; font-weight: 600; color: var(--ink); text-decoration: none; }
+  .nmc-loc { font-size: 12px; color: var(--faint); }
+  .nmc-chat { display: flex; gap: 8px; margin-top: 4px; }
 }
+@media (min-width: 981px) { .nav-mobile-contacts { display: none; } }
 
 @media (max-width: 560px) {
   .topbar { gap: 6px; }
