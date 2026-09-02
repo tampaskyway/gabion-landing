@@ -84,7 +84,7 @@
     ldScript.textContent = JSON.stringify(breadcrumbLd);
   }
 
-  var state = { data: null, group: null, subcat: null, coating: [], diameter: [], size: [] };
+  var state = { data: null, group: null, subcat: null, coating: [], diameter: [], size: [], length: [] };
 
   var COATING_LABELS = { zinc: "Оцинкованное", pvc: "С ПВХ-покрытием", steel: "Нержавеющее" };
   function coatingBucket(specs) {
@@ -106,6 +106,27 @@
     var n = parseFloat(m[1]);
     if (isNaN(n)) return null;
     return Math.round(n * 2) / 2;
+  }
+
+  var SIZE_FIELDS = [
+    "Размер изделия (ДхШхВ), м",
+    "Габаритные размеры в развернутом виде (ДхШхВ), м",
+    "Габаритные размеры после заполнения грунтом (ДхШхВ), м",
+    "Габаритные размеры в транспортном положении (ДхШхВ), м"
+  ];
+  function gabionLengthBucket(specs) {
+    if (!specs) return null;
+    for (var i = 0; i < SIZE_FIELDS.length; i++) {
+      var v = specs[SIZE_FIELDS[i]];
+      if (!v) continue;
+      var s = String(v).replace(",", ".");
+      var m = s.match(/(\d+(\.\d+)?)/);
+      if (!m) continue;
+      var n = parseFloat(m[1]);
+      if (isNaN(n)) continue;
+      return n;
+    }
+    return null;
   }
 
   var TROSY_SIZES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 25, 28, 46, 48, 55, 65, 75];
@@ -141,6 +162,7 @@
     state.coating = [];
     state.diameter = [];
     state.size = [];
+    state.length = [];
   }
 
   function scrollToGridTop() {
@@ -161,6 +183,7 @@
     state.coating = [];
     state.diameter = [];
     state.size = [];
+    state.length = [];
     render();
     scrollToGridTop();
   }
@@ -172,6 +195,7 @@
     if (opts.coating && opts.coating.length && opts.coating.indexOf(coatingBucket(p.specs)) === -1) return false;
     if (opts.diameter && opts.diameter.length && opts.diameter.indexOf(diameterBucket(p.specs)) === -1) return false;
     if (opts.size && opts.size.length && !opts.size.some(function (sz) { return matchesTrosySize(p.specs, sz); })) return false;
+    if (opts.length && opts.length.length && opts.length.indexOf(gabionLengthBucket(p.specs)) === -1) return false;
     return true;
   }
 
@@ -186,13 +210,13 @@
   function groupSubcats(group) {
     var subs = state.data.subcats.filter(function (s) { return s.group === group; });
     return subs.map(function (s) {
-      return { group: s.group, slug: s.slug, name: s.name, count: countProducts({ group: group, subcat: s.slug, coating: state.coating, diameter: state.diameter, size: state.size }) };
+      return { group: s.group, slug: s.slug, name: s.name, count: countProducts({ group: group, subcat: s.slug, coating: state.coating, diameter: state.diameter, size: state.size, length: state.length }) };
     });
   }
 
   function filteredProducts() {
     return state.data.products.filter(function (p) {
-      return matchesFacets(p, { group: state.group, subcat: state.subcat, coating: state.coating, diameter: state.diameter, size: state.size });
+      return matchesFacets(p, { group: state.group, subcat: state.subcat, coating: state.coating, diameter: state.diameter, size: state.size, length: state.length });
     });
   }
 
@@ -231,6 +255,20 @@
     });
     return TROSY_SIZES.filter(function (sz) { return buckets[sz]; }).map(function (sz) {
       return { slug: sz, name: sz + " мм", count: buckets[sz] };
+    });
+  }
+
+  function groupGabionLengths(group) {
+    if (group !== "gabiony") return [];
+    var buckets = {};
+    state.data.products.forEach(function (p) {
+      if (!matchesFacets(p, { group: group, subcat: state.subcat, coating: state.coating, diameter: state.diameter })) return;
+      var b = gabionLengthBucket(p.specs);
+      if (b === null) return;
+      buckets[b] = (buckets[b] || 0) + 1;
+    });
+    return Object.keys(buckets).map(Number).sort(function (a, b) { return a - b; }).map(function (b) {
+      return { slug: b, name: b + " м", count: buckets[b] };
     });
   }
 
@@ -281,7 +319,7 @@
       '<div class="filters-group">' +
         '<div class="filters-group-title">Раздел</div>' +
         '<ul class="filters-list">' +
-          '<li><a class="filters-opt' + (!state.subcat ? " active" : "") + '" href="?group=' + state.group + '" data-nav-all="' + state.group + '">Все<span class="n">' + countProducts({ group: state.group, coating: state.coating, diameter: state.diameter, size: state.size }) + '</span></a></li>' +
+          '<li><a class="filters-opt' + (!state.subcat ? " active" : "") + '" href="?group=' + state.group + '" data-nav-all="' + state.group + '">Все<span class="n">' + countProducts({ group: state.group, coating: state.coating, diameter: state.diameter, size: state.size, length: state.length }) + '</span></a></li>' +
           subs.map(function (s) {
             return '<li><a class="filters-opt' + (state.subcat === s.slug ? " active" : "") + '" href="?group=' + state.group + "&subcat=" + s.slug + '" data-nav-sub="' + s.group + "|" + s.slug + '">' +
               s.name + '<span class="n">' + s.count + "</span></a></li>";
@@ -343,12 +381,30 @@
         "</div>";
     }
 
-    body.innerHTML = subsHtml + coatingHtml + diameterHtml + trosySizeHtml;
+    var gabionLengths = groupGabionLengths(state.group);
+    var lengthHtml = "";
+    if (gabionLengths.length > 1) {
+      lengthHtml =
+        '<div class="filters-group">' +
+          '<div class="filters-group-title">Длина изделия, м</div>' +
+          '<ul class="filters-list">' +
+            gabionLengths.map(function (d) {
+              var checked = state.length.indexOf(d.slug) !== -1;
+              return '<li><label class="filters-check">' +
+                '<input type="checkbox" data-length="' + d.slug + '"' + (checked ? " checked" : "") + '>' +
+                d.name + '<span class="n">' + d.count + "</span>" +
+              "</label></li>";
+            }).join("") +
+          "</ul>" +
+        "</div>";
+    }
+
+    body.innerHTML = subsHtml + coatingHtml + diameterHtml + trosySizeHtml + lengthHtml;
 
     var total = filteredProducts().length;
     if (resultCount) resultCount.textContent = total + " позиций";
     if (filtersCount) {
-      var activeCount = (state.subcat ? 1 : 0) + state.coating.length + state.diameter.length + state.size.length;
+      var activeCount = (state.subcat ? 1 : 0) + state.coating.length + state.diameter.length + state.size.length + state.length.length;
       filtersCount.textContent = activeCount || "";
       filtersCount.hidden = !activeCount;
     }
@@ -665,6 +721,14 @@
         var szidx = state.size.indexOf(szval);
         if (e.target.checked && szidx === -1) state.size.push(szval);
         if (!e.target.checked && szidx !== -1) state.size.splice(szidx, 1);
+        renderFilterbar();
+        renderGrid();
+        scrollToGridTop();
+      } else if (e.target.matches("[data-length]")) {
+        var lval = parseFloat(e.target.getAttribute("data-length"));
+        var lidx = state.length.indexOf(lval);
+        if (e.target.checked && lidx === -1) state.length.push(lval);
+        if (!e.target.checked && lidx !== -1) state.length.splice(lidx, 1);
         renderFilterbar();
         renderGrid();
         scrollToGridTop();
