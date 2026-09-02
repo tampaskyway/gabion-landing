@@ -143,6 +143,13 @@
     state.size = [];
   }
 
+  function scrollToGridTop() {
+    var target = qs("#catalogToolbar") || qs("#plist");
+    if (!target) return;
+    var top = target.getBoundingClientRect().top + window.pageYOffset - 90;
+    if (window.pageYOffset > top) window.scrollTo({ top: top, behavior: "smooth" });
+  }
+
   function setParams(group, subcat) {
     var params = new URLSearchParams();
     if (group) params.set("group", group);
@@ -155,6 +162,7 @@
     state.diameter = [];
     state.size = [];
     render();
+    scrollToGridTop();
   }
 
   function matchesFacets(p, opts) {
@@ -456,20 +464,20 @@
     "shestipryadnaya-svivka": { src: "images/rope-shestipryadnaya.png", alt: "Схема сечения троса шестипрядной свивки 6×7" }
   };
   var GABION_REF_PHOTOS = {
-    "nasypnogo-tipa": { src: "images/gabion-nasypnogo-tipa.webp", alt: "Габион насыпного типа — пустой каркас" },
-    "korobchatye-dvojnogo-krucheniya": { src: "images/gabion-korobchatye-dvojnogo-krucheniya.webp", alt: "Коробчатый габион двойного кручения с камнем" },
-    "cilindricheskie": { src: "images/gabion-cilindricheskie.webp", alt: "Цилиндрический габион — пустой каркас" },
-    "korobchatye-svarnye": { src: "images/gabion-korobchatye-svarnye.webp", alt: "Коробчатые сварные габионы" },
-    "s-armirujushchej-panelju": { src: "images/gabion-s-armirujushchej-panelju.webp", alt: "Габионы с армирующей панелью на объекте" },
-    "shary": { src: "images/gabion-shary.webp", alt: "Габион-шар" },
-    "kashpo": { src: "images/gabion-kashpo.webp", alt: "Габион-кашпо с растениями" },
-    "klumby": { src: "images/gabion-klumby.webp", alt: "Габион-клумба с цветами" },
-    "matrasno-tyufyachnye": { src: "images/gabion-matrasno-tyufyachnye.webp", alt: "Матрацно-тюфячный габион — пустой каркас" }
+    "nasypnogo-tipa": { src: "images/gabion-nasypnogo-tipa.webp?v=2", alt: "Габион насыпного типа — пустой каркас" },
+    "korobchatye-dvojnogo-krucheniya": { src: "images/gabion-korobchatye-dvojnogo-krucheniya.webp?v=2", alt: "Коробчатый габион двойного кручения с камнем" },
+    "cilindricheskie": { src: "images/gabion-cilindricheskie.webp?v=2", alt: "Цилиндрический габион — пустой каркас" },
+    "korobchatye-svarnye": { src: "images/gabion-korobchatye-svarnye.webp?v=2", alt: "Коробчатые сварные габионы" },
+    "s-armirujushchej-panelju": { src: "images/gabion-s-armirujushchej-panelju.webp?v=2", alt: "Габионы с армирующей панелью на объекте" },
+    "shary": { src: "images/gabion-shary.webp?v=2", alt: "Габион-шар" },
+    "kashpo": { src: "images/gabion-kashpo.webp?v=2", alt: "Габион-кашпо с растениями" },
+    "klumby": { src: "images/gabion-klumby.webp?v=2", alt: "Габион-клумба с цветами" },
+    "matrasno-tyufyachnye": { src: "images/gabion-matrasno-tyufyachnye.webp?v=2", alt: "Матрацно-тюфячный габион — пустой каркас" }
   };
   var SETKA_REF_PHOTOS = {
-    "ot-bpla": { src: "images/setka-ot-bpla-wm.webp", alt: "Защитная сетка от БПЛА над габионной конструкцией" },
-    "protivokamnepadnye": { src: "images/setka-protivokamnepadnye-wm.webp", alt: "Противокамнепадный барьер из стального троса и сетки на склоне" },
-    "dvojnogo-krucheniya": { src: "images/setka-dvojnogo-krucheniya-wm.webp", alt: "Сетка двойного кручения, крупный план плетения" }
+    "ot-bpla": { src: "images/setka-ot-bpla-wm.webp?v=2", alt: "Защитная сетка от БПЛА над габионной конструкцией" },
+    "protivokamnepadnye": { src: "images/setka-protivokamnepadnye-wm.webp?v=2", alt: "Противокамнепадный барьер из стального троса и сетки на склоне" },
+    "dvojnogo-krucheniya": { src: "images/setka-dvojnogo-krucheniya-wm.webp?v=2", alt: "Сетка двойного кручения, крупный план плетения" }
   };
   function refPhoto(p) {
     if (p.group === "trosy") return ROPE_DIAGRAMS[p.subcat] || null;
@@ -641,6 +649,7 @@
         if (!e.target.checked && idx !== -1) state.coating.splice(idx, 1);
         renderFilterbar();
         renderGrid();
+        scrollToGridTop();
       } else if (e.target.matches("[data-diameter]")) {
         var dval = parseFloat(e.target.getAttribute("data-diameter"));
         var didx = state.diameter.indexOf(dval);
@@ -648,6 +657,7 @@
         if (!e.target.checked && didx !== -1) state.diameter.splice(didx, 1);
         renderFilterbar();
         renderGrid();
+        scrollToGridTop();
       } else if (e.target.matches("[data-size]")) {
         var szval = parseFloat(e.target.getAttribute("data-size"));
         var szidx = state.size.indexOf(szval);
@@ -655,6 +665,7 @@
         if (!e.target.checked && szidx !== -1) state.size.splice(szidx, 1);
         renderFilterbar();
         renderGrid();
+        scrollToGridTop();
       }
     });
 
