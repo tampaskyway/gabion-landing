@@ -394,6 +394,27 @@
     });
   }
 
+  var GOST_PDF_MAP = [
+    ["52132-2003", "documents/GOST-R-52132-2003.pdf", "ГОСТ Р 52132-2003 — Изделия из сетки для габионных конструкций"],
+    ["58120-2018", "documents/GOST-R-58120-2018.pdf", "ГОСТ Р 58120-2018 — Габионная сварная сетка"],
+    ["13603-89", "documents/GOST-13603-89.pdf", "ГОСТ 13603-89 — Сетки проволочные крученые с шестиугольными ячейками"],
+    ["51285-99", "documents/GOST-R-51285-99.pdf", "ГОСТ Р 51285-99 — Сетки проволочные крученые с шестиугольными ячейками для габионов"],
+    ["7669-80", "documents/GOST-7669-80.pdf", "ГОСТ 7669-80 — Канат двойной свивки 6х36"]
+  ];
+  function findGostPdf(p) {
+    var text = (p.specs && p.specs["Соответствие стандарту"]) || "";
+    if (p.group === "gabiony") text += " 52132-2003";
+    if (p.group === "setka") {
+      if (p.subcat === "svarnaya-v-kartah") text += " 58120-2018";
+      else if (p.subcat === "setka-mane") text += " 13603-89";
+      else text += " 51285-99";
+    }
+    for (var i = 0; i < GOST_PDF_MAP.length; i++) {
+      if (text.indexOf(GOST_PDF_MAP[i][0]) !== -1) return GOST_PDF_MAP[i];
+    }
+    return null;
+  }
+
   var ROPE_DIAGRAMS = {
     "odinarnaya-svivka": { src: "images/rope-odinarnaya.png", alt: "Схема сечения троса одинарной свивки 1×19" },
     "dvoynaya-svivka": { src: "images/rope-dvoynaya.png", alt: "Схема сечения троса двойной свивки 6×19" },
@@ -430,6 +451,11 @@
     var specRows = Object.entries(p.specs || {}).map(function (kv) {
       return "<tr><td>" + kv[0] + "</td><td>" + kv[1] + "</td></tr>";
     }).join("");
+    var gost = findGostPdf(p);
+    var gostHtml = gost
+      ? '<details class="gost-spoiler"><summary>Нормативный документ: ' + gost[2] + '</summary>' +
+        '<a class="btn btn-sm" style="margin-top:10px;" href="' + gost[1] + '" target="_blank" rel="noopener">Скачать PDF</a></details>'
+      : "";
     qs("#pdpBody").innerHTML =
       '<div class="pdp">' +
         '<div class="pdp-gallery">' + (ROPE_DIAGRAMS[p.subcat] && p.group === "trosy" ? '<img src="' + ROPE_DIAGRAMS[p.subcat].src + '" alt="' + ROPE_DIAGRAMS[p.subcat].alt + '" style="max-width:100%;max-height:100%;object-fit:contain;">' : "фото изделия<br>уточняется у менеджера") + "</div>" +
@@ -439,6 +465,7 @@
           (p.specs && p.specs["Соответствие стандарту"] ? '<div class="gost">✓ Соответствует ' + p.specs["Соответствие стандарту"] + "</div>" : "") +
           '<p class="desc">' + p.description + "</p>" +
           (specRows ? '<table class="spectable">' + specRows + "</table>" : "") +
+          gostHtml +
           '<div class="buybox">' +
             '<div class="price-row"><div><div class="price">По расчёту</div><div class="price-note">актуальная цена зависит от партии и курса металла — пришлём точный расчёт быстро</div></div></div>' +
             '<button type="button" class="btn btn-primary btn-full" data-open-order data-sku="' + p.sku + '" data-name="' + p.name.replace(/"/g, "&quot;") + '" data-group="' + p.group + '">Заказать расчёт</button>' +
