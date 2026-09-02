@@ -467,9 +467,9 @@
     "matrasno-tyufyachnye": { src: "images/gabion-matrasno-tyufyachnye.webp", alt: "Матрацно-тюфячный габион — пустой каркас" }
   };
   var SETKA_REF_PHOTOS = {
-    "ot-bpla": { src: "images/antidrone-net.jpg", alt: "Защитная сетка от БПЛА над габионной конструкцией" },
-    "protivokamnepadnye": { src: "images/rockfall-mesh.jpg", alt: "Противокамнепадный барьер из стального троса и сетки на склоне" },
-    "dvojnogo-krucheniya": { src: "images/mesh-detail.jpg", alt: "Сетка двойного кручения, крупный план плетения" }
+    "ot-bpla": { src: "images/setka-ot-bpla-wm.webp", alt: "Защитная сетка от БПЛА над габионной конструкцией" },
+    "protivokamnepadnye": { src: "images/setka-protivokamnepadnye-wm.webp", alt: "Противокамнепадный барьер из стального троса и сетки на склоне" },
+    "dvojnogo-krucheniya": { src: "images/setka-dvojnogo-krucheniya-wm.webp", alt: "Сетка двойного кручения, крупный план плетения" }
   };
   function refPhoto(p) {
     if (p.group === "trosy") return ROPE_DIAGRAMS[p.subcat] || null;
@@ -528,7 +528,9 @@
         '<div class="pdp-info">' +
           '<div class="sku">Артикул ' + p.sku + " · " + (p.subcat_label || "") + "</div>" +
           "<h2>" + p.name + "</h2>" +
-          (p.specs && p.specs["Соответствие стандарту"] ? '<div class="gost">Соответствует ' + p.specs["Соответствие стандарту"] + "</div>" : "") +
+          (p.specs && p.specs["Соответствие стандарту"]
+            ? '<div class="gost">Соответствует ' + p.specs["Соответствие стандарту"] + "</div>"
+            : (gost ? '<div class="gost">Соответствует ГОСТ ' + gost[0] + "</div>" : "")) +
           '<p class="desc">' + p.description + "</p>" +
           (specRows ? '<table class="spectable">' + specRows + "</table>" : "") +
           gostHtml +
