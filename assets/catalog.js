@@ -497,7 +497,7 @@
         '<div class="pdp-info">' +
           '<div class="sku">Артикул ' + p.sku + " · " + (p.subcat_label || "") + "</div>" +
           "<h2>" + p.name + "</h2>" +
-          (p.specs && p.specs["Соответствие стандарту"] ? '<div class="gost">✓ Соответствует ' + p.specs["Соответствие стандарту"] + "</div>" : "") +
+          (p.specs && p.specs["Соответствие стандарту"] ? '<div class="gost">Соответствует ' + p.specs["Соответствие стандарту"] + "</div>" : "") +
           '<p class="desc">' + p.description + "</p>" +
           (specRows ? '<table class="spectable">' + specRows + "</table>" : "") +
           gostHtml +
