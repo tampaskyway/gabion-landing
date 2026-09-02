@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Заявки — ГабионОпт</title>
+<style>
+  :root {
+    --ink: #1c1a17; --muted: #6b6560; --faint: #a39c94; --line: #e4dfd8; --line-strong: #c9c2b8;
+    --surface: #fff; --surface-2: #f5f2ee; --accent: #b5621a;
+    --new: #b5621a; --in_progress: #2563a8; --done: #4a7c3f;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Golos Text", -apple-system, sans-serif; background: var(--surface-2); color: var(--ink); }
+  header { background: var(--ink); color: #fff; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
+  header h1 { font-size: 16px; margin: 0; font-weight: 600; }
+  .tabs { display: flex; gap: 6px; padding: 14px 20px 0; }
+  .tab { padding: 7px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font-size: 13px; cursor: pointer; color: var(--muted); }
+  .tab.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+  main { padding: 16px 20px 40px; max-width: 900px; margin: 0 auto; }
+  table { width: 100%; border-collapse: collapse; background: var(--surface); border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+  th, td { padding: 10px 12px; text-align: left; font-size: 13px; border-bottom: 1px solid var(--line); }
+  th { color: var(--muted); font-weight: 600; font-size: 11.5px; text-transform: uppercase; letter-spacing: .03em; }
+  tr.lead-row { cursor: pointer; }
+  tr.lead-row:hover { background: var(--surface-2); }
+  .badge { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 600; color: #fff; }
+  .badge.new { background: var(--new); }
+  .badge.in_progress { background: var(--in_progress); }
+  .badge.done { background: var(--done); }
+  .empty { padding: 40px; text-align: center; color: var(--faint); font-size: 14px; }
+  .overlay { position: fixed; inset: 0; background: rgba(20,18,15,.5); display: none; align-items: center; justify-content: center; padding: 20px; z-index: 10; }
+  .overlay.open { display: flex; }
+  .panel { background: var(--surface); border-radius: 14px; max-width: 480px; width: 100%; max-height: 85vh; overflow-y: auto; padding: 24px; position: relative; }
+  .panel h2 { margin: 0 0 4px; font-size: 18px; }
+  .panel .sub { color: var(--faint); font-size: 12.5px; margin-bottom: 18px; }
+  .close-x { position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 20px; cursor: pointer; color: var(--muted); line-height: 1; padding: 4px; }
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: .03em; color: var(--faint); margin-bottom: 3px; }
+  .field .val { font-size: 14.5px; }
+  .field a { color: var(--accent); text-decoration: none; }
+  .field a:hover { text-decoration: underline; }
+  .copy-btn { background: var(--surface-2); border: 1px solid var(--line); border-radius: 6px; font-size: 11px; padding: 2px 8px; margin-left: 6px; cursor: pointer; color: var(--muted); }
+  .copy-btn:active { background: var(--line); }
+  .status-select { margin-top: 6px; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--line); font-size: 13px; width: 100%; background: var(--surface); }
+  .login-hint { padding: 60px 20px; text-align: center; color: var(--faint); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Заявки — ГабионОпт</h1>
+  <div id="count" style="font-size:12.5px;opacity:.7;"></div>
+</header>
+<div class="tabs" id="tabs">
+  <div class="tab active" data-status="">Все</div>
+  <div class="tab" data-status="new">Новые</div>
+  <div class="tab" data-status="in_progress">В работе</div>
+  <div class="tab" data-status="done">Закрыты</div>
+</div>
+<main>
+  <table id="table" style="display:none;">
+    <thead><tr><th>№</th><th>Дата</th><th>Имя</th><th>Товар</th><th>Статус</th></tr></thead>
+    <tbody id="tbody"></tbody>
+  </table>
+  <div class="empty" id="empty" style="display:none;">Заявок пока нет</div>
+</main>
+
+<div class="overlay" id="overlay">
+  <div class="panel" id="panel"></div>
+</div>
+
+<script>
+(function () {
+  var API = "/api/admin/leads";
+  var STATUS_LABELS = { new: "Новая", in_progress: "В работе", done: "Закрыта" };
+  var PRODUCT_LABELS = {
+    gabiony: "Габионы", "setka-dvojnogo-krucheniya": "Сетка двойного кручения",
+    "setka-svarnaya": "Сварная сетка", "setka-trosovaya": "Сетка из оцинкованных тросов",
+    trosy: "Тросы", other: "Другое / не знаю точно"
+  };
+  var currentStatus = "";
+  var leadsCache = [];
+
+  function fmtDate(iso) {
+    var d = new Date(iso);
+    if (isNaN(d)) return iso;
+    return d.toLocaleDateString("ru-RU") + " " + d.toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" });
+  }
+
+  function loadLeads() {
+    var url = API + (currentStatus ? "?status=" + currentStatus : "");
+    fetch(url).then(function (r) { return r.json(); }).then(function (data) {
+      if (!data.ok) return;
+      leadsCache = data.leads;
+      renderTable();
+      var openId = new URLSearchParams(location.search).get("lead");
+      if (openId) openLead(parseInt(openId, 10));
+    });
+  }
+
+  function renderTable() {
+    var tbody = document.getElementById("tbody");
+    var table = document.getElementById("table");
+    var empty = document.getElementById("empty");
+    document.getElementById("count").textContent = leadsCache.length + " заявок";
+    if (!leadsCache.length) {
+      table.style.display = "none";
+      empty.style.display = "block";
+      return;
+    }
+    table.style.display = "table";
+    empty.style.display = "none";
+    tbody.innerHTML = leadsCache.map(function (l) {
+      return "<tr class=\"lead-row\" data-id=\"" + l.id + "\">" +
+        "<td>#" + l.id + "</td>" +
+        "<td>" + fmtDate(l.created_at) + "</td>" +
+        "<td>" + escHtml(l.name || "—") + "</td>" +
+        "<td>" + escHtml(PRODUCT_LABELS[l.product] || l.product || "—") + "</td>" +
+        "<td><span class=\"badge " + l.status + "\">" + STATUS_LABELS[l.status] + "</span></td>" +
+        "</tr>";
+    }).join("");
+    Array.prototype.forEach.call(tbody.querySelectorAll(".lead-row"), function (row) {
+      row.addEventListener("click", function () { openLead(parseInt(row.getAttribute("data-id"), 10)); });
+    });
+  }
+
+  function escHtml(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+    });
+  }
+
+  function openLead(id) {
+    fetch(API + "/" + id).then(function (r) { return r.json(); }).then(function (data) {
+      if (!data.ok) return;
+      renderPanel(data.lead);
+      var url = new URL(location.href);
+      url.searchParams.set("lead", id);
+      history.replaceState(null, "", url);
+      document.getElementById("overlay").classList.add("open");
+    });
+  }
+
+  function closeLead() {
+    document.getElementById("overlay").classList.remove("open");
+    var url = new URL(location.href);
+    url.searchParams.delete("lead");
+    history.replaceState(null, "", url);
+  }
+
+  function copyToClipboard(text, btn) {
+    navigator.clipboard.writeText(text).then(function () {
+      var old = btn.textContent;
+      btn.textContent = "Скопировано";
+      setTimeout(function () { btn.textContent = old; }, 1200);
+    });
+  }
+
+  function renderPanel(l) {
+    var panel = document.getElementById("panel");
+    var phoneDigits = (l.phone || "").replace(/[^\d+]/g, "");
+    var srcLine = "";
+    if (l.utm_source) srcLine = l.utm_source + (l.utm_campaign ? " / " + l.utm_campaign : "");
+    else if (l.yclid) srcLine = "Яндекс Директ (yclid)";
+    panel.innerHTML =
+      '<button class="close-x" id="closeBtn">✕</button>' +
+      "<h2>Заявка №" + l.id + "</h2>" +
+      '<div class="sub">' + fmtDate(l.created_at) + (l.page ? " · " + escHtml(l.page) : "") + "</div>" +
+      '<div class="field"><label>Статус</label><select class="status-select" id="statusSelect">' +
+        ["new", "in_progress", "done"].map(function (s) {
+          return '<option value="' + s + '"' + (s === l.status ? " selected" : "") + ">" + STATUS_LABELS[s] + "</option>";
+        }).join("") +
+      "</select></div>" +
+      '<div class="field"><label>Товар</label><div class="val">' + escHtml(PRODUCT_LABELS[l.product] || l.product || "—") + "</div></div>" +
+      '<div class="field"><label>Имя</label><div class="val">' + escHtml(l.name || "—") + "</div></div>" +
+      '<div class="field"><label>Телефон</label><div class="val"><a href="tel:' + escHtml(phoneDigits) + '">' + escHtml(l.phone || "—") + "</a>" +
+        (l.phone ? '<button class="copy-btn" data-copy="' + escHtml(l.phone) + '">копировать</button>' : "") + "</div></div>" +
+      (l.email ? '<div class="field"><label>Email</label><div class="val">' + escHtml(l.email) +
+        '<button class="copy-btn" data-copy="' + escHtml(l.email) + '">копировать</button></div></div>' : "") +
+      '<div class="field"><label>Способ связи</label><div class="val">' + escHtml(l.contact_way || "—") + "</div></div>" +
+      (l.comment ? '<div class="field"><label>Комментарий</label><div class="val">' + escHtml(l.comment) + "</div></div>" : "") +
+      (srcLine ? '<div class="field"><label>Источник</label><div class="val">' + escHtml(srcLine) + "</div></div>" : "");
+
+    panel.querySelector("#closeBtn").addEventListener("click", closeLead);
+    panel.querySelector("#statusSelect").addEventListener("change", function (e) {
+      fetch(API + "/" + l.id + "/status", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: e.target.value })
+      }).then(function () { loadLeads(); });
+    });
+    Array.prototype.forEach.call(panel.querySelectorAll(".copy-btn"), function (btn) {
+      btn.addEventListener("click", function () { copyToClipboard(btn.getAttribute("data-copy"), btn); });
+    });
+  }
+
+  document.getElementById("overlay").addEventListener("click", function (e) {
+    if (e.target.id === "overlay") closeLead();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closeLead();
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll(".tab"), function (tab) {
+    tab.addEventListener("click", function () {
+      Array.prototype.forEach.call(document.querySelectorAll(".tab"), function (t) { t.classList.remove("active"); });
+      tab.classList.add("active");
+      currentStatus = tab.getAttribute("data-status");
+      loadLeads();
+    });
+  });
+
+  loadLeads();
+  setInterval(loadLeads, 30000);
+})();
+</script>
+</body>
+</html>
