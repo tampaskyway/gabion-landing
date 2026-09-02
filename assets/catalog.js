@@ -510,6 +510,48 @@
     overlay.hidden = false;
     document.body.style.overflow = "hidden";
     location.hash = "sku=" + p.sku;
+    setProductSeo(p);
+  }
+
+  function setProductSeo(p) {
+    var canonicalUrl = "https://gabionopt.ru/catalog.html?group=" + p.group +
+      (p.subcat ? "&subcat=" + p.subcat : "") + "#sku=" + p.sku;
+    document.title = p.name + " — " + (p.subcat_label || GROUP_LABELS[p.group]) + " | ГабионОпт";
+    var descTag = qs('meta[name="description"]');
+    if (descTag) descTag.setAttribute("content", p.description.slice(0, 300));
+    var canonical = qs('link[rel="canonical"]');
+    if (canonical) canonical.setAttribute("href", canonicalUrl);
+
+    var ld = {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: p.name,
+      sku: p.sku,
+      description: p.description,
+      category: (p.subcat_label || GROUP_LABELS[p.group]),
+      brand: { "@type": "Brand", name: "ГабионОпт" },
+      url: canonicalUrl,
+      offers: {
+        "@type": "Offer",
+        priceCurrency: "RUB",
+        availability: "https://schema.org/InStock",
+        url: canonicalUrl,
+      },
+    };
+    var ldScript = qs("#productLd");
+    if (!ldScript) {
+      ldScript = document.createElement("script");
+      ldScript.type = "application/ld+json";
+      ldScript.id = "productLd";
+      document.head.appendChild(ldScript);
+    }
+    ldScript.textContent = JSON.stringify(ld);
+  }
+
+  function clearProductSeo() {
+    var ldScript = qs("#productLd");
+    if (ldScript) ldScript.remove();
+    if (typeof updateSeo === "function") updateSeo();
   }
 
   function closeProduct() {
@@ -518,6 +560,7 @@
     if (location.hash.indexOf("sku=") === 0 || location.hash.indexOf("#sku=") === 0) {
       history.replaceState(null, "", location.pathname + location.search);
     }
+    clearProductSeo();
   }
 
   function init(data) {
