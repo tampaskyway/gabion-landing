@@ -263,24 +263,61 @@
     });
   }
 
-  // ── Прикрепление файла (фото/PDF) ──
+  // ── Прикрепление файла (фото/PDF): кнопка, Cmd/Ctrl+V, drag-and-drop ──
+  function handleFile(file) {
+    if (!file) return;
+    if (ALLOWED_FILE_TYPES.indexOf(file.type) === -1) {
+      alert("Можно прикрепить только фото (JPG, PNG, WEBP) или PDF.");
+      return;
+    }
+    if (file.size > MAX_FILE_BYTES) {
+      alert("Файл слишком большой — максимум 8 МБ.");
+      return;
+    }
+    uploadFile(file);
+  }
+
   if (attachBtn && fileInput) {
     attachBtn.addEventListener("click", function () { fileInput.click(); });
     fileInput.addEventListener("change", function () {
       var file = fileInput.files && fileInput.files[0];
       fileInput.value = "";
-      if (!file) return;
-      if (ALLOWED_FILE_TYPES.indexOf(file.type) === -1) {
-        alert("Можно прикрепить только фото (JPG, PNG, WEBP) или PDF.");
-        return;
-      }
-      if (file.size > MAX_FILE_BYTES) {
-        alert("Файл слишком большой — максимум 8 МБ.");
-        return;
-      }
-      uploadFile(file);
+      handleFile(file);
     });
   }
+
+  if (input) {
+    input.addEventListener("paste", function (e) {
+      var items = (e.clipboardData && e.clipboardData.items) || [];
+      for (var i = 0; i < items.length; i++) {
+        if (items[i].kind === "file") {
+          var file = items[i].getAsFile();
+          if (file && ALLOWED_FILE_TYPES.indexOf(file.type) !== -1) {
+            e.preventDefault();
+            handleFile(file);
+            return;
+          }
+        }
+      }
+    });
+  }
+
+  ["dragenter", "dragover"].forEach(function (evt) {
+    panel.addEventListener(evt, function (e) {
+      e.preventDefault();
+      panel.classList.add("chat-dragover");
+    });
+  });
+  ["dragleave", "drop"].forEach(function (evt) {
+    panel.addEventListener(evt, function (e) {
+      e.preventDefault();
+      panel.classList.remove("chat-dragover");
+    });
+  });
+  panel.addEventListener("drop", function (e) {
+    var files = (e.dataTransfer && e.dataTransfer.files) || [];
+    if (files.length) handleFile(files[0]);
+  });
 
   function uploadFile(file) {
     var emptyEl = qs(".chat-empty", body);

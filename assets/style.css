@@ -743,6 +743,7 @@ footer.site { padding: 44px 0 22px; margin-top: 40px; background: var(--ink); co
   display: flex; flex-direction: column; overflow: hidden;
 }
 .chat-panel[hidden] { display: none; }
+.chat-panel.chat-dragover { outline: 2px dashed var(--oxide); outline-offset: -2px; }
 .chat-resize-handle {
   position: absolute; top: 0; left: 0; width: 18px; height: 18px; z-index: 5;
   cursor: nwse-resize; display: flex; align-items: flex-start; justify-content: flex-start;
