@@ -543,7 +543,7 @@ table.spectable td:last-child { font-family: "JetBrains Mono", monospace; text-a
 .form-group { display: flex; flex-direction: column; gap: 3px; }
 .form-group label { font-size: 10.5px; font-weight: 700; color: rgba(242,241,236,.5); text-transform: uppercase; letter-spacing: .07em; }
 .form-group input, .form-group select, .form-group textarea {
-  font-family: "Golos Text", sans-serif; font-size: 13.5px; padding: 8px 11px;
+  font-family: "Golos Text", sans-serif; font-size: 16px; padding: 8px 11px;
   border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.05); color: #F2F1EC;
   border-radius: var(--radius-sm); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
 }
@@ -698,7 +698,7 @@ footer.site { padding: 44px 0 22px; margin-top: 40px; background: var(--ink); co
 
 /* ── Чат на сайте ── */
 .chat-launcher {
-  position: fixed; right: 20px; bottom: 20px; z-index: 75;
+  position: fixed; right: 20px; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 75;
   display: flex; align-items: center; gap: 9px;
   background: var(--oxide); color: var(--oxide-ink); border: none; border-radius: 999px;
   padding: 13px 20px 13px 16px; font-family: "Golos Text", sans-serif; font-weight: 600; font-size: 14px;
@@ -715,7 +715,7 @@ footer.site { padding: 44px 0 22px; margin-top: 40px; background: var(--ink); co
 .chat-launcher[hidden] { display: none; }
 
 .chat-panel {
-  position: fixed; right: 20px; bottom: 20px; z-index: 90;
+  position: fixed; right: 20px; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 90;
   width: 360px; max-width: calc(100vw - 24px); height: 500px; max-height: calc(100vh - 40px);
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg);
   box-shadow: 0 20px 60px rgba(10,12,13,.28);
@@ -743,7 +743,7 @@ footer.site { padding: 44px 0 22px; margin-top: 40px; background: var(--ink); co
 .chat-input-row { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--line); flex-shrink: 0; }
 .chat-input-row textarea {
   flex: 1; resize: none; border: 1px solid var(--line-strong); border-radius: var(--radius-sm);
-  padding: 9px 11px; font-family: "Golos Text", sans-serif; font-size: 13.5px; color: var(--ink);
+  padding: 9px 11px; font-family: "Golos Text", sans-serif; font-size: 16px; color: var(--ink);
   max-height: 90px; min-height: 38px; line-height: 1.4;
 }
 .chat-input-row textarea:focus { outline: none; border-color: var(--oxide); }
@@ -753,6 +753,6 @@ footer.site { padding: 44px 0 22px; margin-top: 40px; background: var(--ink); co
 }
 .chat-send-btn:hover { background: #9c3818; }
 @media (max-width: 480px) {
-  .chat-panel { right: 8px; bottom: 8px; left: 8px; width: auto; height: calc(100vh - 90px); }
-  .chat-launcher { right: 12px; bottom: 12px; padding: 12px 16px 12px 14px; font-size: 13px; }
+  .chat-panel { right: 8px; bottom: calc(8px + env(safe-area-inset-bottom, 0px)); left: 8px; width: auto; height: calc(100vh - 90px); }
+  .chat-launcher { right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); padding: 12px 16px 12px 14px; font-size: 13px; }
 }
