@@ -144,7 +144,7 @@
   }
 
   function scrollToGridTop() {
-    var target = qs("#catalogToolbar") || qs("#plist");
+    var target = qs("#catalogLayout") || qs("#plist");
     if (!target) return;
     var top = target.getBoundingClientRect().top + window.pageYOffset - 90;
     if (window.pageYOffset > top) window.scrollTo({ top: top, behavior: "smooth" });
