@@ -476,7 +476,7 @@
     if (!d) return '<div class="thumb">фото уточняется</div>';
     if (p.group === "trosy") return '<div class="thumb thumb-rope"><img src="' + d.src + '" alt="' + d.alt + '" loading="lazy"></div>';
     return '<div class="thumb thumb-photo"><img src="' + d.src + '" alt="' + d.alt + '" loading="lazy">' +
-      '<div class="photo-badge">Фото для примера</div></div>';
+      '<div class="photo-badge" title="Фото для примера — конкретное изделие может отличаться">i</div></div>';
   }
 
   function renderCard(p) {
@@ -514,7 +514,7 @@
       ? (p.group === "trosy"
           ? '<img src="' + pdpRef.src + '" alt="' + pdpRef.alt + '" style="max-width:100%;max-height:100%;object-fit:contain;">'
           : '<img src="' + pdpRef.src + '" alt="' + pdpRef.alt + '" style="width:100%;height:100%;object-fit:cover;">' +
-            '<div class="photo-badge">Фото для примера — конкретное изделие может отличаться</div>')
+            '<div class="photo-badge" title="Фото для примера — конкретное изделие может отличаться">i</div>')
       : "фото изделия<br>уточняется у менеджера";
     qs("#pdpBody").innerHTML =
       '<div class="pdp">' +
