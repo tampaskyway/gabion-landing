@@ -56,21 +56,21 @@
       else { introEl.hidden = true; introEl.textContent = ""; }
     }
     if (canonical) {
-      canonical.setAttribute("href", state.group ? "https://gabionopt.ru/catalog.html?group=" + state.group : "https://gabionopt.ru/catalog.html");
+      canonical.setAttribute("href", "https://gabionopt.ru" + catalogPath(state.group, state.subcat));
     }
 
     var items = [{ "@type": "ListItem", position: 1, name: "Главная", item: "https://gabionopt.ru/" }];
-    items.push({ "@type": "ListItem", position: 2, name: "Каталог", item: "https://gabionopt.ru/catalog.html" });
+    items.push({ "@type": "ListItem", position: 2, name: "Каталог", item: "https://gabionopt.ru/catalog/" });
     if (state.group) {
       items.push({
         "@type": "ListItem", position: 3, name: GROUP_LABELS[state.group],
-        item: "https://gabionopt.ru/catalog.html?group=" + state.group,
+        item: "https://gabionopt.ru" + catalogPath(state.group),
       });
     }
     if (subLabel) {
       items.push({
         "@type": "ListItem", position: 4, name: subLabel,
-        item: "https://gabionopt.ru/catalog.html?group=" + state.group + "&subcat=" + state.subcat,
+        item: "https://gabionopt.ru" + catalogPath(state.group, state.subcat),
       });
     }
     var breadcrumbLd = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: items };
@@ -148,6 +148,12 @@
     return range[1] >= lower && range[0] < upper;
   }
 
+  function catalogPath(group, subcat) {
+    var path = "/catalog/";
+    if (group) path += group + "/";
+    if (group && subcat) path += subcat + "/";
+    return path;
+  }
   function qs(sel, ctx) { return (ctx || document).querySelector(sel); }
   function el(tag, cls, html) {
     var e = document.createElement(tag);
@@ -157,8 +163,15 @@
   }
   function readParams() {
     var params = new URLSearchParams(location.search);
-    state.group = params.get("group") || null;
-    state.subcat = params.get("subcat") || null;
+    var group = params.get("group") || null;
+    var subcat = params.get("subcat") || null;
+    if (!group) {
+      var parts = location.pathname.replace(/^\/catalog\/?/, "").split("/").filter(Boolean);
+      if (parts[0]) group = parts[0];
+      if (parts[1]) subcat = parts[1];
+    }
+    state.group = group;
+    state.subcat = subcat;
     state.coating = [];
     state.diameter = [];
     state.size = [];
@@ -173,10 +186,7 @@
   }
 
   function setParams(group, subcat) {
-    var params = new URLSearchParams();
-    if (group) params.set("group", group);
-    if (subcat) params.set("subcat", subcat);
-    var url = location.pathname + (params.toString() ? "?" + params.toString() : "");
+    var url = catalogPath(group, subcat);
     history.pushState({ group: group, subcat: subcat }, "", url);
     state.group = group;
     state.subcat = subcat;
@@ -286,7 +296,7 @@
     if (state.group) {
       parts.push('<span class="sep">/</span>');
       if (state.subcat) {
-        parts.push('<a href="?group=' + state.group + '" data-nav="' + state.group + '">' + GROUP_LABELS[state.group] + "</a>");
+        parts.push('<a href="' + catalogPath(state.group) + '" data-nav="' + state.group + '">' + GROUP_LABELS[state.group] + "</a>");
       } else {
         parts.push('<span class="cur">' + GROUP_LABELS[state.group] + "</span>");
       }
@@ -319,9 +329,9 @@
       '<div class="filters-group">' +
         '<div class="filters-group-title">Раздел</div>' +
         '<ul class="filters-list">' +
-          '<li><a class="filters-opt' + (!state.subcat ? " active" : "") + '" href="?group=' + state.group + '" data-nav-all="' + state.group + '">Все<span class="n">' + countProducts({ group: state.group, coating: state.coating, diameter: state.diameter, size: state.size, length: state.length }) + '</span></a></li>' +
+          '<li><a class="filters-opt' + (!state.subcat ? " active" : "") + '" href="' + catalogPath(state.group) + '" data-nav-all="' + state.group + '">Все<span class="n">' + countProducts({ group: state.group, coating: state.coating, diameter: state.diameter, size: state.size, length: state.length }) + '</span></a></li>' +
           subs.map(function (s) {
-            return '<li><a class="filters-opt' + (state.subcat === s.slug ? " active" : "") + '" href="?group=' + state.group + "&subcat=" + s.slug + '" data-nav-sub="' + s.group + "|" + s.slug + '">' +
+            return '<li><a class="filters-opt' + (state.subcat === s.slug ? " active" : "") + '" href="' + catalogPath(state.group, s.slug) + '" data-nav-sub="' + s.group + "|" + s.slug + '">' +
               s.name + '<span class="n">' + s.count + "</span></a></li>";
           }).join("") +
         "</ul>" +
@@ -454,7 +464,7 @@
     groups.forEach(function (g, i) {
       var subs = groupSubcats(g.slug).slice(0, 3).map(function (s) { return s.name; }).join(", ");
       var a = el("a", "cat-card");
-      a.href = "?group=" + g.slug;
+      a.href = catalogPath(g.slug);
       a.setAttribute("data-nav", g.slug);
       a.innerHTML =
         '<div class="top"><span class="idx">' + String(i + 1).padStart(2, "0") + '</span></div>' +
@@ -613,8 +623,7 @@
   }
 
   function setProductSeo(p) {
-    var canonicalUrl = "https://gabionopt.ru/catalog.html?group=" + p.group +
-      (p.subcat ? "&subcat=" + p.subcat : "") + "#sku=" + p.sku;
+    var canonicalUrl = "https://gabionopt.ru" + catalogPath(p.group, p.subcat) + "#sku=" + p.sku;
     document.title = p.name + " — " + (p.subcat_label || GROUP_LABELS[p.group]) + " | ГабионОпт";
     var descTag = qs('meta[name="description"]');
     if (descTag) descTag.setAttribute("content", p.description.slice(0, 300));
