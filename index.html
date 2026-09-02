@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=50">
+<link rel="stylesheet" href="assets/style.css?v=51">
 
 <script type="application/ld+json">
 {
@@ -312,8 +312,8 @@
             <input type="text" name="name" placeholder="Как к вам обращаться" autocomplete="name" required>
           </div>
           <div class="form-group">
-            <label>Телефон</label>
-            <input type="tel" name="phone" placeholder="+7 (999) 000-00-00" autocomplete="tel" required>
+            <label class="phone-label">Телефон</label>
+            <input type="tel" name="phone" placeholder="+7 (999) 000-00-00" autocomplete="tel" pattern="^\+?[0-9()\-\s]{10,18}$" required>
           </div>
           <div class="form-group">
             <label class="email-label">Email (необязательно)</label>
@@ -440,7 +440,7 @@
   <button type="button" class="btn btn-primary btn-sm" id="cookieAccept">Понятно</button>
 </div>
 
-<script src="assets/nav.js?v=50"></script>
+<script src="assets/nav.js?v=51"></script>
 <script>
   var allSelectOptions = [];
 
@@ -500,6 +500,13 @@
     var emailInput = form.querySelector('input[name="email"]');
     var emailLabel = form.querySelector(".email-label");
     if (contactWay) {
+      var phoneInput = form.querySelector('input[name="phone"]');
+      var phoneLabel = form.querySelector(".phone-label");
+      var PHONE_DEFAULT = { label: "Телефон", placeholder: "+7 (999) 000-00-00", type: "tel", pattern: "^\\+?[0-9()\\-\\s]{10,18}$" };
+      var PHONE_OVERRIDE = {
+        "Telegram": { label: "Телефон или @username", placeholder: "@username или +7 999 000-00-00", type: "text", pattern: "^(@[A-Za-z0-9_]{4,32}|\\+?[0-9()\\-\\s]{10,18})$" },
+        "MAX": { label: "Телефон или @username", placeholder: "@username или +7 999 000-00-00", type: "text", pattern: "^(@[A-Za-z0-9_]{4,32}|\\+?[0-9()\\-\\s]{10,18})$" }
+      };
       contactWay.addEventListener("change", function (e) {
         if (e.target.name !== "contact_way") return;
         contactWay.querySelectorAll("label").forEach(function (l) { l.classList.remove("active"); });
@@ -507,6 +514,13 @@
         var isEmail = e.target.value === "Email";
         if (emailInput) emailInput.required = isEmail;
         if (emailLabel) emailLabel.textContent = isEmail ? "Email" : "Email (необязательно)";
+        var cfg = PHONE_OVERRIDE[e.target.value] || PHONE_DEFAULT;
+        if (phoneInput) {
+          phoneInput.type = cfg.type;
+          phoneInput.placeholder = cfg.placeholder;
+          phoneInput.pattern = cfg.pattern;
+        }
+        if (phoneLabel) phoneLabel.textContent = cfg.label;
       });
     }
 

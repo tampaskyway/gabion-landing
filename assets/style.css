@@ -261,8 +261,16 @@ nav.primary a.active::after {
 .cat-card:hover::before { height: 100%; }
 .cat-grid .cat-card:nth-child(1)::before {
   background-image:
-    repeating-linear-gradient(60deg, rgba(184,67,30,.16) 0 2px, transparent 2px 22px),
-    repeating-linear-gradient(-60deg, rgba(184,67,30,.16) 0 2px, transparent 2px 22px);
+    radial-gradient(circle at 18% 28%, rgba(184,67,30,.24) 0 4px, transparent 4px),
+    radial-gradient(circle at 55% 12%, rgba(184,67,30,.18) 0 5px, transparent 5px),
+    radial-gradient(circle at 82% 48%, rgba(184,67,30,.22) 0 4.5px, transparent 4.5px),
+    radial-gradient(circle at 32% 65%, rgba(184,67,30,.17) 0 3.5px, transparent 3.5px),
+    radial-gradient(circle at 8% 82%, rgba(184,67,30,.22) 0 3px, transparent 3px),
+    radial-gradient(circle at 92% 18%, rgba(184,67,30,.16) 0 2.5px, transparent 2.5px),
+    radial-gradient(circle at 48% 42%, rgba(184,67,30,.2) 0 3.5px, transparent 3.5px),
+    radial-gradient(circle at 68% 88%, rgba(184,67,30,.18) 0 3px, transparent 3px),
+    radial-gradient(circle at 5% 45%, rgba(184,67,30,.15) 0 2.5px, transparent 2.5px);
+  background-size: 110px 110px;
 }
 .cat-grid .cat-card:nth-child(2)::before {
   background-image:
@@ -415,10 +423,11 @@ nav.primary a.active::after {
   background: linear-gradient(120deg, rgba(255,255,255,.55) 0%, transparent 30%, transparent 70%, rgba(184,67,30,.06) 100%);
 }
 .pdp-close {
-  position: absolute; top: 14px; right: 14px; width: 44px; height: 44px; padding: 0; border-radius: 999px;
-  background: rgba(255,255,255,.5); backdrop-filter: blur(6px); border-color: rgba(255,255,255,.7);
+  position: absolute; top: 14px; right: 14px; width: 44px; height: 44px; padding: 0;
+  background: none; border: none; color: var(--ink); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; font-size: 16px;
 }
-.pdp-close:hover { border-color: rgba(255,255,255,.7); background: rgba(255,255,255,.75); }
+.pdp-close:hover { opacity: .65; }
 
 /* ── Order modal: dark glass, oxide accent (по образцу stock-modal с parts-catalog) ── */
 .order-modal-panel {
@@ -436,11 +445,11 @@ nav.primary a.active::after {
 }
 .order-modal-panel > * { position: relative; z-index: 1; }
 .order-modal-close {
-  position: absolute; top: 12px; right: 12px; width: 44px; height: 44px; padding: 0; border-radius: 999px;
-  background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.16); color: #F2F1EC;
-  backdrop-filter: blur(6px);
+  position: absolute; top: 12px; right: 12px; width: 44px; height: 44px; padding: 0;
+  background: none; border: none; color: #F2F1EC; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; font-size: 16px;
 }
-.order-modal-close:hover { border-color: rgba(255,255,255,.32); }
+.order-modal-close:hover { opacity: .65; }
 .pdp { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; min-width: 0; }
 @media (max-width: 760px) { .pdp { grid-template-columns: 1fr; } .pdp-panel { padding: 24px; } }
 .pdp-gallery { min-width: 0; aspect-ratio: 1; background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; color: var(--faint); font-size: 13px; text-align: center; padding: 16px; position: relative; overflow: hidden; }
@@ -531,7 +540,14 @@ table.spectable td:last-child { font-family: "JetBrains Mono", monospace; text-a
 .order-form-card .consent-check { color: var(--muted); }
 .order-form-card .consent-check a { color: var(--ink); }
 
-@media (max-width: 560px) { .order-modal-panel { padding: 22px; } .order-form-card { padding: 24px; } }
+@media (max-width: 560px) {
+  .order-modal-panel { padding: 18px; }
+  .order-form-card { padding: 18px; }
+  .order-form-card h2, .order-modal-panel h2 { font-size: 19px; }
+  .order-form-card .modal-subtitle, .order-modal-panel .modal-subtitle { font-size: 12.5px; }
+  .form-wrap, .form-fields { gap: 6px; }
+  .form-group label { font-size: 9.5px; }
+}
 
 .order-modal-panel .eyebrow { color: rgba(242,241,236,.5); }
 .order-modal-panel .eyebrow::before { background: #CB5024; }
@@ -583,10 +599,10 @@ table.spectable td:last-child { font-family: "JetBrains Mono", monospace; text-a
 
 .contact-way { display: flex; gap: 4px; flex-wrap: nowrap; }
 .contact-way label {
-  display: flex; align-items: center; justify-content: center; gap: 3px; flex: 1 1 0; min-width: 0;
-  padding: 5px 2px; border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius-sm);
-  font-size: 8.5px; font-weight: 600; margin: 0; cursor: pointer; color: rgba(242,241,236,.55);
-  transition: all .15s; white-space: nowrap; overflow: hidden;
+  display: flex; align-items: center; justify-content: center; gap: 4px; flex: 1 1 0; min-width: 0;
+  padding: 8px 4px; border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius-sm);
+  font-size: 11px; font-weight: 600; margin: 0; cursor: pointer; color: rgba(242,241,236,.55);
+  transition: all .15s; white-space: nowrap;
 }
 .contact-way label.active, .contact-way label:hover { border-color: #CB5024; color: #F2A98C; background: rgba(203,80,36,.1); }
 .contact-way label.way-email.active, .contact-way label.way-email:hover { border-color: #E8833A; color: #F5B87E; background: rgba(232,131,58,.1); }
@@ -745,9 +761,8 @@ footer.site { padding: 44px 0 22px; margin-top: 40px; background: var(--ink); co
   display: flex; align-items: center; justify-content: center; font-size: 18px; line-height: 1;
   border-radius: 50%;
 }
-.chat-pin-btn:hover, .chat-panel-close:hover { color: var(--ink); background: rgba(255,255,255,.6); }
-.chat-pin-btn.pinned { color: var(--oxide); background: var(--oxide-soft); }
-.chat-pin-btn.pinned:hover { background: var(--oxide-soft); }
+.chat-pin-btn:hover, .chat-panel-close:hover { color: var(--ink); }
+.chat-pin-btn.pinned { color: var(--oxide); }
 .chat-body { flex: 1; overflow-y: auto; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
 .chat-empty { color: var(--muted); font-size: 13px; line-height: 1.6; text-align: center; margin: auto; padding: 20px 10px; }
 .chat-empty a { color: var(--oxide); cursor: pointer; text-decoration: underline; }
