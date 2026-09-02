@@ -16,7 +16,12 @@
   var closeBtn = document.getElementById("chatPanelClose");
   var pinBtn = document.getElementById("chatPinBtn");
   var resizeHandle = document.getElementById("chatResizeHandle");
+  var attachBtn = document.getElementById("chatAttachBtn");
+  var fileInput = document.getElementById("chatFileInput");
   if (!launcher || !panel) return;
+
+  var MAX_FILE_BYTES = 8 * 1024 * 1024;
+  var ALLOWED_FILE_TYPES = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
 
   var token = localStorage.getItem("chatToken") || "";
   var lastSeenId = parseInt(localStorage.getItem("chatLastSeenId") || "0", 10);
@@ -29,9 +34,24 @@
 
   function qs(sel, ctx) { return (ctx || document).querySelector(sel); }
 
+  function escapeHtml(s) {
+    return String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function isImageUrl(url) {
+    return /\.(jpe?g|png|webp)$/i.test(url);
+  }
+
   function bubbleHtml(m) {
     var cls = m.sender === "manager" ? "manager" : "visitor";
-    var text = String(m.text || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    if (m.kind === "file") {
+      var url = escapeHtml(m.text);
+      var inner = isImageUrl(m.text)
+        ? '<a href="' + url + '" target="_blank" rel="noopener"><img class="chat-file-img" src="' + url + '" alt="Вложение"></a>'
+        : '<a class="chat-file-link" href="' + url + '" target="_blank" rel="noopener">📎 Файл (PDF)</a>';
+      return '<div class="chat-msg ' + cls + '" data-id="' + m.id + '">' + inner + "</div>";
+    }
+    var text = escapeHtml(m.text);
     return '<div class="chat-msg ' + cls + '" data-id="' + m.id + '">' + text.replace(/\n/g, "<br>") + "</div>";
   }
 
@@ -241,6 +261,68 @@
       input.style.height = "auto";
       input.style.height = Math.min(input.scrollHeight, 90) + "px";
     });
+  }
+
+  // ── Прикрепление файла (фото/PDF) ──
+  if (attachBtn && fileInput) {
+    attachBtn.addEventListener("click", function () { fileInput.click(); });
+    fileInput.addEventListener("change", function () {
+      var file = fileInput.files && fileInput.files[0];
+      fileInput.value = "";
+      if (!file) return;
+      if (ALLOWED_FILE_TYPES.indexOf(file.type) === -1) {
+        alert("Можно прикрепить только фото (JPG, PNG, WEBP) или PDF.");
+        return;
+      }
+      if (file.size > MAX_FILE_BYTES) {
+        alert("Файл слишком большой — максимум 8 МБ.");
+        return;
+      }
+      uploadFile(file);
+    });
+  }
+
+  function uploadFile(file) {
+    var emptyEl = qs(".chat-empty", body);
+    if (emptyEl) emptyEl.remove();
+    var div = document.createElement("div");
+    div.className = "chat-msg visitor uploading";
+    div.textContent = "Загрузка файла…";
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+
+    var fd = new FormData();
+    fd.append("token", token);
+    fd.append("page_url", location.href);
+    fd.append("file", file);
+    fetch(API_BASE + "/upload", { method: "POST", body: fd })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (!data || !data.ok) {
+          div.classList.remove("uploading");
+          markFailed(div);
+          return;
+        }
+        if (data.token) {
+          token = data.token;
+          localStorage.setItem("chatToken", token);
+        }
+        div.classList.remove("uploading");
+        div.innerHTML = isImageUrl(data.url)
+          ? '<a href="' + data.url + '" target="_blank" rel="noopener"><img class="chat-file-img" src="' + data.url + '" alt="Вложение"></a>'
+          : '<a class="chat-file-link" href="' + data.url + '" target="_blank" rel="noopener">📎 Файл (PDF)</a>';
+        if (data.message_id) {
+          div.setAttribute("data-id", data.message_id);
+          renderedIds[data.message_id] = true;
+          if (data.message_id > lastMsgId) lastMsgId = data.message_id;
+        }
+        if (!data.delivered) markFailed(div);
+      })
+      .catch(function () {
+        div.classList.remove("uploading");
+        div.textContent = "Не удалось загрузить файл";
+        markFailed(div);
+      });
   }
 
   // При наличии токена — тихо подгружаем историю, чтобы показать бейдж непрочитанного.

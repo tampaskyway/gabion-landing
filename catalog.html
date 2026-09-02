@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=49">
+<link rel="stylesheet" href="assets/style.css?v=50">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -306,8 +306,8 @@
   <button type="button" class="btn btn-primary btn-sm" id="cookieAccept">Понятно</button>
 </div>
 
-<script src="assets/nav.js?v=49"></script>
-<script src="assets/catalog.js?v=49"></script>
+<script src="assets/nav.js?v=50"></script>
+<script src="assets/catalog.js?v=50"></script>
 <script>
 (function () {
   "use strict";
@@ -522,6 +522,10 @@
   </div>
   <div class="chat-foot">
     <div class="chat-input-row">
+      <button type="button" class="chat-attach-btn" id="chatAttachBtn" aria-label="Прикрепить файл" title="Прикрепить фото или PDF">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+      </button>
+      <input type="file" id="chatFileInput" accept="image/jpeg,image/png,image/webp,application/pdf" hidden>
       <textarea id="chatInput" placeholder="Ваш вопрос…" rows="1"></textarea>
       <button type="button" class="chat-send-btn" id="chatSendBtn" aria-label="Отправить">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
@@ -530,6 +534,6 @@
     <div class="chat-callback-link">или <a href="tel:+79099997897" data-open-order>закажите звонок</a></div>
   </div>
 </div>
-<script src="assets/chat.js?v=2"></script>
+<script src="assets/chat.js?v=3"></script>
 </body>
 </html>
