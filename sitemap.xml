@@ -1,34 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-    <url>
-        <loc>https://gabionopt.ru/</loc>
-        <changefreq>weekly</changefreq>
-        <priority>1.0</priority>
-    </url>
-
-    <url>
-        <loc>https://gabionopt.ru/catalog.html</loc>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-    </url>
-
-    <url>
-        <loc>https://gabionopt.ru/catalog.html?group=gabiony</loc>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-
-    <url>
-        <loc>https://gabionopt.ru/catalog.html?group=setka</loc>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-
-    <url>
-        <loc>https://gabionopt.ru/catalog.html?group=trosy</loc>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-
+  <url><loc>https://gabionopt.ru/</loc><priority>1.0</priority></url>
+  <url><loc>https://gabionopt.ru/catalog/</loc><priority>0.9</priority></url>
+  <url><loc>https://gabionopt.ru/primenenie.html</loc><priority>0.7</priority></url>
+  <url><loc>https://gabionopt.ru/production.html</loc><priority>0.6</priority></url>
+  <url><loc>https://gabionopt.ru/rekvizity.html</loc><priority>0.3</priority></url>
+  <url><loc>https://gabionopt.ru/privacy-policy.html</loc><priority>0.2</priority></url>
+  <url><loc>https://gabionopt.ru/catalog/gabiony/</loc><priority>0.8</priority></url>
+  <url><loc>https://gabionopt.ru/catalog/setka/</loc><priority>0.8</priority></url>
+  <url><loc>https://gabionopt.ru/catalog/trosy/</loc><priority>0.8</priority></url>
+  <url><loc>https://gabionopt.ru/catalog/gabiony/cilindricheskie/</loc><priority>0.7</priority></url>
+  <url><loc>https://gabionopt.ru/catalog/gabiony/kashpo/</loc><priority>0.7</priority></url>
+  <url><loc>https://gabionopt.ru/catalog/gabiony/klumby/</loc><priority>0.7</priority></url>
+  <url><loc>https://gabionopt.ru/catalog/gabiony/korobchatye-dvojnogo-krucheniya/</loc><priority>0.7</priority></url>
+  <url><loc>https://gabionopt.ru/catalog/gabiony/korobchatye-svarnye/</loc><priority>0.7</priority></url>
+  <url><loc>https://gabionopt.ru/catalog/gabiony/matrasno-tyufyachnye/</loc><priority>0.7</priority></url>
+  <url><loc>https://gabionopt.ru/catalog/gabiony/nasypnogo-tipa/</loc><priority>0.7</priority></url>
+  <url><loc>https://gabionopt.ru/catalog/gabiony/s-armirujushchej-panelju/</loc><priority>0.7</priority></url>
+  <url><loc>https://gabionopt.ru/catalog/gabiony/shary/</loc><priority>0.7</priority></url>
+  <url><loc>https://gabionopt.ru/catalog/setka/dvojnogo-krucheniya/</loc><priority>0.7</priority></url>
+  <url><loc>https://gabionopt.ru/catalog/setka/ot-bpla/</loc><priority>0.7</priority></url>
+  <url><loc>https://gabionopt.ru/catalog/setka/protivokamnepadnye/</loc><priority>0.7</priority></url>
+  <url><loc>https://gabionopt.ru/catalog/setka/svarnaya-v-kartah/</loc><priority>0.7</priority></url>
+  <url><loc>https://gabionopt.ru/catalog/trosy/odinarnaya-svivka/</loc><priority>0.7</priority></url>
+  <url><loc>https://gabionopt.ru/catalog/trosy/dvoynaya-svivka/</loc><priority>0.7</priority></url>
+  <url><loc>https://gabionopt.ru/catalog/trosy/shestipryadnaya-svivka/</loc><priority>0.7</priority></url>
+  <url><loc>https://gabionopt.ru/catalog/setka/setka-mane/</loc><priority>0.7</priority></url>
 </urlset>
