@@ -695,3 +695,64 @@ footer.site { padding: 44px 0 22px; margin-top: 40px; background: var(--ink); co
 .cookie-banner p { margin: 0; font-size: 13px; color: var(--muted); flex: 1; min-width: 200px; }
 .cookie-banner a { color: var(--ink); }
 @media (max-width: 560px) { .cookie-banner { left: 12px; right: 12px; bottom: 12px; padding: 14px 16px; } }
+
+/* ── Чат на сайте ── */
+.chat-launcher {
+  position: fixed; right: 20px; bottom: 20px; z-index: 75;
+  display: flex; align-items: center; gap: 9px;
+  background: var(--oxide); color: var(--oxide-ink); border: none; border-radius: 999px;
+  padding: 13px 20px 13px 16px; font-family: "Golos Text", sans-serif; font-weight: 600; font-size: 14px;
+  cursor: pointer; box-shadow: 0 8px 24px rgba(184,67,30,.35);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.chat-launcher:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(184,67,30,.42); }
+.chat-launcher svg { flex-shrink: 0; }
+.chat-launcher .chat-dot {
+  position: absolute; top: -3px; right: -3px; width: 12px; height: 12px; border-radius: 50%;
+  background: #E8483A; border: 2px solid var(--paper); display: none;
+}
+.chat-launcher.has-unread .chat-dot { display: block; }
+.chat-launcher[hidden] { display: none; }
+
+.chat-panel {
+  position: fixed; right: 20px; bottom: 20px; z-index: 90;
+  width: 360px; max-width: calc(100vw - 24px); height: 500px; max-height: calc(100vh - 40px);
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg);
+  box-shadow: 0 20px 60px rgba(10,12,13,.28);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.chat-panel[hidden] { display: none; }
+.chat-panel-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 14px 16px; border-bottom: 1px solid var(--line); flex-shrink: 0;
+}
+.chat-panel-head h3 { font-size: 14.5px; font-family: "Golos Text", sans-serif; font-weight: 700; margin: 0; }
+.chat-panel-head p { margin: 2px 0 0; font-size: 11.5px; color: var(--muted); }
+.chat-panel-close {
+  border: none; background: none; color: var(--muted); cursor: pointer; font-size: 18px;
+  line-height: 1; padding: 4px; border-radius: var(--radius-sm);
+}
+.chat-panel-close:hover { color: var(--ink); background: var(--surface-2); }
+.chat-body { flex: 1; overflow-y: auto; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+.chat-empty { color: var(--faint); font-size: 13px; text-align: center; margin: auto; padding: 20px 10px; }
+.chat-msg { max-width: 84%; padding: 9px 12px; border-radius: 12px; font-size: 13.5px; line-height: 1.45; word-wrap: break-word; }
+.chat-msg.visitor { align-self: flex-end; background: var(--oxide-soft); color: var(--ink); border-bottom-right-radius: 3px; }
+.chat-msg.manager { align-self: flex-start; background: var(--surface-2); color: var(--ink); border-bottom-left-radius: 3px; }
+.chat-msg.failed { opacity: .7; }
+.chat-msg .chat-retry { display: block; margin-top: 4px; font-size: 11.5px; color: var(--oxide); cursor: pointer; text-decoration: underline; }
+.chat-input-row { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--line); flex-shrink: 0; }
+.chat-input-row textarea {
+  flex: 1; resize: none; border: 1px solid var(--line-strong); border-radius: var(--radius-sm);
+  padding: 9px 11px; font-family: "Golos Text", sans-serif; font-size: 13.5px; color: var(--ink);
+  max-height: 90px; min-height: 38px; line-height: 1.4;
+}
+.chat-input-row textarea:focus { outline: none; border-color: var(--oxide); }
+.chat-send-btn {
+  flex-shrink: 0; width: 38px; height: 38px; border-radius: var(--radius-sm); border: none;
+  background: var(--oxide); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.chat-send-btn:hover { background: #9c3818; }
+@media (max-width: 480px) {
+  .chat-panel { right: 8px; bottom: 8px; left: 8px; width: auto; height: calc(100vh - 90px); }
+  .chat-launcher { right: 12px; bottom: 12px; padding: 12px 16px 12px 14px; font-size: 13px; }
+}
