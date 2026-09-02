@@ -468,7 +468,8 @@
   };
   var SETKA_REF_PHOTOS = {
     "ot-bpla": { src: "images/antidrone-net.jpg", alt: "Защитная сетка от БПЛА над габионной конструкцией" },
-    "protivokamnepadnye": { src: "images/rockfall-mesh.jpg", alt: "Противокамнепадный барьер из стального троса и сетки на склоне" }
+    "protivokamnepadnye": { src: "images/rockfall-mesh.jpg", alt: "Противокамнепадный барьер из стального троса и сетки на склоне" },
+    "dvojnogo-krucheniya": { src: "images/mesh-detail.jpg", alt: "Сетка двойного кручения, крупный план плетения" }
   };
   function refPhoto(p) {
     if (p.group === "trosy") return ROPE_DIAGRAMS[p.subcat] || null;
