@@ -2,10 +2,10 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://gabionopt.ru/</loc><priority>1.0</priority></url>
   <url><loc>https://gabionopt.ru/catalog/</loc><priority>0.9</priority></url>
-  <url><loc>https://gabionopt.ru/primenenie.html</loc><priority>0.7</priority></url>
-  <url><loc>https://gabionopt.ru/production.html</loc><priority>0.6</priority></url>
-  <url><loc>https://gabionopt.ru/rekvizity.html</loc><priority>0.3</priority></url>
-  <url><loc>https://gabionopt.ru/privacy-policy.html</loc><priority>0.2</priority></url>
+  <url><loc>https://gabionopt.ru/primenenie/</loc><priority>0.7</priority></url>
+  <url><loc>https://gabionopt.ru/production/</loc><priority>0.6</priority></url>
+  <url><loc>https://gabionopt.ru/rekvizity/</loc><priority>0.3</priority></url>
+  <url><loc>https://gabionopt.ru/privacy-policy/</loc><priority>0.2</priority></url>
   <url><loc>https://gabionopt.ru/catalog/gabiony/</loc><priority>0.8</priority></url>
   <url><loc>https://gabionopt.ru/catalog/setka/</loc><priority>0.8</priority></url>
   <url><loc>https://gabionopt.ru/catalog/trosy/</loc><priority>0.8</priority></url>
