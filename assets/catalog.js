@@ -513,7 +513,7 @@
     var pdpGalleryHtml = pdpRef
       ? (p.group === "trosy"
           ? '<img src="' + pdpRef.src + '" alt="' + pdpRef.alt + '" style="max-width:100%;max-height:100%;object-fit:contain;">'
-          : '<img src="' + pdpRef.src + '" alt="' + pdpRef.alt + '" style="width:100%;height:100%;object-fit:cover;">' +
+          : '<img src="' + pdpRef.src + '" alt="' + pdpRef.alt + '" style="width:100%;height:100%;object-fit:contain;">' +
             '<div class="photo-badge" data-tip="Изображение носит иллюстративный характер">i</div>')
       : "фото изделия<br>уточняется у менеджера";
     qs("#pdpBody").innerHTML =
