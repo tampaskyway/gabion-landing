@@ -119,7 +119,7 @@ header.site .wrap { max-width: 1400px; }
 .topline-info a:hover { color: var(--oxide); }
 @media (max-width: 640px) { .topline-info { gap: 12px; font-size: 11.5px; } }
 .topbar { display: flex; align-items: center; padding: 18px 0; gap: 8px; }
-nav.primary { display: flex; gap: 2px; margin-left: 18px; flex-wrap: nowrap; flex-shrink: 0; }
+nav.primary { display: flex; gap: 2px; margin-left: 30px; flex-wrap: nowrap; flex-shrink: 0; }
 nav.primary a, nav.primary button {
   font-family: "Golos Text", sans-serif; font-weight: 600; font-size: 14.5px;
   text-decoration: none; color: var(--muted); padding: 9px 13px; border: 1px solid transparent;
@@ -201,8 +201,8 @@ nav.primary a.active::after {
 nav.primary summary { font-family: "Golos Text", sans-serif; font-weight: 600; font-size: 14.5px; color: var(--muted); padding: 9px 13px; border: 1px solid transparent; border-radius: var(--radius-sm); cursor: pointer; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; list-style: none; user-select: none; }
 nav.primary summary::-webkit-details-marker { display: none; }
 nav.primary summary:hover { color: var(--oxide); background: var(--oxide-soft); }
-.nav-dropdown { position: relative; }
-.nav-dropdown .nav-caret { font-size: 11px; transition: transform .15s ease; }
+.nav-dropdown { position: relative; display: flex; align-items: center; }
+.nav-dropdown .nav-caret { display: inline-flex; transition: transform .15s ease; }
 .nav-dropdown[open] .nav-caret { transform: rotate(180deg); }
 .nav-dropdown-menu { display: flex; flex-direction: column; gap: 2px; }
 .nav-dropdown-menu a { font-size: 14px; }
