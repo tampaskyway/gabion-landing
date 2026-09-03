@@ -910,3 +910,15 @@ footer.site { padding: 44px 0 22px; margin-top: 40px; background: var(--ink); co
   .calc-inputs { grid-template-columns: 1fr; }
   .calc-results { grid-template-columns: 1fr; }
 }
+
+/* ── Паспорт компании ── */
+.passport-card { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 28px; }
+.passport-col h4 { font-size: 15px; margin-bottom: 12px; }
+.passport-col .spectable { font-size: 12.5px; margin-bottom: 0; }
+.passport-col .spectable td:first-child { width: 42%; }
+.passport-list { list-style: none; margin: 0 0 4px; padding: 0; font-size: 13px; color: var(--muted); display: flex; flex-direction: column; gap: 8px; }
+.passport-list li { padding-left: 14px; position: relative; }
+.passport-list li::before { content: ""; position: absolute; left: 0; top: 7px; width: 5px; height: 5px; border-radius: 50%; background: var(--oxide); }
+@media (max-width: 860px) {
+  .passport-card { grid-template-columns: 1fr; gap: 24px; }
+}
