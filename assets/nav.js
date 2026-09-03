@@ -12,6 +12,25 @@
       nav.classList.remove("open");
       toggle.setAttribute("aria-expanded", "false");
       toggle.textContent = "☰";
+      nav.querySelectorAll("details.nav-dropdown[open]").forEach(function (d) { d.open = false; });
+    });
+  });
+})();
+
+/* ── Выпадающие меню в шапке (Продукция / Решения) ── */
+(function () {
+  var dropdowns = document.querySelectorAll("details.nav-dropdown");
+  if (!dropdowns.length) return;
+  dropdowns.forEach(function (d) {
+    d.addEventListener("toggle", function () {
+      if (d.open) {
+        dropdowns.forEach(function (other) { if (other !== d) other.open = false; });
+      }
+    });
+  });
+  document.addEventListener("click", function (e) {
+    dropdowns.forEach(function (d) {
+      if (d.open && !d.contains(e.target)) d.open = false;
     });
   });
 })();

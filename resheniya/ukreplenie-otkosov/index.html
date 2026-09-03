@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=62">
+<link rel="stylesheet" href="assets/style.css?v=64">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -87,9 +87,24 @@
     </a>
     <button class="menu-toggle" id="menuToggle" type="button" aria-label="Открыть меню" aria-expanded="false">☰</button>
     <nav class="primary" id="navMenu" aria-label="Основная навигация">
-      <a href="/catalog/gabiony/">Габионы</a>
-      <a href="/catalog/setka/">Сетка и полотна</a>
-      <a href="/catalog/trosy/">Тросы</a>
+      <details class="nav-dropdown">
+        <summary>Продукция <span class="nav-caret">▾</span></summary>
+        <div class="nav-dropdown-menu">
+          <a href="/catalog/gabiony/">Габионы</a>
+          <a href="/catalog/setka/">Сетка и полотна</a>
+          <a href="/catalog/trosy/">Тросы</a>
+        </div>
+      </details>
+      <a href="/production/">Производство</a>
+      <details class="nav-dropdown">
+        <summary>Решения <span class="nav-caret">▾</span></summary>
+        <div class="nav-dropdown-menu">
+          <a href="/resheniya/ukreplenie-berega/">Укрепление берега</a>
+          <a href="/resheniya/ukreplenie-otkosov/">Подпорные стены и откосы</a>
+          <a href="/resheniya/landshaftnye-gabiony/">Ландшафтные габионы</a>
+          <a href="/resheniya/stalnye-trosy/">Стальные тросы</a>
+        </div>
+      </details>
       <a href="./#about">О компании</a>
       <div class="nav-mobile-contacts">
         <a class="nmc-phone" href="tel:+79099997897">+7 (909) 999-78-97</a>
@@ -166,7 +181,7 @@
   <div class="wrap">
     <div class="eyebrow">Что применять</div>
     <h2 style="font-size:24px;margin:10px 0 20px;">Подпорные стены и укрепление откосов</h2>
-    <div class="about-grid">
+    <div class="solutions-grid">
       <div class="pcard solution-card" style="cursor:default;">
         <div class="thumb">
           <img src="images/gabion-korobchatye-dvojnogo-krucheniya.webp?v=3" alt="Коробчатые габионы двойного кручения" loading="lazy">
@@ -403,7 +418,7 @@
   <button type="button" class="btn btn-primary btn-sm" id="cookieAccept">Понятно</button>
 </div>
 
-<script src="assets/nav.js?v=60"></script>
+<script src="assets/nav.js?v=61"></script>
 <script>
 (function () {
   "use strict";
