@@ -49,7 +49,12 @@
 <body>
 <header>
   <h1>Заявки — ГабионОпт</h1>
-  <div id="count" style="font-size:12.5px;opacity:.7;"></div>
+  <div style="display:flex;align-items:center;gap:14px;">
+    <div id="count" style="font-size:12.5px;opacity:.7;"></div>
+    <span id="whoami" style="font-size:12.5px;opacity:.7;"></span>
+    <button type="button" id="inviteBtn" style="background:none;border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:6px;font-size:12px;padding:5px 10px;cursor:pointer;">+ Сотрудник</button>
+    <button type="button" id="logoutBtn" style="background:none;border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:6px;font-size:12px;padding:5px 10px;cursor:pointer;">Выйти</button>
+  </div>
 </header>
 <div class="tabs" id="tabs">
   <div class="tab active" data-status="">Все</div>
@@ -71,6 +76,33 @@
 
 <script>
 (function () {
+  fetch("/api/admin/me").then(function (r) {
+    if (!r.ok) {
+      location.href = "/admin/login.html?next=" + encodeURIComponent(location.pathname + location.search);
+      return null;
+    }
+    return r.json();
+  }).then(function (data) {
+    if (data && data.ok) {
+      document.getElementById("whoami").textContent = data.username;
+      init();
+    }
+  });
+
+  document.getElementById("logoutBtn").addEventListener("click", function () {
+    fetch("/api/admin/logout", { method: "POST" }).then(function () {
+      location.href = "/admin/login.html";
+    });
+  });
+
+  document.getElementById("inviteBtn").addEventListener("click", function () {
+    fetch("/api/admin/invites", { method: "POST" }).then(function (r) { return r.json(); }).then(function (data) {
+      if (!data.ok) { alert("Не удалось создать приглашение"); return; }
+      prompt("Ссылка для сотрудника (действует 3 дня, одноразовая) — скопируйте и отправьте:", data.url);
+    });
+  });
+
+  function init() {
   var API = "/api/admin/leads";
   var STATUS_LABELS = { new: "Новая", in_progress: "В работе", done: "Закрыта" };
   var PRODUCT_LABELS = {
@@ -213,6 +245,7 @@
 
   loadLeads();
   setInterval(loadLeads, 30000);
+  } // end init()
 })();
 </script>
 </body>

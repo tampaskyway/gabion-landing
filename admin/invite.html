@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Создать доступ — ГабионОпт</title>
+<style>
+  :root { --ink: #1c1a17; --muted: #6b6560; --line: #e4dfd8; --surface: #fff; --surface-2: #f5f2ee; --accent: #b5621a; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; font-family: "Golos Text", -apple-system, sans-serif; background: var(--surface-2); color: var(--ink); }
+  .card { background: var(--surface); border-radius: 14px; padding: 32px 28px; width: 100%; max-width: 360px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  h1 { font-size: 18px; margin: 0 0 6px; }
+  p.sub { font-size: 13px; color: var(--muted); margin: 0 0 20px; }
+  label { display: block; font-size: 11.5px; text-transform: uppercase; letter-spacing: .03em; color: var(--muted); margin-bottom: 4px; }
+  input { width: 100%; padding: 9px 11px; border: 1px solid var(--line); border-radius: 8px; font-size: 15px; margin-bottom: 14px; }
+  button { width: 100%; padding: 10px; border: none; border-radius: 8px; background: var(--ink); color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; }
+  button:disabled { opacity: .6; cursor: default; }
+  .err { color: #a83028; font-size: 13px; margin: -6px 0 14px; }
+  .hint { font-size: 11.5px; color: var(--muted); margin: -8px 0 14px; }
+</style>
+</head>
+<body>
+<div class="card" id="card">Проверяем ссылку…</div>
+<script>
+(function () {
+  var token = new URLSearchParams(location.search).get("token") || "";
+  var card = document.getElementById("card");
+
+  if (!token) {
+    card.innerHTML = "<h1>Ссылка недействительна</h1><p class='sub'>В адресе не хватает параметра приглашения.</p>";
+    return;
+  }
+
+  fetch("/api/admin/invite/" + encodeURIComponent(token))
+    .then(function (r) { return r.json().then(function (data) { return { ok: r.ok, data: data }; }); })
+    .then(function (res) {
+      if (!res.ok || !res.data.ok) {
+        card.innerHTML = "<h1>Ссылка недействительна</h1><p class='sub'>Она уже использована, истекла (3 дня) или неверна. Попросите новую ссылку у администратора.</p>";
+        return;
+      }
+      renderForm();
+    })
+    .catch(function () {
+      card.innerHTML = "<h1>Ошибка соединения</h1><p class='sub'>Попробуйте обновить страницу.</p>";
+    });
+
+  function renderForm() {
+    card.innerHTML =
+      "<h1>Доступ в админку ГабионОпт</h1>" +
+      "<p class='sub'>Придумайте логин и пароль — они понадобятся при следующем входе с другого устройства.</p>" +
+      '<form id="acceptForm">' +
+      "<label>Логин</label><input type='text' name='username' minlength='3' required autofocus>" +
+      "<label>Пароль</label><input type='password' name='password' minlength='8' required>" +
+      "<div class='hint'>Минимум 8 символов</div>" +
+      "<div class='err' id='err' style='display:none;'></div>" +
+      "<button type='submit' id='submitBtn'>Создать доступ и войти</button>" +
+      "</form>";
+    var form = document.getElementById("acceptForm");
+    var err = document.getElementById("err");
+    var btn = document.getElementById("submitBtn");
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      err.style.display = "none";
+      btn.disabled = true;
+      btn.textContent = "Создаём…";
+      fetch("/api/admin/invite/" + encodeURIComponent(token) + "/accept", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: form.username.value, password: form.password.value })
+      }).then(function (r) { return r.json().then(function (data) { return { ok: r.ok, data: data }; }); })
+        .then(function (res) {
+          if (res.ok && res.data.ok) {
+            location.href = "/admin/";
+          } else {
+            var msg = "Не удалось создать доступ.";
+            if (res.data && res.data.error === "username taken") msg = "Такой логин уже занят, выберите другой.";
+            else if (res.data && res.data.error === "invite invalid, used or expired") msg = "Ссылка уже использована или истекла.";
+            err.textContent = msg;
+            err.style.display = "block";
+            btn.disabled = false;
+            btn.textContent = "Создать доступ и войти";
+          }
+        })
+        .catch(function () {
+          err.textContent = "Ошибка соединения. Попробуйте ещё раз.";
+          err.style.display = "block";
+          btn.disabled = false;
+          btn.textContent = "Создать доступ и войти";
+        });
+    });
+  }
+})();
+</script>
+</body>
+</html>
