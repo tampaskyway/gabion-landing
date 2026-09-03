@@ -170,7 +170,7 @@ nav.primary a.active::after {
 @media (max-width: 1300px) { .c-email, .c-loc { display: none; } .contact-cluster { padding-left: 0; border-left: none; column-gap: 20px; } }
 @media (max-width: 900px) { .chat-btns.c-chat { display: none; } .contact-cluster { border-right: none; padding-right: 0; } }
 .menu-toggle { display: none; border: 1px solid var(--line-strong); background: var(--surface); font-size: 18px; line-height: 1; padding: 8px 12px; cursor: pointer; border-radius: var(--radius-sm); }
-@media (max-width: 980px) {
+@media (max-width: 1240px) {
   nav.primary {
     display: none; margin-left: 0;
     position: absolute; top: 100%; left: 0; right: 0;
@@ -198,7 +198,7 @@ nav.primary a.active::after {
   .nmc-loc { font-size: 12px; color: var(--faint); margin: 0; align-self: flex-start; }
   .nmc-chat { display: flex; gap: 8px; margin-top: 4px; align-self: flex-start; }
 }
-@media (min-width: 981px) { .nav-mobile-contacts { display: none; } }
+@media (min-width: 1241px) { .nav-mobile-contacts { display: none; } }
 
 nav.primary summary { font-family: "Golos Text", sans-serif; font-weight: 600; font-size: 14.5px; color: var(--muted); padding: 9px 13px; border: 1px solid transparent; border-radius: var(--radius-sm); cursor: pointer; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; list-style: none; user-select: none; }
 nav.primary summary::-webkit-details-marker { display: none; }
@@ -208,14 +208,14 @@ nav.primary summary:hover { color: var(--oxide); background: var(--oxide-soft); 
 .nav-dropdown[open] .nav-caret { transform: rotate(180deg); }
 .nav-dropdown-menu { display: flex; flex-direction: column; gap: 2px; }
 .nav-dropdown-menu a { font-size: 14px; }
-@media (min-width: 981px) {
+@media (min-width: 1241px) {
   .nav-dropdown-menu {
     position: absolute; top: calc(100% + 4px); left: 0; min-width: 240px;
     background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
     box-shadow: 0 12px 24px rgba(10,12,13,.12); padding: 6px; z-index: 30;
   }
 }
-@media (max-width: 980px) {
+@media (max-width: 1240px) {
   .nav-dropdown-menu { padding-left: 14px; }
   .nav-dropdown-menu a { padding: 11px 28px 11px 14px !important; }
   nav.primary summary { padding: 13px 28px; width: 100%; box-sizing: border-box; }
