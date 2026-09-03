@@ -166,7 +166,7 @@
     var group = params.get("group") || null;
     var subcat = params.get("subcat") || null;
     if (!group) {
-      var parts = location.pathname.replace(/^\/catalog\/?/, "").split("/").filter(Boolean);
+      var parts = location.pathname.replace(/^\/catalog(\.html)?\/?/, "").split("/").filter(Boolean);
       if (parts[0]) group = parts[0];
       if (parts[1]) subcat = parts[1];
     }
