@@ -569,9 +569,11 @@
     var specsHtml = specsEntries.map(function (kv) {
       return "<li><span>" + kv[0] + "</span><span>" + kv[1] + "</span></li>";
     }).join("");
+    var gost = findGostPdf(p);
+    var gostBadgeHtml = gost ? '<span class="pcard-gost" title="' + gost[2].replace(/"/g, "&quot;") + '">ГОСТ</span>' : "";
     card.innerHTML =
       ropeThumbHtml(p) +
-      '<div class="sku">Арт. ' + p.sku + "</div>" +
+      '<div class="pcard-top-row"><div class="sku">Арт. ' + p.sku + "</div>" + gostBadgeHtml + "</div>" +
       "<h4>" + p.name + "</h4>" +
       '<ul class="specs">' + specsHtml + "</ul>" +
       '<div class="foot">' +
@@ -617,6 +619,10 @@
             '<button type="button" class="btn btn-primary btn-full" data-open-order data-sku="' + p.sku + '" data-name="' + p.name.replace(/"/g, "&quot;") + '" data-group="' + p.group + '">Заказать расчёт</button>' +
           "</div>" +
         "</div>" +
+      "</div>" +
+      '<div class="pdp-sticky-bar">' +
+        '<a class="btn btn-ghost" href="tel:+79099997897">Позвонить</a>' +
+        '<button type="button" class="btn btn-primary" data-open-order data-sku="' + p.sku + '" data-name="' + p.name.replace(/"/g, "&quot;") + '" data-group="' + p.group + '">Рассчитать</button>' +
       "</div>";
     overlay.hidden = false;
     document.body.style.overflow = "hidden";

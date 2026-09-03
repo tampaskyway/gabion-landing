@@ -427,11 +427,13 @@ nav.primary summary:hover { color: var(--oxide); background: var(--oxide-soft); 
 .pcard .thumb.thumb-rope img { max-width: 100%; max-height: 100%; min-width: 0; width: auto; object-fit: contain; }
 .pcard .thumb.thumb-rope { min-width: 0; }
 .pcard .sku { font-family: "JetBrains Mono", monospace; font-size: 11.5px; color: var(--faint); }
+.pcard-top-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.pcard-gost { font-family: "Golos Text", sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .02em; padding: 2px 7px; border-radius: 999px; background: var(--oxide-soft); color: var(--oxide); white-space: nowrap; flex-shrink: 0; }
 .pcard h4 { font-size: 15px; font-weight: 600; font-family: "Golos Text", sans-serif; line-height: 1.35; }
 .pcard .specs { list-style: none; margin: 0; padding: 0; font-size: 12.5px; color: var(--muted); display: flex; flex-direction: column; gap: 8px; }
 .pcard .specs li { display: flex; flex-direction: column; gap: 2px; border-bottom: 1px dotted var(--line); padding-bottom: 6px; }
 .pcard .specs li span:first-child { color: var(--muted); }
-.pcard .specs li span:last-child { font-family: "JetBrains Mono", monospace; color: var(--ink); text-align: left; }
+.pcard .specs li span:last-child { font-family: "JetBrains Mono", monospace; color: var(--ink); text-align: left; font-variant-numeric: tabular-nums; }
 .pcard .foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .pcard .price { font-family: "JetBrains Mono", monospace; font-size: 16px; font-weight: 500; }
 .pcard .price small { font-size: 11px; color: var(--muted); font-weight: 400; display: block; }
@@ -474,6 +476,17 @@ nav.primary summary:hover { color: var(--oxide); background: var(--oxide-soft); 
   display: flex; align-items: center; justify-content: center; font-size: 16px;
 }
 .pdp-close:hover { opacity: .65; }
+.pdp-sticky-bar { display: none; }
+@media (max-width: 640px) {
+  .pdp-sticky-bar {
+    display: flex; gap: 10px; position: fixed; left: 0; right: 0; bottom: 0;
+    padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
+    background: var(--surface); border-top: 1px solid var(--line);
+    box-shadow: 0 -6px 20px rgba(10,12,13,.08); z-index: 20;
+  }
+  .pdp-sticky-bar .btn { flex: 1; text-align: center; }
+  .pdp { padding-bottom: 70px; }
+}
 
 /* ── Order modal: dark glass, oxide accent (по образцу stock-modal с parts-catalog) ── */
 .order-modal-panel {
@@ -540,7 +553,7 @@ table.spectable { width: 100%; border-collapse: collapse; font-size: 13.5px; mar
 table.spectable tr { border-bottom: 1px solid var(--line); }
 table.spectable td { padding: 9px 0; vertical-align: top; }
 table.spectable td:first-child { color: var(--muted); width: 55%; padding-right: 12px; }
-table.spectable td:last-child { font-family: "JetBrains Mono", monospace; text-align: right; }
+table.spectable td:last-child { font-family: "JetBrains Mono", monospace; text-align: right; font-variant-numeric: tabular-nums; }
 .buybox { border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; display: flex; flex-direction: column; gap: 12px; background: var(--paper); }
 .buybox .price-row { display: flex; align-items: baseline; justify-content: space-between; }
 .buybox .price { font-family: "JetBrains Mono", monospace; font-size: 24px; font-weight: 500; }
