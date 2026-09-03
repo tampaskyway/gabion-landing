@@ -631,6 +631,9 @@ table.spectable td:last-child { font-family: "JetBrains Mono", monospace; text-a
 .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(242,241,236,.35); }
 .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #CB5024; background: rgba(255,255,255,.08); }
 .form-group select option { background: #201E1B; color: #F2F1EC; }
+.form-group input[type=file] { padding: 6px 8px; font-size: 12.5px; cursor: pointer; }
+.form-group input[type=file]::file-selector-button { font-family: "Golos Text", sans-serif; font-size: 11.5px; font-weight: 600; padding: 5px 10px; margin-right: 8px; border: none; border-radius: 5px; background: rgba(255,255,255,.12); color: #F2F1EC; cursor: pointer; }
+.file-hint { font-size: 10.5px; color: rgba(242,241,236,.4); margin-top: 2px; }
 
 .custom-select { position: relative; }
 .select-trigger {

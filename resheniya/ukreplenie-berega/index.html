@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=78">
+<link rel="stylesheet" href="assets/style.css?v=79">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -379,6 +379,11 @@
     <div class="form-group">
       <label>Комментарий</label>
       <textarea name="comment" placeholder="Длина участка, высота откоса, желаемая толщина укладки"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Файл: спецификация, чертёж, смета (необязательно)</label>
+      <input type="file" name="attachment" accept=".pdf,.xls,.xlsx,.dwg,.jpg,.jpeg,.png,.webp">
+      <span class="file-hint">PDF, Excel, DWG или фото — до 8 МБ</span>
     </div>
     <label class="consent-check">
       <input type="checkbox" name="consent" required>

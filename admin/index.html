@@ -114,7 +114,7 @@
       return "<tr class=\"lead-row\" data-id=\"" + l.id + "\">" +
         "<td>#" + l.id + "</td>" +
         "<td>" + fmtDate(l.created_at) + "</td>" +
-        "<td>" + escHtml(l.name || "—") + "</td>" +
+        "<td>" + escHtml(l.name || "—") + (l.attachment_url ? " <span title=\"Есть вложение\">📎</span>" : "") + "</td>" +
         "<td>" + escHtml(PRODUCT_LABELS[l.product] || l.product || "—") + "</td>" +
         "<td><span class=\"badge " + l.status + "\">" + STATUS_LABELS[l.status] + "</span></td>" +
         "</tr>";
@@ -179,6 +179,7 @@
         '<button class="copy-btn" data-copy="' + escHtml(l.email) + '">копировать</button></div></div>' : "") +
       '<div class="field"><label>Способ связи</label><div class="val">' + escHtml(l.contact_way || "—") + "</div></div>" +
       (l.comment ? '<div class="field"><label>Комментарий</label><div class="val">' + escHtml(l.comment) + "</div></div>" : "") +
+      (l.attachment_url ? '<div class="field"><label>Вложение</label><div class="val"><a href="' + escHtml(l.attachment_url) + '" target="_blank" rel="noopener">Открыть файл</a></div></div>' : "") +
       (srcLine ? '<div class="field"><label>Источник</label><div class="val">' + escHtml(srcLine) + "</div></div>" : "");
 
     panel.querySelector("#closeBtn").addEventListener("click", closeLead);
