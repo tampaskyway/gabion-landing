@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=79">
+<link rel="stylesheet" href="assets/style.css?v=80">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -48,7 +48,7 @@
     {
       "@type": "Question",
       "name": "Калькулятор подходит для всех типов габионов?",
-      "acceptedAnswer": {"@type": "Answer", "text": "Калькулятор рассчитан на прямоугольные габионы (коробчатые, матрацно-тюфячные, с армирующей панелью, кашпо, клумбы). Для цилиндрических, шаров и габионов насыпного типа объём считается иначе — уточните у менеджера через форму заявки."}
+      "acceptedAnswer": {"@type": "Answer", "text": "Калькулятор считает прямоугольные габионы (коробчатые, матрацно-тюфячные, с армирующей панелью, кашпо, клумбы), цилиндрические габионы и габионы-шары. Только для габионов насыпного типа (собираются по месту на объекте, без фиксированной формы) расчёт нужно делать индивидуально — уточните у менеджера через форму заявки."}
     }
   ]
 }
@@ -143,14 +143,20 @@
     <div class="crumbs"><a href="./">Главная</a><span> / </span><span class="cur">Калькулятор габиона</span></div>
     <div class="eyebrow">Инструмент</div>
     <h1 style="font-size:30px;margin:10px 0 14px;">Калькулятор габиона</h1>
-    <p style="color:var(--muted);font-size:15px;max-width:70ch;">Введите длину, ширину и высоту габиона — посчитаем объём каркаса, нужный объём камня-заполнителя и ориентировочный вес готовой конструкции. Расчёт подходит для прямоугольных габионов (коробчатые, матрацно-тюфячные, с армирующей панелью, кашпо, клумбы).</p>
+    <p style="color:var(--muted);font-size:15px;max-width:70ch;">Выберите форму габиона, введите размеры — посчитаем объём каркаса, нужный объём камня-заполнителя и ориентировочный вес готовой конструкции. Работает для прямоугольных (коробчатые, матрацно-тюфячные, с армирующей панелью, кашпо, клумбы), цилиндрических габионов и габионов-шаров.</p>
   </div>
 </section>
 
 <section class="section" style="border-bottom:none;">
   <div class="wrap">
     <div class="calc-card">
-      <div class="calc-inputs">
+      <div class="calc-shape-tabs" role="tablist" aria-label="Форма габиона">
+        <button type="button" class="calc-shape-tab active" data-shape="box">Прямоугольный</button>
+        <button type="button" class="calc-shape-tab" data-shape="cylinder">Цилиндрический</button>
+        <button type="button" class="calc-shape-tab" data-shape="ball">Шар</button>
+      </div>
+
+      <div class="calc-inputs" id="calcInputsBox">
         <div class="calc-field">
           <label for="calcL">Длина, м</label>
           <input type="number" id="calcL" min="0" step="0.05" value="3" inputmode="decimal">
@@ -164,13 +170,40 @@
           <input type="number" id="calcH" min="0" step="0.05" value="0.3" inputmode="decimal">
         </div>
       </div>
+      <div class="calc-inputs" id="calcInputsCylinder" hidden>
+        <div class="calc-field">
+          <label for="calcCylD">Диаметр, м</label>
+          <input type="number" id="calcCylD" min="0" step="0.05" value="0.65" inputmode="decimal">
+        </div>
+        <div class="calc-field">
+          <label for="calcCylL">Длина, м</label>
+          <input type="number" id="calcCylL" min="0" step="0.05" value="2" inputmode="decimal">
+        </div>
+      </div>
+      <div class="calc-inputs" id="calcInputsBall" hidden>
+        <div class="calc-field">
+          <label for="calcBallD">Диаметр, м</label>
+          <input type="number" id="calcBallD" min="0" step="0.05" value="0.5" inputmode="decimal">
+        </div>
+      </div>
 
-      <div class="calc-presets">
+      <div class="calc-presets" id="calcPresetsBox">
         <span class="calc-presets-label">Быстрый выбор:</span>
         <button type="button" class="calc-preset" data-l="3" data-w="1.5" data-h="0.3">Матрацно-тюфячный 3×1,5×0,3</button>
         <button type="button" class="calc-preset" data-l="1" data-w="1" data-h="1">Коробчатый 1×1×1</button>
         <button type="button" class="calc-preset" data-l="2" data-w="1" data-h="1">Коробчатый 2×1×1</button>
         <button type="button" class="calc-preset" data-l="0.6" data-w="0.6" data-h="0.6">Клумба 0,6×0,6×0,6</button>
+      </div>
+      <div class="calc-presets" id="calcPresetsCylinder" hidden>
+        <span class="calc-presets-label">Быстрый выбор:</span>
+        <button type="button" class="calc-preset-cyl" data-d="0.65" data-l="2">Цилиндрический D0,65×2</button>
+        <button type="button" class="calc-preset-cyl" data-d="0.95" data-l="3">Цилиндрический D0,95×3</button>
+      </div>
+      <div class="calc-presets" id="calcPresetsBall" hidden>
+        <span class="calc-presets-label">Быстрый выбор:</span>
+        <button type="button" class="calc-preset-ball" data-d="0.5">Шар D0,5</button>
+        <button type="button" class="calc-preset-ball" data-d="0.7">Шар D0,7</button>
+        <button type="button" class="calc-preset-ball" data-d="1.0">Шар D1,0</button>
       </div>
 
       <div class="calc-results">
@@ -200,7 +233,7 @@
         <a class="btn btn-sm" style="margin-top:8px;" href="/catalog/gabiony/matrasno-tyufyachnye/">Матрацно-тюфячные →</a>
       </div>
       <div>
-        <p style="color:var(--muted);font-size:14.5px;line-height:1.7;">Цилиндрические, шары и габионы насыпного типа считаются по другой формуле — для них пришлите параметры через форму, посчитаем отдельно.</p>
+        <p style="color:var(--muted);font-size:14.5px;line-height:1.7;">Габионы насыпного типа собираются по месту на объекте и не имеют фиксированной формы — для них пришлите параметры площадки через форму, посчитаем отдельно.</p>
         <a class="btn btn-sm" style="margin-top:8px;" href="/catalog/gabiony/">Весь каталог габионов →</a>
       </div>
     </div>
@@ -221,7 +254,7 @@
     </details>
     <details class="gost-spoiler">
       <summary>Калькулятор подходит для всех типов габионов?</summary>
-      <p style="color:var(--muted);font-size:14px;line-height:1.6;margin-top:10px;">Калькулятор рассчитан на прямоугольные габионы (коробчатые, матрацно-тюфячные, с армирующей панелью, кашпо, клумбы). Для цилиндрических, шаров и габионов насыпного типа объём считается иначе — уточните у менеджера через форму заявки.</p>
+      <p style="color:var(--muted);font-size:14px;line-height:1.6;margin-top:10px;">Калькулятор считает прямоугольные габионы (коробчатые, матрацно-тюфячные, с армирующей панелью, кашпо, клумбы), цилиндрические габионы и габионы-шары — выберите форму вкладкой над полями ввода. Только для габионов насыпного типа (собираются по месту на объекте, без фиксированной формы) расчёт нужно делать индивидуально — уточните у менеджера через форму заявки.</p>
     </details>
   </div>
 </section>
@@ -668,20 +701,55 @@
   var lInput = document.getElementById("calcL");
   var wInput = document.getElementById("calcW");
   var hInput = document.getElementById("calcH");
+  var cylDInput = document.getElementById("calcCylD");
+  var cylLInput = document.getElementById("calcCylL");
+  var ballDInput = document.getElementById("calcBallD");
   var volumeOut = document.getElementById("calcVolume");
   var weightOut = document.getElementById("calcWeight");
   var orderBtn = document.getElementById("calcOrderBtn");
   var calcGoalFired = false;
+  var shape = "box";
+
+  var shapeTabs = document.querySelectorAll(".calc-shape-tab");
+  var inputPanels = { box: document.getElementById("calcInputsBox"), cylinder: document.getElementById("calcInputsCylinder"), ball: document.getElementById("calcInputsBall") };
+  var presetPanels = { box: document.getElementById("calcPresetsBox"), cylinder: document.getElementById("calcPresetsCylinder"), ball: document.getElementById("calcPresetsBall") };
 
   function fmt(n, digits) {
     return n.toLocaleString("ru-RU", { minimumFractionDigits: digits, maximumFractionDigits: digits });
   }
 
+  function setShape(next) {
+    shape = next;
+    shapeTabs.forEach(function (t) { t.classList.toggle("active", t.getAttribute("data-shape") === shape); });
+    Object.keys(inputPanels).forEach(function (k) { inputPanels[k].hidden = k !== shape; });
+    Object.keys(presetPanels).forEach(function (k) { presetPanels[k].hidden = k !== shape; });
+    compute();
+  }
+
+  shapeTabs.forEach(function (tab) {
+    tab.addEventListener("click", function () { setShape(tab.getAttribute("data-shape")); });
+  });
+
   function compute() {
-    var l = parseFloat(lInput.value) || 0;
-    var w = parseFloat(wInput.value) || 0;
-    var h = parseFloat(hInput.value) || 0;
-    var volume = l * w * h;
+    var volume = 0, dims = {};
+    if (shape === "box") {
+      var l = parseFloat(lInput.value) || 0;
+      var w = parseFloat(wInput.value) || 0;
+      var h = parseFloat(hInput.value) || 0;
+      volume = l * w * h;
+      dims = { label: fmt(l, 2) + "×" + fmt(w, 2) + "×" + fmt(h, 2) + " м" };
+    } else if (shape === "cylinder") {
+      var d = parseFloat(cylDInput.value) || 0;
+      var cl = parseFloat(cylLInput.value) || 0;
+      var r = d / 2;
+      volume = Math.PI * r * r * cl;
+      dims = { label: "D" + fmt(d, 2) + "×" + fmt(cl, 2) + " м (цилиндрический)" };
+    } else if (shape === "ball") {
+      var bd = parseFloat(ballDInput.value) || 0;
+      var br = bd / 2;
+      volume = (4 / 3) * Math.PI * br * br * br;
+      dims = { label: "D" + fmt(bd, 2) + " м (шар)" };
+    }
     var weightMin = volume * 1500 / 1000;
     var weightMax = volume * 1800 / 1000;
     volumeOut.textContent = fmt(volume, 2) + " м³";
@@ -690,10 +758,10 @@
       calcGoalFired = true;
       window.gabionoptGoal("calc_done");
     }
-    return { l: l, w: w, h: h, volume: volume, weightMin: weightMin, weightMax: weightMax };
+    return { label: dims.label, volume: volume, weightMin: weightMin, weightMax: weightMax };
   }
 
-  [lInput, wInput, hInput].forEach(function (inp) {
+  [lInput, wInput, hInput, cylDInput, cylLInput, ballDInput].forEach(function (inp) {
     inp.addEventListener("input", compute);
   });
 
@@ -705,11 +773,24 @@
       compute();
     });
   });
+  document.querySelectorAll(".calc-preset-cyl").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      cylDInput.value = btn.getAttribute("data-d");
+      cylLInput.value = btn.getAttribute("data-l");
+      compute();
+    });
+  });
+  document.querySelectorAll(".calc-preset-ball").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      ballDInput.value = btn.getAttribute("data-d");
+      compute();
+    });
+  });
 
   if (orderBtn) {
     orderBtn.addEventListener("click", function () {
       var r = compute();
-      var text = "Расчёт габиона " + fmt(r.l, 2) + "×" + fmt(r.w, 2) + "×" + fmt(r.h, 2) + " м: объём " + fmt(r.volume, 2) + " м³, вес ~" + fmt(r.weightMin, 1) + "–" + fmt(r.weightMax, 1) + " т";
+      var text = "Расчёт габиона " + r.label + ": объём " + fmt(r.volume, 2) + " м³, вес ~" + fmt(r.weightMin, 1) + "–" + fmt(r.weightMax, 1) + " т";
       setTimeout(function () {
         var comment = document.querySelector('#orderModal textarea[name="comment"]');
         if (comment) comment.value = text;

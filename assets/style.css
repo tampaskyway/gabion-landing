@@ -895,6 +895,12 @@ footer.site { padding: 44px 0 22px; margin-top: 40px; background: var(--ink); co
 
 /* ── Калькулятор габиона ── */
 .calc-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 28px; max-width: 640px; }
+.calc-shape-tabs { display: flex; gap: 6px; margin-bottom: 20px; border-bottom: 1px solid var(--line); padding-bottom: 0; }
+.calc-shape-tab { font-family: "Golos Text", sans-serif; font-size: 13px; font-weight: 600; padding: 9px 14px; border: none; background: none; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color .15s ease, border-color .15s ease; }
+.calc-shape-tab:hover { color: var(--ink); }
+.calc-shape-tab.active { color: var(--oxide); border-bottom-color: var(--oxide); }
+.calc-preset-cyl, .calc-preset-ball { font-family: "Golos Text", sans-serif; font-size: 12.5px; font-weight: 500; padding: 6px 11px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); color: var(--muted); cursor: pointer; transition: border-color .15s ease, color .15s ease; }
+.calc-preset-cyl:hover, .calc-preset-ball:hover { border-color: var(--oxide); color: var(--oxide); }
 .calc-inputs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .calc-field { display: flex; flex-direction: column; gap: 4px; }
 .calc-field label { font-size: 11px; text-transform: uppercase; letter-spacing: .03em; color: var(--faint); font-weight: 600; }
