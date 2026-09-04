@@ -32,6 +32,18 @@
   var pinned = localStorage.getItem("chatPinned") === "1";
   if (pinBtn) pinBtn.classList.toggle("pinned", pinned);
 
+  // Честный статус «в графике / вне графика» — Пн-Пт 9:00-18:00 МСК (UTC+3, без перехода на летнее время).
+  (function () {
+    var statusEl = document.getElementById("chatDutyStatus");
+    if (!statusEl) return;
+    var mskHour = (new Date().getUTCHours() + 3) % 24;
+    var mskDay = new Date(Date.now() + 3 * 3600 * 1000).getUTCDay(); // 0=вс..6=сб, сдвинуто на МСК
+    var isWorkingHours = mskDay >= 1 && mskDay <= 5 && mskHour >= 9 && mskHour < 18;
+    if (!isWorkingHours) {
+      statusEl.textContent = "Пн-пт, 9:00-18:00 МСК · сейчас нерабочее время, ответим в начале дня";
+    }
+  })();
+
   function qs(sel, ctx) { return (ctx || document).querySelector(sel); }
 
   function escapeHtml(s) {
